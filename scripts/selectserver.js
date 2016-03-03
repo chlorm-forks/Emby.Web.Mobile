@@ -1,7 +1,8 @@
 ﻿(function(){function connectToServer(page,server){Dashboard.showLoadingMsg();ConnectionManager.connectToServer(server).then(function(result){Dashboard.hideLoadingMsg();var apiClient=result.ApiClient;switch(result.State){case MediaBrowser.ConnectionState.SignedIn:{Dashboard.onServerChanged(apiClient.getCurrentUserId(),apiClient.accessToken(),apiClient);Dashboard.navigate('index.html');}
 break;case MediaBrowser.ConnectionState.ServerSignIn:{Dashboard.onServerChanged(null,null,apiClient);Dashboard.navigate('login.html?serverid='+result.Servers[0].Id);}
+break;case MediaBrowser.ConnectionState.ServerUpdateNeeded:{Dashboard.alert({message:Globalize.translate('ServerUpdateNeeded','<a href="https://emby.media">https://emby.media</a>')});}
 break;default:showServerConnectionFailure();break;}});}
-function showServerConnectionFailure(){setTimeout(function(){Dashboard.alert({message:Globalize.translate("MessageUnableToConnectToServer"),title:Globalize.translate("HeaderConnectionFailure")});},300);}
+function showServerConnectionFailure(){Dashboard.alert({message:Globalize.translate("MessageUnableToConnectToServer"),title:Globalize.translate("HeaderConnectionFailure")});}
 function getServerHtml(server){var html='';html+='<paper-icon-item class="serverItem" data-id="'+server.Id+'">';html+='<paper-fab mini class="blue lnkServer" icon="wifi" item-icon></paper-fab>';html+='<paper-item-body class="lnkServer" two-line>';html+='<a class="clearLink" href="#">';html+='<div>';html+=server.Name;html+='</div>';html+='</a>';html+='</paper-item-body>';if(server.Id){html+='<paper-icon-button icon="'+AppInfo.moreIcon+'" class="btnServerMenu"></paper-icon-button>';}
 html+='</paper-icon-item>';return html;}
 function renderServers(page,servers){if(servers.length){$('.noServersMessage',page).hide();$('.serverList',page).show();}else{$('.noServersMessage',page).show();$('.serverList',page).hide();}

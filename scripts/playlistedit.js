@@ -1,4 +1,4 @@
-﻿(function($,document){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio,SyncInfo",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()},view:LibraryBrowser.getSavedView(key)||LibraryBrowser.getDefaultItemsView('List','List')};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿(function($,document){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio,SyncInfo",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:200},view:LibraryBrowser.getSavedView(key)||LibraryBrowser.getDefaultItemsView('List','List')};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(){return getPageData().query;}
 function getSavedQueryKey(){return LibraryBrowser.getSavedQueryKey();}

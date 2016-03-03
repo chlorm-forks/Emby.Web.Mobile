@@ -1,7 +1,7 @@
 ﻿(function(){function getTimersHtml(timers){return new Promise(function(resolve,reject){require(['paper-fab','paper-item-body','paper-icon-item'],function(){var html='';var index='';var imgUrl;for(var i=0,length=timers.length;i<length;i++){var timer=timers[i];var startDateText=LibraryBrowser.getFutureDateText(parseISO8601Date(timer.StartDate,{toLocal:true}));if(startDateText!=index){if(index){html+='</div>';html+='</div>';}
 html+='<div class="homePageSection">';html+='<h1>'+startDateText+'</h1>';html+='<div class="paperList">';index=startDateText;}
 html+='<paper-icon-item>';var program=timer.ProgramInfo||{};imgUrl=null;if(program.ImageTags&&program.ImageTags.Primary){imgUrl=ApiClient.getScaledImageUrl(program.Id,{height:80,tag:program.ImageTags.Primary,type:"Primary"});}
-if(imgUrl){html+='<paper-fab mini class="blue" style="background-image:url(\''+imgUrl+'\');background-repeat:no-repeat;background-position:center center;background-size: cover;" item-icon></paper-fab>';}
+if(imgUrl){html+='<paper-fab mini class="blue lazy" data-src="'+imgUrl+'" style="background-repeat:no-repeat;background-position:center center;background-size: cover;" item-icon></paper-fab>';}
 else if(program.IsKids){html+='<paper-fab mini style="background:#2196F3;" icon="person" item-icon></paper-fab>';}
 else if(program.IsSports){html+='<paper-fab mini style="background:#8BC34A;" icon="person" item-icon></paper-fab>';}
 else if(program.IsMovie){html+='<paper-fab mini icon="movie" item-icon></paper-fab>';}

@@ -6,5 +6,5 @@ for(var i=0,length=profiles.length;i<length;i++){var profile=profiles[i];html+='
 html+='</paper-icon-item>';}
 if(profiles.length){html+='</div>';}
 element.innerHTML=html;$('.btnDeleteProfile',element).on('click',function(){var id=this.getAttribute('data-profileid');deleteProfile(page,id);});});}
-function deleteProfile(page,id){Dashboard.confirm(Globalize.translate('MessageConfirmProfileDeletion'),Globalize.translate('HeaderConfirmProfileDeletion'),function(result){if(result){Dashboard.showLoadingMsg();ApiClient.ajax({type:"DELETE",url:ApiClient.getUrl("Dlna/Profiles/"+id)}).then(function(){Dashboard.hideLoadingMsg();loadProfiles(page);});}});}
+function deleteProfile(page,id){require(['confirm'],function(confirm){confirm(Globalize.translate('MessageConfirmProfileDeletion'),Globalize.translate('HeaderConfirmProfileDeletion')).then(function(){Dashboard.showLoadingMsg();ApiClient.ajax({type:"DELETE",url:ApiClient.getUrl("Dlna/Profiles/"+id)}).then(function(){Dashboard.hideLoadingMsg();loadProfiles(page);});});});}
 $(document).on('pageshow',"#dlnaProfilesPage",function(){var page=this;loadProfiles(page);});})(jQuery,document,window);

@@ -1,4 +1,4 @@
-﻿define(['paperdialoghelper','paper-item','paper-input','paper-fab','paper-item-body'],function(paperDialogHelper){var systemInfo;function getSystemInfo(){var deferred=DeferredBuilder.Deferred();if(systemInfo){deferred.resolveWith(null,[systemInfo]);}else{ApiClient.getPublicSystemInfo().then(function(info){systemInfo=info;deferred.resolveWith(null,[systemInfo]);});}
+﻿define(['paperdialoghelper','paper-item','paper-input','paper-fab','paper-item-body'],function(paperDialogHelper){var systemInfo;function getSystemInfo(){var deferred=jQuery.Deferred();if(systemInfo){deferred.resolveWith(null,[systemInfo]);}else{ApiClient.getPublicSystemInfo().then(function(info){systemInfo=info;deferred.resolveWith(null,[systemInfo]);});}
 return deferred.promise();}
 function onDialogClosed(){$(this).remove();Dashboard.hideLoadingMsg();}
 function refreshDirectoryBrowser(page,path,fileOptions){if(path&&typeof(path)!=='string'){throw new Error('invalid path');}

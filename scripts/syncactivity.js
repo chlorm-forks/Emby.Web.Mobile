@@ -1,4 +1,4 @@
-﻿(function(){function cancelJob(page,id){var msg=Globalize.translate('CancelSyncJobConfirmation');Dashboard.confirm(msg,Globalize.translate('HeaderCancelSyncJob'),function(result){if(result){Dashboard.showLoadingMsg();ApiClient.ajax({url:ApiClient.getUrl('Sync/Jobs/'+id),type:'DELETE'}).then(function(){reloadData(page);});}});}
+﻿(function(){function cancelJob(page,id){var msg=Globalize.translate('CancelSyncJobConfirmation');require(['confirm'],function(confirm){confirm(msg,Globalize.translate('HeaderCancelSyncJob')).then(function(){Dashboard.showLoadingMsg();ApiClient.ajax({url:ApiClient.getUrl('Sync/Jobs/'+id),type:'DELETE'}).then(function(){reloadData(page);});});});}
 function getSyncStatusBanner(job){var opacity='.85';var background='rgba(204,51,51,'+opacity+')';var text=Globalize.translate('SyncJobStatus'+job.Status);if(job.Status=='Completed'){background='rgba(82, 181, 75, '+opacity+')';}
 else if(job.Status=='CompletedWithError'){}
 else if(job.Status=='Queued'){background='rgba(51, 136, 204, '+opacity+')';}
