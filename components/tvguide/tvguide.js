@@ -22,7 +22,7 @@ html+='</div>';if(addAccent){html+='<div class="programAccent"></div>';}
 html+='</a>';}
 html+='</div>';return html;}
 function renderPrograms(page,date,channels,programs){var html=[];for(var i=0,length=channels.length;i<length;i++){html.push(getChannelProgramsHtml(page,date,channels[i],programs));}
-var programGrid=page.querySelector('.programGrid');programGrid.innerHTML=html.join('');$(programGrid).scrollTop(0).scrollLeft(0);if(options.enableHoverMenu){$(programGrid).createGuideHoverMenu('.programCell');}}
+var programGrid=page.querySelector('.programGrid');programGrid.innerHTML=html.join('');$(programGrid).scrollTop(0).scrollLeft(0);}
 function renderChannelHeaders(page,channels){var html='';for(var i=0,length=channels.length;i<length;i++){var channel=channels[i];html+='<div class="channelHeaderCellContainer">';html+='<a class="channelHeaderCell" href="itemdetails.html?id='+channel.Id+'">';var hasChannelImage=channel.ImageTags.Primary;var cssClass=hasChannelImage?'guideChannelInfo guideChannelInfoWithImage':'guideChannelInfo';html+='<div class="'+cssClass+'">'+channel.Number+'</div>';if(hasChannelImage){var url=ApiClient.getScaledImageUrl(channel.Id,{maxHeight:44,maxWidth:70,tag:channel.ImageTags.Primary,type:"Primary"});html+='<div class="guideChannelImage lazy" data-src="'+url+'"></div>';}else{html+='<div class="guideChannelName">'+channel.Name+'</div>';}
 html+='</a>';html+='</div>';}
 var channelList=page.querySelector('.channelList');channelList.innerHTML=html;ImageLoader.lazyChildren(channelList);}
