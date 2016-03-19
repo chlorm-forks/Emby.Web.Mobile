@@ -1,4 +1,4 @@
-﻿(function($,document){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio,SyncInfo",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:200},view:LibraryBrowser.getSavedView(key)||LibraryBrowser.getDefaultItemsView('List','List')};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['appStorage','jQuery'],function(appStorage,$){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio,SyncInfo",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:200},view:LibraryBrowser.getSavedView(key)||LibraryBrowser.getDefaultItemsView('List','List')};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(){return getPageData().query;}
 function getSavedQueryKey(){return LibraryBrowser.getSavedQueryKey();}
@@ -11,4 +11,4 @@ function removeFromPlaylist(page,item,ids){ApiClient.ajax({url:ApiClient.getUrl(
 function showDragAndDropHelp(){if(AppInfo.isTouchPreferred){return;}
 var expectedValue="7";if(appStorage.getItem("playlistitemdragdrophelp")==expectedValue){return;}
 appStorage.setItem("playlistitemdragdrophelp",expectedValue);Dashboard.alert({message:Globalize.translate('TryDragAndDropMessage'),title:Globalize.translate('HeaderTryDragAndDrop')});}
-window.PlaylistViewer={render:function(page,item){reloadItems(page,item);showDragAndDropHelp();}};})(jQuery,document);
+window.PlaylistViewer={render:function(page,item){reloadItems(page,item);showDragAndDropHelp();}};});

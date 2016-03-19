@@ -1,4 +1,4 @@
-﻿(function($,document){function renderItems(page,item){var sections=[];if(item.MovieCount){sections.push({name:Globalize.translate('TabMovies'),type:'Movie'});}
+﻿define(['jQuery'],function($){function renderItems(page,item){var sections=[];if(item.MovieCount){sections.push({name:Globalize.translate('TabMovies'),type:'Movie'});}
 if(item.SeriesCount){sections.push({name:Globalize.translate('TabSeries'),type:'Series'});}
 if(item.EpisodeCount){sections.push({name:Globalize.translate('TabEpisodes'),type:'Episode'});}
 if(item.TrailerCount){sections.push({name:Globalize.translate('TabTrailers'),type:'Trailer'});}
@@ -11,7 +11,7 @@ function renderSection(page,item,element,type){switch(type){case'Movie':loadItem
 function loadItems(element,item,type,query,listOptions){query=getQuery(query,item);getItemsFunction(query,item)(query.StartIndex,query.Limit,query.Fields).then(function(result){var html='';if(query.Limit&&result.TotalRecordCount>query.Limit){var link=element.querySelector('a');link.classList.remove('hide');link.setAttribute('href',getMoreItemsHref(item,type));}else{element.querySelector('a').classList.add('hide');}
 listOptions.items=result.Items;if(type=='Audio'){html=LibraryBrowser.getListViewHtml(listOptions);}else{html=LibraryBrowser.getPosterViewHtml(listOptions);}
 var itemsContainer=element.querySelector('.itemsContainer');itemsContainer.innerHTML=html;$(itemsContainer).createCardMenus();ImageLoader.lazyChildren(itemsContainer);});}
-function getMoreItemsHref(item,type){return'secondaryitems.html?type='+type+'&parentid='+item.Id;}
+function getMoreItemsHref(item,type){return'secondaryitems.html?type='+type+'&parentId='+item.Id;}
 function addCurrentItemToQuery(query,item){if(item.Type=="Person"){query.PersonIds=item.Id;}
 else if(item.Type=="Genre"){query.Genres=item.Name;}
 else if(item.Type=="MusicGenre"){query.Genres=item.Name;}
@@ -22,4 +22,4 @@ function getQuery(options,item){var query={SortBy:"SortName",SortOrder:"Ascendin
 addCurrentItemToQuery(query,item);return query;}
 function getItemsFunction(options,item){var query=getQuery(options,item);return function(index,limit,fields){query.StartIndex=index;query.Limit=limit;if(fields){query.Fields+=","+fields;}
 return ApiClient.getItems(Dashboard.getCurrentUserId(),query);};}
-window.ItemsByName={renderItems:renderItems};})(jQuery,document);
+window.ItemsByName={renderItems:renderItems};});

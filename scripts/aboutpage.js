@@ -1,1 +1,1 @@
-﻿(function($,document){$(document).on('pageshow',"#aboutPage",function(){var page=this;var elem=$('#appVersionNumber',page);elem.html(elem.html().replace('{0}',ConnectionManager.appVersion()));});})(jQuery,document);
+﻿define([],function(){return function(view,params){var self=this;view.addEventListener('viewbeforeshow',function(e){var elem=view.querySelector('#appVersionNumber');elem.innerHTML=elem.innerHTML.replace('{0}',ConnectionManager.appVersion());});}});

@@ -1,4 +1,4 @@
-﻿define(['paperdialoghelper','scripts/livetvcomponents','livetvcss','paper-checkbox','paper-input','paper-toggle-button'],function(paperDialogHelper){var currentProgramId;var currentDialog;var recordingCreated=false;function getDaysOfWeek(){return LiveTvHelpers.getDaysOfWeek().map(function(d){return d.value;});}
+﻿define(['paperdialoghelper','jQuery','scripts/livetvcomponents','livetvcss','paper-checkbox','paper-input','paper-toggle-button'],function(paperDialogHelper,$){var currentProgramId;var currentDialog;var recordingCreated=false;function getDaysOfWeek(){return LiveTvHelpers.getDaysOfWeek().map(function(d){return d.value;});}
 function getDays(context){var daysOfWeek=getDaysOfWeek();var days=[];for(var i=0,length=daysOfWeek.length;i<length;i++){var day=daysOfWeek[i];if($('#chk'+day,context).checked()){days.push(day);}}
 return days;}
 function hideSeriesRecordingFields(context){slideUpToHide(context.querySelector('#seriesFields'));context.querySelector('.btnSubmitContainer').classList.remove('hide');context.querySelector('.supporterContainer').classList.add('hide');}

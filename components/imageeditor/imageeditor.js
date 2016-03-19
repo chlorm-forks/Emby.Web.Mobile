@@ -1,4 +1,4 @@
-﻿define(['paperdialoghelper','css!css/metadataeditor.css','paper-fab'],function(paperDialogHelper){var currentItem;var currentDeferred;var hasChanges=false;function getBaseRemoteOptions(){var options={};options.itemId=currentItem.Id;return options;}
+﻿define(['paperdialoghelper','jQuery','css!css/metadataeditor.css','paper-fab'],function(paperDialogHelper,$){var currentItem;var currentDeferred;var hasChanges=false;function getBaseRemoteOptions(){var options={};options.itemId=currentItem.Id;return options;}
 function reload(page,item){Dashboard.showLoadingMsg();if(item){reloadItem(page,item);}
 else{ApiClient.getItem(Dashboard.getCurrentUserId(),currentItem.Id).then(function(item){reloadItem(page,item);});}}
 function reloadItem(page,item){currentItem=item;ApiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(function(providers){if(providers.length){$('.btnBrowseAllImages',page).removeClass('hide');}else{$('.btnBrowseAllImages',page).addClass('hide');}

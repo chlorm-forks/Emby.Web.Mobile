@@ -1,4 +1,4 @@
-﻿(function($,document){var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"",SortOrder:"Ascending",Fields:"PrimaryImageAspectRatio,SyncInfo",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['jQuery'],function($){var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"",SortOrder:"Ascending",Fields:"PrimaryImageAspectRatio,SyncInfo",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(context){return getPageData(context).query;}
 function getSavedQueryKey(context){if(!context.savedQueryKey){context.savedQueryKey=LibraryBrowser.getSavedQueryKey('channelitems');}
@@ -21,4 +21,4 @@ if(sortFields.indexOf('PremiereDate')!=-1){items.push({name:Globalize.translate(
 if(sortFields.indexOf('Runtime')!=-1){items.push({name:Globalize.translate('OptionRuntime'),id:'Runtime'});}
 LibraryBrowser.showSortMenu({items:items,callback:function(){reloadItems(page);},query:getQuery(page)});}
 function updateFilterControls(page){var query=getQuery(page);$('.alphabetPicker',page).alphaValue(query.NameStartsWith);}
-pageIdOn('pageinit',"channelItemsPage",function(){var page=this;$('.alphabetPicker',this).on('alphaselect',function(e,character){var query=getQuery(page);query.NameStartsWithOrGreater=character;query.StartIndex=0;reloadItems(page);}).on('alphaclear',function(e){var query=getQuery(page);query.NameStartsWithOrGreater='';reloadItems(page);});});pageIdOn('pagebeforeshow',"channelItemsPage",function(){var page=this;reloadFeatures(page);updateFilterControls(page);});})(jQuery,document);
+pageIdOn('pageinit',"channelItemsPage",function(){var page=this;$('.alphabetPicker',this).on('alphaselect',function(e,character){var query=getQuery(page);query.NameStartsWithOrGreater=character;query.StartIndex=0;reloadItems(page);}).on('alphaclear',function(e){var query=getQuery(page);query.NameStartsWithOrGreater='';reloadItems(page);});});pageIdOn('pagebeforeshow',"channelItemsPage",function(){var page=this;reloadFeatures(page);updateFilterControls(page);});});

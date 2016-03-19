@@ -1,4 +1,4 @@
-﻿(function(window,document,$){function sendPlayCommand(options,playType){var sessionId=MediaController.getPlayerInfo().id;var ids=options.ids||options.items.map(function(i){return i.Id;});var remoteOptions={ItemIds:ids.join(','),PlayCommand:playType};if(options.startPositionTicks){remoteOptions.startPositionTicks=options.startPositionTicks;}
+﻿define([],function(){function sendPlayCommand(options,playType){var sessionId=MediaController.getPlayerInfo().id;var ids=options.ids||options.items.map(function(i){return i.Id;});var remoteOptions={ItemIds:ids.join(','),PlayCommand:playType};if(options.startPositionTicks){remoteOptions.startPositionTicks=options.startPositionTicks;}
 ApiClient.sendPlayCommand(sessionId,remoteOptions);}
 function sendPlayStateCommand(command,options){var sessionId=MediaController.getPlayerInfo().id;ApiClient.sendPlayStateCommand(sessionId,command,options);}
 function remoteControlPlayer(){var self=this;self.name='Remote Control';function sendCommandByName(name,options){var command={Name:name};if(options){command.Arguments=options;}
@@ -21,4 +21,4 @@ else if(msg.MessageType==="PlaybackStart"){if(msg.Data.DeviceId!=apiClient.devic
 else if(msg.MessageType==="PlaybackStopped"){if(msg.Data.DeviceId!=apiClient.deviceId()){if(MediaController.getPlayerInfo().id==msg.Data.Id){firePlaybackEvent('playbackstop',msg.Data);}}}}
 function initializeApiClient(apiClient){Events.on(apiClient,"websocketmessage",onWebSocketMessageReceived);Events.on(apiClient,"websocketopen",onWebSocketConnectionChange);}
 if(window.ApiClient){initializeApiClient(window.ApiClient);}
-Events.on(ConnectionManager,'apiclientcreated',function(e,apiClient){initializeApiClient(apiClient);});})(window,document,jQuery);
+Events.on(ConnectionManager,'apiclientcreated',function(e,apiClient){initializeApiClient(apiClient);});});

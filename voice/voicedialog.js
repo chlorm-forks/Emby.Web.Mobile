@@ -1,4 +1,4 @@
-﻿define(['paperdialoghelper'],function(paperDialogHelper){var currentRecognition;var lang='en-US';var commandgroups;function getCommandGroups(){if(commandgroups){return Promise.resolve(commandgroups);}
+﻿define(['paperdialoghelper','jQuery'],function(paperDialogHelper,$){var currentRecognition;var lang='en-US';var commandgroups;function getCommandGroups(){if(commandgroups){return Promise.resolve(commandgroups);}
 return new Promise(function(resolve,reject){var file="grammar";var xhr=new XMLHttpRequest();xhr.open('GET',"voice/grammar/"+file+".json",true);xhr.onload=function(e){commandgroups=JSON.parse(this.response);resolve(commandgroups);}
 xhr.onerror=reject;xhr.send();});}
 function shuffleArray(array){var currentIndex=array.length,temporaryValue,randomIndex;while(0!==currentIndex){randomIndex=Math.floor(Math.random()*currentIndex);currentIndex-=1;temporaryValue=array[currentIndex];array[currentIndex]=array[randomIndex];array[randomIndex]=temporaryValue;}

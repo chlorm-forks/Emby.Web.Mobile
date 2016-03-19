@@ -1,4 +1,4 @@
-﻿define([],function(){var currentDialogOptions;function submitJob(dlg,userId,syncOptions,form,paperDialogHelper){if(!userId){throw new Error('userId cannot be null');}
+﻿define(['jQuery'],function($){var currentDialogOptions;function submitJob(dlg,userId,syncOptions,form,paperDialogHelper){if(!userId){throw new Error('userId cannot be null');}
 if(!syncOptions){throw new Error('syncOptions cannot be null');}
 if(!form){throw new Error('form cannot be null');}
 var target=$('#selectSyncTarget',form).val();if(!target){require(['toast'],function(toast){toast(Globalize.translate('MessagePleaseSelectDeviceToSyncTo'));});return;}

@@ -1,4 +1,4 @@
-﻿(function(){function getTimersHtml(timers){return new Promise(function(resolve,reject){require(['paper-fab','paper-item-body','paper-icon-item'],function(){var html='';var index='';var imgUrl;for(var i=0,length=timers.length;i<length;i++){var timer=timers[i];var startDateText=LibraryBrowser.getFutureDateText(parseISO8601Date(timer.StartDate,{toLocal:true}));if(startDateText!=index){if(index){html+='</div>';html+='</div>';}
+﻿define([],function(){function getTimersHtml(timers){return new Promise(function(resolve,reject){require(['paper-fab','paper-item-body','paper-icon-item'],function(){var html='';var index='';var imgUrl;for(var i=0,length=timers.length;i<length;i++){var timer=timers[i];var startDateText=LibraryBrowser.getFutureDateText(parseISO8601Date(timer.StartDate,{toLocal:true}));if(startDateText!=index){if(index){html+='</div>';html+='</div>';}
 html+='<div class="homePageSection">';html+='<h1>'+startDateText+'</h1>';html+='<div class="paperList">';index=startDateText;}
 html+='<paper-icon-item>';var program=timer.ProgramInfo||{};imgUrl=null;if(program.ImageTags&&program.ImageTags.Primary){imgUrl=ApiClient.getScaledImageUrl(program.Id,{height:80,tag:program.ImageTags.Primary,type:"Primary"});}
 if(imgUrl){html+='<paper-fab mini class="blue lazy" data-src="'+imgUrl+'" style="background-repeat:no-repeat;background-position:center center;background-size: cover;" item-icon></paper-fab>';}
@@ -13,7 +13,7 @@ if(timers.length){html+='</div>';html+='</div>';}
 resolve(html);});});}
 window.LiveTvHelpers={getDaysOfWeek:function(){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];return days.map(function(d){return{name:d,value:d};});},renderOriginalAirDate:function(elem,item){var airDate=item.PremiereDate;if(airDate&&item.IsRepeat){try{airDate=parseISO8601Date(airDate,{toLocal:true}).toLocaleDateString();}
 catch(e){console.log("Error parsing date: "+airDate);}
-elem.html(Globalize.translate('ValueOriginalAirDate').replace('{0}',airDate)).show();}else{elem.hide();}},getTimersHtml:getTimersHtml};})();(function($,document,window){var showOverlayTimeout;var hideOverlayTimeout;var currentPosterItem;function onOverlayMouseOver(){if(hideOverlayTimeout){clearTimeout(hideOverlayTimeout);hideOverlayTimeout=null;}}
+elem.html(Globalize.translate('ValueOriginalAirDate').replace('{0}',airDate)).show();}else{elem.hide();}},getTimersHtml:getTimersHtml};});define(['jQuery'],function($){var showOverlayTimeout;var hideOverlayTimeout;var currentPosterItem;function onOverlayMouseOver(){if(hideOverlayTimeout){clearTimeout(hideOverlayTimeout);hideOverlayTimeout=null;}}
 function onOverlayMouseOut(){startHideOverlayTimer();}
 function getOverlayHtml(item){var html='';html+='<div class="itemOverlayContent">';if(item.EpisodeTitle){html+='<p>';html+=item.EpisodeTitle;html+='</p>';}
 html+='<p class="itemMiscInfo miscTvProgramInfo"></p>';html+='<p style="margin: 1.25em 0;">';html+='<span class="itemCommunityRating">';html+=LibraryBrowser.getRatingHtml(item);html+='</span>';html+='<span class="userDataIcons">';html+=LibraryBrowser.getUserDataIconsHtml(item);html+='</span>';html+='</p>';html+='<p class="itemGenres"></p>';html+='<p class="itemOverlayHtml">';html+=(item.Overview||'');html+='</p>';html+='<div style="text-align:center;padding-bottom:.5em;">';var endDate;var startDate;var now=new Date().getTime();try{endDate=parseISO8601Date(item.EndDate,{toLocal:true});}catch(err){endDate=now;}
@@ -37,4 +37,4 @@ if(hideOverlayTimeout){clearTimeout(hideOverlayTimeout);hideOverlayTimeout=null;
 var elem=this;if(currentPosterItem){if(currentPosterItem&&currentPosterItem==elem){return;}else{hideOverlay();}}
 showOverlayTimeout=setTimeout(function(){onShowTimerExpired(elem);},1000);}
 if(AppInfo.isTouchPreferred){return this;}
-return this.on('mouseenter',childSelector,onHoverIn).on('mouseleave',childSelector,onHoverOut).on('click',childSelector,onProgramClicked);};})(jQuery,document,window);
+return this.on('mouseenter',childSelector,onHoverIn).on('mouseleave',childSelector,onHoverOut).on('click',childSelector,onProgramClicked);};});

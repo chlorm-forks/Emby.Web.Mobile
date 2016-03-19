@@ -1,4 +1,4 @@
-﻿$.fn.taskButton=function(options){function pollTasks(button){ApiClient.getScheduledTasks({IsEnabled:true}).then(function(tasks){updateTasks(button,tasks);});}
+﻿define(['appStorage','jQuery'],function(appStorage,$){$.fn.taskButton=function(options){function pollTasks(button){ApiClient.getScheduledTasks({IsEnabled:true}).then(function(tasks){updateTasks(button,tasks);});}
 function updateTasks(button,tasks){var task=tasks.filter(function(t){return t.Key==options.taskKey;})[0];if(options.panel){if(task){$(options.panel).show();}else{$(options.panel).hide();}}
 if(!task){return;}
 if(task.State=='Idle'){$(button).removeAttr('disabled');}else{$(button).attr('disabled','disabled');}
@@ -18,4 +18,4 @@ function stopInterval(){if(ApiClient.isWebSocketOpen()){ApiClient.sendWebSocketM
 if(pollInterval){clearInterval(pollInterval);}}
 if(options.panel){$(options.panel).hide();}
 if(options.mode=='off'){this.off('click',onButtonClick);Events.off(ApiClient,'websocketmessage',onSocketMessage);Events.off(ApiClient,'websocketopen',onSocketOpen);stopInterval();}else if(this.length){this.on('click',onButtonClick);pollTasks(self);startInterval();Events.on(ApiClient,'websocketmessage',onSocketMessage);Events.on(ApiClient,'websocketopen',onSocketOpen);}
-return this;};
+return this;};});

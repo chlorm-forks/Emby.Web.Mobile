@@ -1,4 +1,4 @@
-﻿define(['browser','paper-fab','paper-tabs','paper-slider','paper-icon-button'],function(browser){function showSlideshowMenu(context){require(['scripts/slideshow'],function(){SlideShow.showMenu();});}
+﻿define(['browser','jQuery','paper-fab','paper-tabs','paper-slider','paper-icon-button'],function(browser,$){function showSlideshowMenu(context){require(['scripts/slideshow'],function(){SlideShow.showMenu();});}
 function showAudioMenu(context,player,button,item,currentIndex){var streams=(item.MediaStreams||[]).filter(function(i){return i.Type=='Audio';});var menuItems=streams.map(function(s){var name=(s.Codec||'').toUpperCase();if(s.Profile){name+=' '+s.Profile;}
 if(s.Language){name+=' · '+s.Language;}
 if(s.Layout){name+=' · '+s.Layout;}
@@ -20,7 +20,7 @@ else if(item.PrimaryImageTag){url=ApiClient.getScaledImageUrl(item.PrimaryImageI
 else if(item.BackdropImageTag){url=ApiClient.getScaledImageUrl(item.BackdropItemId,{type:"Backdrop",maxHeight:300,tag:item.BackdropImageTag,index:0});}else if(item.ThumbImageTag){url=ApiClient.getScaledImageUrl(item.ThumbImageItemId,{type:"Thumb",maxHeight:300,tag:item.ThumbImageTag});}
 if(url==currentImgUrl){return;}
 if(item&&item.BackdropImageTag){backdropUrl=ApiClient.getScaledImageUrl(item.BackdropItemId,{type:"Backdrop",maxHeight:300,tag:item.BackdropImageTag,index:0});}
-setImageUrl(context,url);if(item){if(!browser.mobile){Backdrops.setBackdropUrl(context,backdropUrl);}
+setImageUrl(context,url);if(item){if(!browser.mobile){require(['backdrop'],function(backdrop){backdrop.setBackdrop(backdropUrl);});}
 ApiClient.getItem(Dashboard.getCurrentUserId(),item.Id).then(function(fullItem){context.querySelector('.nowPlayingPageUserDataButtons').innerHTML=LibraryBrowser.getUserDataIconsHtml(fullItem,false);});}else{context.querySelector('.nowPlayingPageUserDataButtons').innerHTML='';}}
 function setImageUrl(context,url){currentImgUrl=url;if(url){ImageLoader.lazyImage(context.querySelector('.nowPlayingPageImage'),url);}else{context.querySelector('.nowPlayingPageImage').style.backgroundImage='';}}
 function buttonEnabled(btn,enabled){btn.disabled=!enabled;}
