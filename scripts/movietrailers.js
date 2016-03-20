@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){var data={};function getQuery(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"SortName",SortOrder:"Ascending",Recursive:true,Fields:"PrimaryImageAspectRatio,SortName,SyncInfo",ImageTypeLimit:1,EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['jQuery'],function($){var data={};function getQuery(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"SortName",SortOrder:"Ascending",Recursive:true,Fields:"PrimaryImageAspectRatio,SortName,SyncInfo",ImageTypeLimit:1,EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData.query;}
 function getSavedQueryKey(context){if(!context.savedQueryKey){context.savedQueryKey=LibraryBrowser.getSavedQueryKey('trailers');}
 return context.savedQueryKey;}
