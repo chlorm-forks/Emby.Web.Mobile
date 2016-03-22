@@ -83,7 +83,7 @@ return nowPlayingItem;};self.beginPlayerUpdates=function(){};self.endPlayerUpdat
 Events.trigger(self,'playbackstop',[state]);};self.onPlaystateChange=function(mediaRenderer){console.log('mediaplayer onPlaystateChange');var state=self.getPlayerStateInternal(mediaRenderer,self.currentItem,self.currentMediaSource);Events.trigger(self,'playstatechange',[state]);};function onAppClose(){if(self.currentItem&&self.currentMediaRenderer){if(currentProgressInterval){self.onPlaybackStopped.call(self.currentMediaRenderer);}else{ApiClient.stopActiveEncodings();}}}
 window.addEventListener("beforeunload",onAppClose);if(browserInfo.safari){document.addEventListener("pause",onAppClose);}
 function sendProgressUpdate(){var mediaRenderer=self.currentMediaRenderer;if(mediaRenderer.enableProgressReporting===false){return;}
-var state=self.getPlayerStateInternal(mediaRenderer,self.currentItem,self.currentMediaSource);var info={QueueableMediaTypes:state.NowPlayingItem.MediaType,ItemId:state.NowPlayingItem.Id,NowPlayingItem:state.NowPlayingItem};info=Object.assign(info,state.PlayState);console.log('repeat mode '+info.RepeatMode);ApiClient.reportPlaybackProgress(info);}
+var state=self.getPlayerStateInternal(mediaRenderer,self.currentItem,self.currentMediaSource);var info={QueueableMediaTypes:state.NowPlayingItem.MediaType,ItemId:state.NowPlayingItem.Id,NowPlayingItem:state.NowPlayingItem};info=Object.assign(info,state.PlayState);ApiClient.reportPlaybackProgress(info);}
 function clearProgressInterval(){if(currentProgressInterval){clearTimeout(currentProgressInterval);currentProgressInterval=null;}}
 self.canAutoPlayAudio=function(){if(AppInfo.isNativeApp){return true;}
 if(browserInfo.mobile){return false;}
