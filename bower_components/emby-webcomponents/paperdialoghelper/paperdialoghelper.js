@@ -86,6 +86,8 @@
                 hasManualBackdrop = true;
                 dlg.show();
             }
+            // Undo the auto-focus applied by the native dialog element
+            safeBlur(document.activeElement);
         } else {
             addBackdropOverlay(dlg);
             hasManualBackdrop = true;
@@ -115,6 +117,12 @@
             window.addEventListener('popstate', onHashChange);
         } else {
             inputManager.on(dlg, onBackCommand);
+        }
+    }
+
+    function safeBlur(el) {
+        if (el && el.blur && el != document.body) {
+            el.blur();
         }
     }
 
@@ -313,9 +321,9 @@
 
         // too buggy in IE, not even worth it
         if (!browser.animate) {
-            //dlg.animationConfig = null;
-            //dlg.entryAnimation = null;
-            //dlg.exitAnimation = null;
+            dlg.animationConfig = null;
+            dlg.entryAnimation = null;
+            dlg.exitAnimation = null;
         }
 
         dlg.classList.add('paperDialog');
