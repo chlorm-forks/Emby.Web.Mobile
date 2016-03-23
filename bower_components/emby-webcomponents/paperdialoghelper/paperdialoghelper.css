@@ -4,7 +4,6 @@
     z-index: 999999 !important;
     background-color: #fff;
     position: fixed;
-    display: block;
     margin: 24px 40px;
     -webkit-overflow-scrolling: touch;
     background: #ffffff;
@@ -114,7 +113,7 @@
     transition: opacity ease-out 0.2s;
 }
 
-.paperDialog.opened + .dialogBackdrop {
+.dialogBackdrop.opened {
     opacity: .6;
 }
 
