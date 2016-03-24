@@ -1,6 +1,6 @@
-﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'css!./paperdialoghelper.css'], function (historyManager, focusManager, browser, layoutManager, inputManager) {
+﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'css!./dialoghelper.css'], function (historyManager, focusManager, browser, layoutManager, inputManager) {
 
-    function paperDialogHashHandler(dlg, hash, resolve) {
+    function dialogHashHandler(dlg, hash, resolve) {
 
         var self = this;
         self.originalUrl = window.location.href;
@@ -99,7 +99,7 @@
         animateDialogOpen(dlg);
 
         if (dlg.getAttribute('data-autofocus') == 'true') {
-            focusManager.autoFocus(dlg);
+            autoFocus(dlg);
         }
 
         if (dlg.getAttribute('data-lockscroll') == 'true' && !document.body.classList.contains('noScroll')) {
@@ -114,6 +114,22 @@
         } else {
             inputManager.on(dlg, onBackCommand);
         }
+    }
+
+    function autoFocus(dlg) {
+
+        // The dialog may have just been created and webComponents may not have completed initialiazation yet.
+        // Without this, seeing some script errors in Firefox
+
+        var delay = browser.animate ? 0 : 500;
+        if (!delay) {
+            focusManager.autoFocus(dlg);
+            return;
+        }
+
+        setTimeout(function () {
+            focusManager.autoFocus(dlg);
+        }, delay);
     }
 
     function safeBlur(el) {
@@ -147,7 +163,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            new paperDialogHashHandler(dlg, 'dlg' + new Date().getTime(), resolve);
+            new dialogHashHandler(dlg, 'dlg' + new Date().getTime(), resolve);
         });
     }
 
@@ -271,6 +287,12 @@
 
         var dlg = document.createElement('dialog');
 
+        // If there's no native dialog support, use a plain div
+        // Also not working well in samsung tizen browser, content inside not clickable
+        if (!dlg.showModal || browser.tv) {
+            dlg = document.createElement('div');
+        }
+
         dlg.classList.add('hide');
 
         if (shouldLockDocumentScroll(options)) {
@@ -322,7 +344,7 @@
             dlg.exitAnimation = null;
         }
 
-        dlg.classList.add('paperDialog');
+        dlg.classList.add('dialog');
 
         dlg.classList.add('scrollY');
 
