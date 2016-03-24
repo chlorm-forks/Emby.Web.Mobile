@@ -5,8 +5,7 @@ if(url.indexOf('/sync')!=-1){Dashboard.hideLoadingMsg();return;}
 if(url.indexOf('/password')==-1&&url.indexOf('/authenticate')==-1&&!$($.mobile.activePage).is('.standalonePage')){if(data.errorCode=="ParentalControl"){Dashboard.alert({message:Globalize.translate('MessageLoggedOutParentalControl'),callback:function(){Dashboard.logout(false);}});}else{Dashboard.logout(false);}}
 return;Dashboard.hideLoadingMsg();}},onPopupOpen:function(){Dashboard.popupCount=(Dashboard.popupCount||0)+1;document.body.classList.add('bodyWithPopupOpen');},onPopupClose:function(){Dashboard.popupCount=(Dashboard.popupCount||1)-1;if(!Dashboard.popupCount){document.body.classList.remove('bodyWithPopupOpen');}},getCurrentUser:function(){return window.ApiClient.getCurrentUser();},serverAddress:function(){if(Dashboard.isConnectMode()){var apiClient=window.ApiClient;if(apiClient){return apiClient.serverAddress();}
 return null;}
-var urlLower=window.location.href.toLowerCase();var index=urlLower.indexOf('/web');if(index==-1){index=urlLower.indexOf('/dashboard');}
-if(index!=-1){return urlLower.substring(0,index);}
+var urlLower=window.location.href.toLowerCase();var index=urlLower.lastIndexOf('/web');if(index!=-1){return urlLower.substring(0,index);}
 var loc=window.location;var address=loc.protocol+'//'+loc.hostname;if(loc.port){address+=':'+loc.port;}
 return address;},getCurrentUserId:function(){var apiClient=window.ApiClient;if(apiClient){return apiClient.getCurrentUserId();}
 return null;},onServerChanged:function(userId,accessToken,apiClient){apiClient=apiClient||window.ApiClient;window.ApiClient=apiClient;},logout:function(logoutWithServer){function onLogoutDone(){var loginPage;if(Dashboard.isConnectMode()){loginPage='connectlogin.html';window.ApiClient=null;}else{loginPage='login.html';}
