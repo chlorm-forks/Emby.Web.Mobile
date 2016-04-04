@@ -180,7 +180,6 @@ if(stream.KeyFrames){}
 if(stream.Type!="Video"){attributes.push(createAttribute(Globalize.translate('MediaInfoDefault'),(stream.IsDefault?'Yes':'No')));}
 if(stream.Type=="Subtitle"){attributes.push(createAttribute(Globalize.translate('MediaInfoForced'),(stream.IsForced?'Yes':'No')));attributes.push(createAttribute(Globalize.translate('MediaInfoExternal'),(stream.IsExternal?'Yes':'No')));}
 if(stream.Type=="Video"&&version.Timestamp){attributes.push(createAttribute(Globalize.translate('MediaInfoTimestamp'),version.Timestamp));}
-if(stream.IsCabac!=null){attributes.push(createAttribute(Globalize.translate('CABAC'),(stream.IsCabac?'Yes':'No')));}
 html+=attributes.join('<br/>');html+='</div>';}
 if(version.Container){html+='<div><span class="mediaInfoLabel">'+Globalize.translate('MediaInfoContainer')+'</span><span class="mediaInfoAttribute">'+version.Container+'</span></div>';}
 if(version.Formats&&version.Formats.length){}
