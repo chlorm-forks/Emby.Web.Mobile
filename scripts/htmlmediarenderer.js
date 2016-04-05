@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){var supportsTextTracks;var hlsPlayer;var requiresSettingStartTimeOnStart;var subtitleTrackIndexToSetOnPlaying;var currentTrackList;var currentPlayOptions;function htmlMediaRenderer(options){var mediaElement;var self=this;function onEnded(){destroyCustomTrack();Events.trigger(self,'ended');}
+﻿define(['jQuery'],function($){var supportsTextTracks;var hlsPlayer;var requiresSettingStartTimeOnStart;var subtitleTrackIndexToSetOnPlaying;var currentTrackList;var currentPlayOptions;function htmlMediaRenderer(options){var mediaElement;var self=this;function onEnded(){destroyCustomTrack(this);Events.trigger(self,'ended');}
 function onTimeUpdate(){if(options.type=='video'){var timeMs=this.currentTime*1000;timeMs+=((currentPlayOptions.startTimeTicksOffset||0)/10000);updateSubtitleText(timeMs);}
 Events.trigger(self,'timeupdate');}
 function onVolumeChange(){Events.trigger(self,'volumechange');}
@@ -8,7 +8,7 @@ function onPlay(){Events.trigger(self,'play');}
 function onPause(){Events.trigger(self,'pause');}
 function onClick(){Events.trigger(self,'click');}
 function onDblClick(){Events.trigger(self,'dblclick');}
-function onError(e){destroyCustomTrack();var elem=e.target;var errorCode=elem.error?elem.error.code:'';console.log('Media element error code: '+errorCode);Events.trigger(self,'error');}
+function onError(e){destroyCustomTrack(this);var elem=e.target;var errorCode=elem.error?elem.error.code:'';console.log('Media element error code: '+errorCode);Events.trigger(self,'error');}
 function onLoadedMetadata(e){var elem=e.target;elem.removeEventListener('loadedmetadata',onLoadedMetadata);if(!hlsPlayer){elem.play();}}
 function requireHlsPlayer(callback){require(['hlsjs'],function(hls){window.Hls=hls;callback();});}
 function getStartTime(url){var src=url;var parts=src.split('#');if(parts.length>1){parts=parts[parts.length-1].split('=');if(parts.length==2){return parseFloat(parts[1]);}}
@@ -28,7 +28,7 @@ html+='</video>';var elem=$('#videoElement','#videoPlayer').prepend(html);var it
 var _currentTime;self.currentTime=function(val){if(mediaElement){if(val!=null){mediaElement.currentTime=val/1000;return;}
 if(_currentTime){return _currentTime*1000;}
 return(mediaElement.currentTime||0)*1000;}};self.duration=function(val){if(mediaElement){return mediaElement.duration;}
-return null;};self.stop=function(){destroyCustomTrack();if(mediaElement){mediaElement.pause();if(hlsPlayer){_currentTime=mediaElement.currentTime;try{hlsPlayer.destroy();}
+return null;};self.stop=function(){destroyCustomTrack(mediaElement);if(mediaElement){mediaElement.pause();if(hlsPlayer){_currentTime=mediaElement.currentTime;try{hlsPlayer.destroy();}
 catch(err){console.log(err);}
 hlsPlayer=null;}}};self.pause=function(){if(mediaElement){mediaElement.pause();}};self.unpause=function(){if(mediaElement){mediaElement.play();}};self.volume=function(val){if(mediaElement){if(val!=null){mediaElement.volume=val;return;}
 return mediaElement.volume;}};var currentSrc;self.setCurrentSrc=function(streamInfo,item,mediaSource,tracks){var elem=mediaElement;if(!elem){currentSrc=null;currentPlayOptions=null;return;}
@@ -48,32 +48,38 @@ if(elem.tagName.toLowerCase()!='audio'){$(elem).remove();}}};self.supportsTextTr
 return supportsTextTracks;};function enableNativeTrackSupport(track){if(browserInfo.safari&&browserInfo.mobile){return false;}
 if(browserInfo.edge||browserInfo.msie){return false;}
 if(browserInfo.firefox){if((currentSrc||'').toLowerCase().indexOf('.m3u8')!=-1){return false;}}
+if(track){var format=(track.format||'').toLowerCase();if(format=='ssa'||format=='ass'){return false;}}
 return true;}
-function destroyCustomTrack(isPlaying){var videoSubtitlesElem=document.querySelector('.videoSubtitles');if(videoSubtitlesElem){videoSubtitlesElem.parentNode.removeChild(videoSubtitlesElem);}
-if(isPlaying){var allTracks=mediaElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];if(currentTrack.label.indexOf('manualTrack')!=-1){currentTrack.mode='disabled';}}}
+function destroyCustomTrack(videoElement,isPlaying){window.removeEventListener('resize',onVideoResize);var videoSubtitlesElem=document.querySelector('.videoSubtitles');if(videoSubtitlesElem){videoSubtitlesElem.parentNode.removeChild(videoSubtitlesElem);}
+if(isPlaying){var allTracks=videoElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];if(currentTrack.label.indexOf('manualTrack')!=-1){currentTrack.mode='disabled';}}}
 customTrackIndex=-1;currentSubtitlesElement=null;currentTrackEvents=null;currentClock=null;var renderer=currentAssRenderer;if(renderer){renderer.setEnabled(false);}
 currentAssRenderer=null;}
 function fetchSubtitles(track){return ApiClient.ajax({url:track.url.replace('.vtt','.js'),type:'GET',dataType:'json'});}
-function setTrackForCustomDisplay(track){if(!track){destroyCustomTrack(true);return;}
+function setTrackForCustomDisplay(videoElement,track){if(!track){destroyCustomTrack(videoElement,true);return;}
 if(customTrackIndex==track.index){return;}
-destroyCustomTrack(true);customTrackIndex=track.index;renderTracksEvents(track);lastCustomTrackMs=0;}
-function renderTracksEvents(track){if(browserInfo.edge||browserInfo.msie){fetchSubtitles(track).then(function(data){currentTrackEvents=data.TrackEvents;});return;}
-var trackElement=null;var expectedId='manualTrack'+track.index;var allTracks=mediaElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];if(currentTrack.label==expectedId){trackElement=currentTrack;break;}else{currentTrack.mode='disabled';}}
-if(!trackElement){trackElement=mediaElement.addTextTrack('subtitles','manualTrack'+track.index,track.language||'und');trackElement.label='manualTrack'+track.index;fetchSubtitles(track).then(function(data){console.log('downloaded '+data.TrackEvents.length+' track events');data.TrackEvents.forEach(function(trackEvent){trackElement.addCue(new(window.VTTCue||window.TextTrackCue)(trackEvent.StartPositionTicks/10000000,trackEvent.EndPositionTicks/10000000,trackEvent.Text.replace(/\\N/gi,'\n')));});trackElement.mode='showing';});}else{trackElement.mode='showing';}}
-var currentSubtitlesElement;var currentTrackEvents;var customTrackIndex=-1;var lastCustomTrackMs=0;var currentClock;var currentAssRenderer;function updateSubtitleText(timeMs){var trackEvents=currentTrackEvents;if(!trackEvents){return;}
+destroyCustomTrack(videoElement,true);customTrackIndex=track.index;renderTracksEvents(videoElement,track);lastCustomTrackMs=0;}
+function renderWithLibjass(videoElement,track){var rendererSettings={};require(['libjass'],function(libjass){libjass.ASS.fromUrl(track.url).then(function(ass){var clock=currentClock=new libjass.renderers.ManualClock();var renderer=new libjass.renderers.WebRenderer(ass,clock,videoElement.parentNode.parentNode,rendererSettings);currentAssRenderer=renderer;renderer.addEventListener("ready",function(){try{renderer.resize(videoElement.offsetWidth,videoElement.offsetHeight,0,0);window.removeEventListener('resize',onVideoResize);window.addEventListener('resize',onVideoResize);}
+catch(ex){}});});});}
+function onVideoResize(){var renderer=currentAssRenderer;if(renderer){var videoElement=mediaElement;var width=videoElement.offsetWidth;var height=videoElement.offsetHeight;console.log('videoElement resized: '+width+'x'+height);renderer.resize(width,height,0,0);}}
+function renderTracksEvents(videoElement,track){var format=(track.format||'').toLowerCase();if(format=='ssa'||format=='ass'){renderWithLibjass(videoElement,track);return;}
+if(browserInfo.edge||browserInfo.msie){fetchSubtitles(track).then(function(data){currentTrackEvents=data.TrackEvents;});return;}
+var trackElement=null;var expectedId='manualTrack'+track.index;var allTracks=videoElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];if(currentTrack.label==expectedId){trackElement=currentTrack;break;}else{currentTrack.mode='disabled';}}
+if(!trackElement){trackElement=videoElement.addTextTrack('subtitles','manualTrack'+track.index,track.language||'und');trackElement.label='manualTrack'+track.index;fetchSubtitles(track).then(function(data){console.log('downloaded '+data.TrackEvents.length+' track events');data.TrackEvents.forEach(function(trackEvent){trackElement.addCue(new(window.VTTCue||window.TextTrackCue)(trackEvent.StartPositionTicks/10000000,trackEvent.EndPositionTicks/10000000,trackEvent.Text.replace(/\\N/gi,'\n')));});trackElement.mode='showing';});}else{trackElement.mode='showing';}}
+var currentSubtitlesElement;var currentTrackEvents;var customTrackIndex=-1;var lastCustomTrackMs=0;var currentClock;var currentAssRenderer;function updateSubtitleText(timeMs){var clock=currentClock;if(clock){clock.seek(timeMs/1000);}
+var trackEvents=currentTrackEvents;if(!trackEvents){return;}
 if(!currentSubtitlesElement){var videoSubtitlesElem=document.querySelector('.videoSubtitles');if(!videoSubtitlesElem){videoSubtitlesElem=document.createElement('div');videoSubtitlesElem.classList.add('videoSubtitles');videoSubtitlesElem.innerHTML='<div class="videoSubtitlesInner"></div>';document.body.appendChild(videoSubtitlesElem);}
 currentSubtitlesElement=videoSubtitlesElem.querySelector('.videoSubtitlesInner');}
 if(lastCustomTrackMs>0){if(Math.abs(lastCustomTrackMs-timeMs)<500){return;}}
 lastCustomTrackMs=new Date().getTime();var positionTicks=timeMs*10000;for(var i=0,length=trackEvents.length;i<length;i++){var caption=trackEvents[i];if(positionTicks>=caption.StartPositionTicks&&positionTicks<=caption.EndPositionTicks){currentSubtitlesElement.innerHTML=caption.Text;currentSubtitlesElement.classList.remove('hide');return;}}
 currentSubtitlesElement.innerHTML='';currentSubtitlesElement.classList.add('hide');}
-self.setCurrentTrackElement=function(streamIndex){console.log('Setting new text track index to: '+streamIndex);var track=streamIndex==-1?null:currentTrackList.filter(function(t){return t.index==streamIndex;})[0];if(enableNativeTrackSupport(track)){setTrackForCustomDisplay(null);}else{setTrackForCustomDisplay(track);streamIndex=-1;track=null;}
+self.setCurrentTrackElement=function(streamIndex){console.log('Setting new text track index to: '+streamIndex);var track=streamIndex==-1?null:currentTrackList.filter(function(t){return t.index==streamIndex;})[0];if(enableNativeTrackSupport(track)){setTrackForCustomDisplay(mediaElement,null);}else{setTrackForCustomDisplay(mediaElement,track);streamIndex=-1;track=null;}
 var expectedId='textTrack'+streamIndex;var trackIndex=streamIndex==-1||!track?-1:currentTrackList.indexOf(track);var modes=['disabled','showing','hidden'];var allTracks=mediaElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];console.log('currentTrack id: '+currentTrack.id);var mode;console.log('expectedId: '+expectedId+'--currentTrack.Id:'+currentTrack.id);if(browserInfo.msie||browserInfo.edge){if(trackIndex==i){mode=1;}else{mode=0;}}else{if(currentTrack.label.indexOf('manualTrack')!=-1){continue;}
 if(currentTrack.id==expectedId){mode=1;}else{mode=0;}}
 console.log('Setting track '+i+' mode to: '+mode);var useNumericMode=false;if(!isNaN(currentTrack.mode)){}
 if(useNumericMode){currentTrack.mode=mode;}else{currentTrack.mode=modes[mode];}}};self.updateTextStreamUrls=function(startPositionTicks){if(!self.supportsTextTracks()){return;}
 var allTracks=mediaElement.textTracks;for(var i=0;i<allTracks.length;i++){var track=allTracks[i];try{while(track.cues.length){track.removeCue(track.cues[0]);}}catch(e){console.log('Error removing cue from textTrack');}}
-$('track',mediaElement).each(function(){this.src=replaceQueryString(this.src,'startPositionTicks',startPositionTicks);});};self.enableCustomVideoControls=function(){if(AppInfo.isNativeApp&&browserInfo.safari){if(navigator.userAgent.toLowerCase().indexOf('iphone')!=-1){return true;}
-return false;}
+$('track',mediaElement).each(function(){this.src=replaceQueryString(this.src,'startPositionTicks',startPositionTicks);});};self.enableCustomVideoControls=function(){if(AppInfo.isNativeApp&&browserInfo.safari){if(navigator.userAgent.toLowerCase().indexOf('ipad')!=-1){return false;}
+return true;}
 return self.canAutoPlayVideo();};self.canAutoPlayVideo=function(){if(AppInfo.isNativeApp){return true;}
 if(browserInfo.mobile){return false;}
 return true;};self.init=function(){return new Promise(function(resolve,reject){if(options.type=='video'&&enableHlsPlayer()){requireHlsPlayer(resolve);}else{resolve();}});};if(options.type=='audio'){mediaElement=createAudioElement();}
