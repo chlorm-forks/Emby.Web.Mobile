@@ -50,7 +50,7 @@ if(browserInfo.edge||browserInfo.msie){return false;}
 if(browserInfo.firefox){if((currentSrc||'').toLowerCase().indexOf('.m3u8')!=-1){return false;}}
 if(track){var format=(track.format||'').toLowerCase();if(format=='ssa'||format=='ass'){return false;}}
 return true;}
-function destroyCustomTrack(videoElement,isPlaying){window.removeEventListener('resize',onVideoResize);var videoSubtitlesElem=document.querySelector('.videoSubtitles');if(videoSubtitlesElem){videoSubtitlesElem.parentNode.removeChild(videoSubtitlesElem);}
+function destroyCustomTrack(videoElement,isPlaying){window.removeEventListener('resize',onVideoResize);window.removeEventListener('orientationchange',onVideoResize);var videoSubtitlesElem=document.querySelector('.videoSubtitles');if(videoSubtitlesElem){videoSubtitlesElem.parentNode.removeChild(videoSubtitlesElem);}
 if(isPlaying){var allTracks=videoElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];if(currentTrack.label.indexOf('manualTrack')!=-1){currentTrack.mode='disabled';}}}
 customTrackIndex=-1;currentSubtitlesElement=null;currentTrackEvents=null;currentClock=null;var renderer=currentAssRenderer;if(renderer){renderer.setEnabled(false);}
 currentAssRenderer=null;}
@@ -58,7 +58,7 @@ function fetchSubtitles(track){return ApiClient.ajax({url:track.url.replace('.vt
 function setTrackForCustomDisplay(videoElement,track){if(!track){destroyCustomTrack(videoElement,true);return;}
 if(customTrackIndex==track.index){return;}
 destroyCustomTrack(videoElement,true);customTrackIndex=track.index;renderTracksEvents(videoElement,track);lastCustomTrackMs=0;}
-function renderWithLibjass(videoElement,track){var rendererSettings={};require(['libjass'],function(libjass){libjass.ASS.fromUrl(track.url).then(function(ass){var clock=currentClock=new libjass.renderers.ManualClock();var renderer=new libjass.renderers.WebRenderer(ass,clock,videoElement.parentNode.parentNode,rendererSettings);currentAssRenderer=renderer;renderer.addEventListener("ready",function(){try{renderer.resize(videoElement.offsetWidth,videoElement.offsetHeight,0,0);window.removeEventListener('resize',onVideoResize);window.addEventListener('resize',onVideoResize);}
+function renderWithLibjass(videoElement,track){var rendererSettings={};require(['libjass'],function(libjass){libjass.ASS.fromUrl(track.url).then(function(ass){var clock=currentClock=new libjass.renderers.ManualClock();var renderer=new libjass.renderers.WebRenderer(ass,clock,videoElement.parentNode.parentNode,rendererSettings);currentAssRenderer=renderer;renderer.addEventListener("ready",function(){try{renderer.resize(videoElement.offsetWidth,videoElement.offsetHeight,0,0);window.removeEventListener('resize',onVideoResize);window.addEventListener('resize',onVideoResize);window.removeEventListener('orientationchange',onVideoResize);window.addEventListener('orientationchange',onVideoResize);}
 catch(ex){}});});});}
 function onVideoResize(){var renderer=currentAssRenderer;if(renderer){var videoElement=mediaElement;var width=videoElement.offsetWidth;var height=videoElement.offsetHeight;console.log('videoElement resized: '+width+'x'+height);renderer.resize(width,height,0,0);}}
 function renderTracksEvents(videoElement,track){var format=(track.format||'').toLowerCase();if(format=='ssa'||format=='ass'){renderWithLibjass(videoElement,track);return;}
