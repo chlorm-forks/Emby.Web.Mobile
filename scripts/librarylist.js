@@ -2,9 +2,11 @@
 if(showOverlayTimeout){clearTimeout(showOverlayTimeout);showOverlayTimeout=null;}
 elem=elem.querySelector('.cardOverlayTarget');if(elem){slideDownToHide(elem);}}
 function slideDownToHide(elem){if(elem.classList.contains('hide')){return;}
-requestAnimationFrame(function(){var keyframes=[{height:'100%',offset:0},{height:'0',offset:1}];var timing={duration:300,iterations:1,fill:'forwards',easing:'ease-out'};elem.animate(keyframes,timing).onfinish=function(){elem.classList.add('hide');};});}
+if(!elem.animate){elem.classList.add('hide');return;}
+requestAnimationFrame(function(){var keyframes=[{transform:'translateY(0)',offset:0},{transform:'translateY(100%)',offset:1}];var timing={duration:300,iterations:1,fill:'forwards',easing:'ease-out'};elem.animate(keyframes,timing).onfinish=function(){elem.classList.add('hide');};});}
 function slideUpToShow(elem){if(!elem.classList.contains('hide')){return;}
-elem.classList.remove('hide');requestAnimationFrame(function(){elem.style.display='block';var keyframes=[{height:'0',offset:0},{height:'100%',offset:1}];var timing={duration:300,iterations:1,fill:'forwards',easing:'ease-out'};elem.animate(keyframes,timing);});}
+elem.classList.remove('hide');if(!elem.animate){return;}
+requestAnimationFrame(function(){var keyframes=[{transform:'translateY(100%)',offset:0},{transform:'translateY(0)',offset:1}];var timing={duration:300,iterations:1,fill:'forwards',easing:'ease-out'};elem.animate(keyframes,timing);});}
 function getOverlayHtml(item,currentUser,card,commands){var html='';html+='<div class="cardOverlayInner">';var className=card.className.toLowerCase();var isMiniItem=className.indexOf('mini')!=-1;var isSmallItem=isMiniItem||className.indexOf('small')!=-1;var isPortrait=className.indexOf('portrait')!=-1;var isSquare=className.indexOf('square')!=-1;var parentName=isSmallItem||isMiniItem||isPortrait?null:item.SeriesName;var name=LibraryBrowser.getPosterViewDisplayName(item,true);html+='<div style="margin-bottom:1em;">';var logoHeight=isSmallItem||isMiniItem?20:26;var imgUrl;if(parentName&&item.ParentLogoItemId){imgUrl=ApiClient.getScaledImageUrl(item.ParentLogoItemId,{maxHeight:logoHeight,type:'logo',tag:item.ParentLogoImageTag});html+='<img src="'+imgUrl+'" style="max-height:'+logoHeight+'px;max-width:100%;" />';}
 else if(item.ImageTags.Logo){imgUrl=ApiClient.getScaledImageUrl(item.Id,{maxHeight:logoHeight,type:'logo',tag:item.ImageTags.Logo});html+='<img src="'+imgUrl+'" style="max-height:'+logoHeight+'px;max-width:100%;" />';}
 else{html+=parentName||name;}
