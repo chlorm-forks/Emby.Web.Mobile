@@ -5,7 +5,7 @@ else if(hint.Type=="MusicArtist"){return[Globalize.translate('LabelArtist')];}
 else if(hint.Type=="Movie"){return[Globalize.translate('LabelMovie')];}
 else if(hint.Type=="MusicVideo"){return[Globalize.translate('LabelMusicVideo')];}
 else if(hint.Type=="Episode"){return[Globalize.translate('LabelEpisode')];}
-else if(hint.Type=="Series"){return[Globalize.translate('LabelSeries')];}
+else if(hint.Type=="Series"){return[Globalize.translate('Series')];}
 else if(hint.Type=="BoxSet"){return[Globalize.translate('LabelCollection')];}
 else if(hint.ChannelName){return[hint.ChannelName];}
 return[hint.Type];}

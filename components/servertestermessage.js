@@ -9,7 +9,7 @@ dlg.innerHTML=html;document.body.appendChild(dlg);dialogHelper.open(dlg);dlg.que
 function compareVersions(a,b){a=a.split('.');b=b.split('.');for(var i=0,length=Math.max(a.length,b.length);i<length;i++){var aVal=parseInt(a[i]||'0');var bVal=parseInt(b[i]||'0');if(aVal<bVal){return-1;}
 if(aVal>bVal){return 1;}}
 return 0;}
-function show(apiClient){var key='servertestermessagetime';var lastShown=parseInt(appSettings.get(key)||'0');if((new Date().getTime()-lastShown)<172800000){return;}
+function show(apiClient){var key='servertestermessagetime';var lastShown=parseInt(appSettings.get(key)||'0');if((new Date().getTime()-lastShown)<86400000){return;}
 appSettings.set(key,new Date().getTime());if(!lastShown){return;}
-apiClient.getPublicSystemInfo().then(function(info){if(compareVersions(info.Version,'3.0.5912')==1){showInternal();}});}
+apiClient.getPublicSystemInfo().then(function(info){if(compareVersions(info.Version,'3.0.5913')==1){showInternal();}});}
 return{show:show};});
