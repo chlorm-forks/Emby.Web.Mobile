@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
+﻿define(['jQuery','scrollStyles'],function($){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function getPortraitShape(){return enableScrollX()?'overflowPortrait':'portrait';}
 function getThumbShape(){return enableScrollX()?'overflowBackdrop':'backdrop';}
 function getSquareShape(){return enableScrollX()?'overflowSquare':'square';}

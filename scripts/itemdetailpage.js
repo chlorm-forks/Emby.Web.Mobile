@@ -1,4 +1,4 @@
-﻿define(['layoutManager','jQuery'],function(layoutManager,$){var currentItem;function getPromise(){var id=getParameterByName('id');if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
+﻿define(['layoutManager','jQuery','scrollStyles'],function(layoutManager,$){var currentItem;function getPromise(){var id=getParameterByName('id');if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
 var name=getParameterByName('genre');if(name){return ApiClient.getGenre(name,Dashboard.getCurrentUserId());}
 name=getParameterByName('musicgenre');if(name){return ApiClient.getMusicGenre(name,Dashboard.getCurrentUserId());}
 name=getParameterByName('gamegenre');if(name){return ApiClient.getGameGenre(name,Dashboard.getCurrentUserId());}

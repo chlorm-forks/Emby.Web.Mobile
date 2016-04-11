@@ -1,4 +1,4 @@
-﻿define(['jQuery','libraryBrowser'],function($,libraryBrowser){function getView(){return'Poster';}
+﻿define(['jQuery','libraryBrowser','scrollStyles'],function($,libraryBrowser){function getView(){return'Poster';}
 function getResumeView(){return'Thumb';}
 function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function getPortraitShape(){return enableScrollX()?'overflowPortrait':'portrait';}

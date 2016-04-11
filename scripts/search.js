@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser'],function(libraryBrowser){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
+﻿define(['libraryBrowser','scrollStyles'],function(libraryBrowser){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
 function getAdditionalTextLines(hint){if(hint.Type=="Audio"){return[[hint.AlbumArtist,hint.Album].join(" - ")];}
 else if(hint.Type=="MusicAlbum"){return[hint.AlbumArtist];}
 else if(hint.Type=="MusicArtist"){return[Globalize.translate('LabelArtist')];}
@@ -12,7 +12,7 @@ return[hint.Type];}
 function search(){var self=this;self.showSearchPanel=function(){showSearchMenu();};}
 window.Search=new search();function renderSearchResultsInOverlay(elem,hints){hints=hints.map(function(i){i.Id=i.ItemId;i.ImageTags={};i.UserData={};if(i.PrimaryImageTag){i.ImageTags.Primary=i.PrimaryImageTag;}
 return i;});var html=libraryBrowser.getPosterViewHtml({items:hints,shape:"auto",lazy:true,overlayText:false,showTitle:true,centerImage:true,centerText:true,textLines:getAdditionalTextLines,overlayPlayButton:true});var itemsContainer=elem.querySelector('.itemsContainer');itemsContainer.innerHTML=html;ImageLoader.lazyChildren(itemsContainer);}
-function requestSearchHintsForOverlay(elem,searchTerm){var currentTimeout=searchHintTimeout;Dashboard.showLoadingMsg();ApiClient.getSearchHints({userId:Dashboard.getCurrentUserId(),searchTerm:searchTerm,limit:30}).then(function(result){if(currentTimeout==searchHintTimeout){renderSearchResultsInOverlay(elem,result.SearchHints);}
+function requestSearchHintsForOverlay(elem,searchTerm){var currentTimeout=searchHintTimeout;Dashboard.showLoadingMsg();ApiClient.getSearchHints({userId:Dashboard.getCurrentUserId(),searchTerm:(searchTerm||'').trim(),limit:30}).then(function(result){if(currentTimeout==searchHintTimeout){renderSearchResultsInOverlay(elem,result.SearchHints);}
 Dashboard.hideLoadingMsg();},function(){Dashboard.hideLoadingMsg();});}
 function updateSearchOverlay(elem,searchTerm){if(!searchTerm){var itemsContainer=elem.querySelector('.itemsContainer');if(itemsContainer){itemsContainer.innerHTML='';}
 clearSearchHintTimeout();return;}

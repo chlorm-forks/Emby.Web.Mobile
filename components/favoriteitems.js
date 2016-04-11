@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser'],function(libraryBrowser){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
+﻿define(['libraryBrowser','scrollStyles'],function(libraryBrowser){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function getThumbShape(){return enableScrollX()?'overflowBackdrop':'backdrop';}
 function getPosterShape(){return enableScrollX()?'overflowPortrait':'portrait';}
 function getSquareShape(){return enableScrollX()?'overflowSquare':'square';}
