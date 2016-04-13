@@ -16,4 +16,5 @@ Dashboard.hideLoadingMsg();}
 function showPluginMenu(page,elem){var card=$(elem).parents('.card');var id=card.attr('data-id');var name=card.attr('data-name');var configHref=$('.cardContent',card).attr('href');var menuItems=[];if(configHref){menuItems.push({name:Globalize.translate('ButtonSettings'),id:'open',ironIcon:'mode-edit'});}
 menuItems.push({name:Globalize.translate('ButtonUninstall'),id:'delete',ironIcon:'delete'});require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,positionTo:elem,callback:function(resultId){switch(resultId){case'open':Dashboard.navigate(configHref);break;case'delete':deletePlugin(page,id,name);break;default:break;}}});});}
 function reloadList(page){Dashboard.showLoadingMsg();ApiClient.getInstalledPlugins().then(function(plugins){renderPlugins(page,plugins,true);});}
-$(document).on('pageshow',"#pluginsPage",function(){reloadList(this);});window.PluginsPage={renderPlugins:renderPlugins};});
+function getTabs(){return[{href:'plugins.html',name:Globalize.translate('TabMyPlugins')},{href:'plugincatalog.html',name:Globalize.translate('TabCatalog')}];}
+$(document).on('pageshow',"#pluginsPage",function(){LibraryMenu.setTabs('plugins',0,getTabs);reloadList(this);});window.PluginsPage={renderPlugins:renderPlugins};});

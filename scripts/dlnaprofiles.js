@@ -7,4 +7,5 @@ html+='</paper-icon-item>';}
 if(profiles.length){html+='</div>';}
 element.innerHTML=html;$('.btnDeleteProfile',element).on('click',function(){var id=this.getAttribute('data-profileid');deleteProfile(page,id);});});}
 function deleteProfile(page,id){require(['confirm'],function(confirm){confirm(Globalize.translate('MessageConfirmProfileDeletion'),Globalize.translate('HeaderConfirmProfileDeletion')).then(function(){Dashboard.showLoadingMsg();ApiClient.ajax({type:"DELETE",url:ApiClient.getUrl("Dlna/Profiles/"+id)}).then(function(){Dashboard.hideLoadingMsg();loadProfiles(page);});});});}
-$(document).on('pageshow',"#dlnaProfilesPage",function(){var page=this;loadProfiles(page);});});
+function getTabs(){return[{href:'dlnasettings.html',name:Globalize.translate('TabSettings')},{href:'dlnaprofiles.html',name:Globalize.translate('TabProfiles')}];}
+$(document).on('pageshow',"#dlnaProfilesPage",function(){LibraryMenu.setTabs('dlna',1,getTabs);var page=this;loadProfiles(page);});});
