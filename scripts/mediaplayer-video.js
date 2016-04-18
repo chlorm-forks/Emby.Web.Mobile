@@ -6,15 +6,15 @@ streams.unshift({Index:-1,Language:Globalize.translate('ButtonOff')});var menuIt
 var name=attributes.join(' - ');if(stream.IsDefault){name+=' (D)';}
 if(stream.IsForced){name+=' (F)';}
 if(stream.External){name+=' (EXT)';}
-var opt={name:name,id:stream.Index};if(stream.Index==currentIndex){opt.ironIcon="check";}
+var opt={name:name,id:stream.Index};if(stream.Index==currentIndex){opt.selected=true;}
 return opt;});require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,enableHistory:false,positionTo:$('.videoSubtitleButton')[0],callback:function(id){var index=parseInt(id);if(index!=currentIndex){self.onSubtitleOptionSelected(index);}}});});};self.showQualityFlyout=function(){require(['qualityoptions','actionsheet'],function(qualityoptions,actionsheet){var currentSrc=self.getCurrentSrc(self.currentMediaRenderer).toLowerCase();var isStatic=currentSrc.indexOf('static=true')!=-1;var videoStream=self.currentMediaSource.MediaStreams.filter(function(stream){return stream.Type=="Video";})[0];var videoWidth=videoStream?videoStream.Width:null;var options=qualityoptions.getVideoQualityOptions(appSettings.maxStreamingBitrate(),videoWidth);if(isStatic){options[0].name="Direct";}
-var menuItems=options.map(function(o){var opt={name:o.name,id:o.bitrate};if(o.selected){opt.ironIcon="check";}
+var menuItems=options.map(function(o){var opt={name:o.name,id:o.bitrate};if(o.selected){opt.selected=true;}
 return opt;});var selectedId=options.filter(function(o){return o.selected;});selectedId=selectedId.length?selectedId[0].bitrate:null;actionsheet.show({items:menuItems,enableHistory:false,positionTo:$('.videoQualityButton')[0],callback:function(id){var bitrate=parseInt(id);if(bitrate!=selectedId){self.onQualityOptionSelected(bitrate);}}});});};self.showAudioTracksFlyout=function(){var options=self.currentMediaSource.MediaStreams.filter(function(currentStream){return currentStream.Type=="Audio";});var currentIndex=getParameterByName('AudioStreamIndex',self.getCurrentSrc(self.currentMediaRenderer));var menuItems=options.map(function(stream){var attributes=[];attributes.push(stream.Language||Globalize.translate('LabelUnknownLanguage'));if(stream.Codec){attributes.push(stream.Codec);}
 if(stream.Profile){attributes.push(stream.Profile);}
 if(stream.BitRate){attributes.push((Math.floor(stream.BitRate/1000))+' kbps');}
 if(stream.Channels){attributes.push(stream.Channels+' ch');}
 var name=attributes.join(' - ');if(stream.IsDefault){name+=' (D)';}
-var opt={name:name,id:stream.Index};if(stream.Index==currentIndex){opt.ironIcon="check";}
+var opt={name:name,id:stream.Index};if(stream.Index==currentIndex){opt.selected=true;}
 return opt;});require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,enableHistory:false,positionTo:$('.videoAudioButton')[0],callback:function(id){var index=parseInt(id);if(index!=currentIndex){self.onAudioOptionSelected(index);}}});});};self.setAudioStreamIndex=function(index){self.changeStream(self.getCurrentTicks(),{AudioStreamIndex:index});};self.setSubtitleStreamIndex=function(index){if(!self.currentMediaRenderer.supportsTextTracks()){self.changeStream(self.getCurrentTicks(),{SubtitleStreamIndex:index});self.currentSubtitleStreamIndex=index;return;}
 var currentStream=self.getCurrentSubtitleStream();var newStream=self.getSubtitleStream(index);if(!currentStream&&!newStream)return;var selectedTrackElementIndex=-1;if(currentStream&&!newStream){if(currentStream.DeliveryMethod!='External'){self.changeStream(self.getCurrentTicks(),{SubtitleStreamIndex:-1});}}
 else if(!currentStream&&newStream){if(newStream.DeliveryMethod=='External'){selectedTrackElementIndex=index;}else{self.changeStream(self.getCurrentTicks(),{SubtitleStreamIndex:index});}}
