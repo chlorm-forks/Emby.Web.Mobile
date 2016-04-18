@@ -174,7 +174,7 @@ if(stream.SampleRate){attributes.push(createAttribute(Globalize.translate('Media
 if(stream.BitDepth){attributes.push(createAttribute(Globalize.translate('MediaInfoBitDepth'),stream.BitDepth+' bit'));}
 if(stream.PixelFormat){attributes.push(createAttribute(Globalize.translate('MediaInfoPixelFormat'),stream.PixelFormat));}
 if(stream.RefFrames){attributes.push(createAttribute(Globalize.translate('MediaInfoRefFrames'),stream.RefFrames));}
-if(stream.KeyFrames){}
+if(stream.NalLengthSize){attributes.push(createAttribute('NAL',stream.NalLengthSize));}
 if(stream.Type!="Video"){attributes.push(createAttribute(Globalize.translate('MediaInfoDefault'),(stream.IsDefault?'Yes':'No')));}
 if(stream.Type=="Subtitle"){attributes.push(createAttribute(Globalize.translate('MediaInfoForced'),(stream.IsForced?'Yes':'No')));attributes.push(createAttribute(Globalize.translate('MediaInfoExternal'),(stream.IsExternal?'Yes':'No')));}
 if(stream.Type=="Video"&&version.Timestamp){attributes.push(createAttribute(Globalize.translate('MediaInfoTimestamp'),version.Timestamp));}
