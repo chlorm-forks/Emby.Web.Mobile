@@ -90,7 +90,8 @@ appStorage.setItem("tapholdhelp",expectedValue);Dashboard.alert({message:Globali
 function disableEvent(e){e.preventDefault();e.stopPropagation();return false;}
 function onTapHold(e){var card=parentWithClass(e.target,'card');if(card){showSelections(card);if(e.stopPropagation){e.stopPropagation();}
 e.preventDefault();return false;}
-e.preventDefault();e.stopPropagation();return false;}
+e.preventDefault();if(e.stopPropagation){e.stopPropagation();}
+return false;}
 function onTapHoldUp(e){var itemSelectionPanel=parentWithClass(e.target,'itemSelectionPanel');if(itemSelectionPanel){if(!parentWithClass(e.target,'chkItemSelect')){var chkItemSelect=itemSelectionPanel.querySelector('.chkItemSelect');if(chkItemSelect){chkItemSelect.checked=!chkItemSelect.checked;}}
 e.preventDefault();return false;}}
 function onItemSelectionPanelClick(e,itemSelectionPanel){if(!parentWithClass(e.target,'chkItemSelect')){var chkItemSelect=itemSelectionPanel.querySelector('.chkItemSelect');if(chkItemSelect){var newValue=!chkItemSelect.checked;chkItemSelect.checked=newValue;updateItemSelection(chkItemSelect,newValue);}}

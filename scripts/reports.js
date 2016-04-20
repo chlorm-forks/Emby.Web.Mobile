@@ -10,13 +10,13 @@ id=rItem.Id;html+='<a href="itemdetails.html?id='+id+'">'+rItem.Name+'</a>';brea
 break;case"SubtitleImage":if(rRow.HasSubtitles){html+='<div class="libraryReportIndicator clearLibraryReportIndicator"><div class="ui-icon-check ui-btn-icon-notext"></div></div>';}
 break;case"TrailersImage":if(rRow.HasLocalTrailer){html+='<div class="libraryReportIndicator clearLibraryReportIndicator"><div class="ui-icon-check ui-btn-icon-notext"></div></div>';}
 break;case"SpecialsImage":if(rRow.HasSpecials){html+='<div class="libraryReportIndicator clearLibraryReportIndicator"><div class="ui-icon-check ui-btn-icon-notext"></div></div>';}
-break;case"LockDataImage":if(rRow.HasLockData){html+='<img src="css/images/editor/lock.png"  style="width:18px"/>';}
+break;case"LockDataImage":if(rRow.HasLockData){html+='<iron-icon icon="lock" style="height:18px"></iron-icon>';}
 break;case"TagsPrimaryImage":if(!rRow.HasImageTagsPrimary){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missingprimaryimage.png" title="Missing primary image." style="width:18px"/></a>';}
 break;case"TagsBackdropImage":if(!rRow.HasImageTagsBackdrop){if(rRow.RowType!=="Episode"&&rRow.RowType!=="Season"&&rRow.MediaType!=="Audio"&&rRow.RowType!=="TvChannel"&&rRow.RowType!=="MusicAlbum"){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missingbackdrop.png" title="Missing backdrop image." style="width:18px"/></a>';}}
 break;case"TagsLogoImage":if(!rRow.HasImageTagsLogo){if(rRow.RowType==="Movie"||rRow.RowType==="Trailer"||rRow.RowType==="Series"||rRow.RowType==="MusicArtist"||rRow.RowType==="BoxSet"){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missinglogo.png" title="Missing logo image." style="width:18px"/></a>';}}
 break;case"UserPrimaryImage":if(rRow.UserId){var userImage=ApiClient.getUserImageUrl(rRow.UserId,{height:24,type:'Primary'});if(userImage){html+='<img src="'+userImage+'" />';}else{html+='';}}
-break;case"StatusImage":if(rRow.HasLockData){html+='<img src="css/images/editor/lock.png"  style="width:18px"/>';}
-if(!rRow.HasLocalTrailer&&rRow.RowType==="Movie"){html+='<img src="css/images/editor/missingtrailer.png" title="Missing local trailer."  style="width:18px"/>';}
+break;case"StatusImage":if(rRow.HasLockData){html+='<iron-icon icon="lock" style="height:18px"></iron-icon>';}
+if(!rRow.HasLocalTrailer&&rRow.RowType==="Movie"){html+='<iron-icon icon="videocam" title="Missing local trailer." style="height:18px"></iron-icon>';}
 if(!rRow.HasImageTagsPrimary){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missingprimaryimage.png" title="Missing primary image." style="width:18px"/></a>';}
 if(!rRow.HasImageTagsBackdrop){if(rRow.RowType!=="Episode"&&rRow.RowType!=="Season"&&rRow.MediaType!=="Audio"&&rRow.RowType!=="TvChannel"&&rRow.RowType!=="MusicAlbum"){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missingbackdrop.png" title="Missing backdrop image." style="width:18px"/></a>';}}
 if(!rRow.HasImageTagsLogo){if(rRow.RowType==="Movie"||rRow.RowType==="Trailer"||rRow.RowType==="Series"||rRow.RowType==="MusicArtist"||rRow.RowType==="BoxSet"){html+='<a href="edititemimages.html?id='+rRow.Id+'"><img src="css/images/editor/missinglogo.png" title="Missing logo image." style="width:18px"/></a>';}}

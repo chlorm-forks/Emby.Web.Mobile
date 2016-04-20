@@ -6,7 +6,7 @@ return node;}
 function getNodeInnerHtml(item){var name=item.Name;if(item.Number){name=item.Number+" - "+name;}
 if(item.IndexNumber!=null&&item.Type!="Season"){name=item.IndexNumber+" - "+name;}
 var cssClass="editorNode";if(item.LocationType=="Offline"){cssClass+=" offlineEditorNode";}
-var htmlName="<div class='"+cssClass+"'>";if(item.LockData){htmlName+='<img src="css/images/editor/lock.png" />';}
+var htmlName="<div class='"+cssClass+"'>";if(item.LockData){htmlName+='<iron-icon icon="lock" style="height:18px"></iron-icon>';}
 htmlName+=name;if(!item.ImageTags||!item.ImageTags.Primary){htmlName+='<img src="css/images/editor/missingprimaryimage.png" title="'+Globalize.translate('MissingPrimaryImage')+'" />';}
 if(!item.BackdropImageTags||!item.BackdropImageTags.length){if(item.Type!=="Episode"&&item.Type!=="Season"&&item.MediaType!=="Audio"&&item.Type!=="TvChannel"&&item.Type!=="MusicAlbum"){htmlName+='<img src="css/images/editor/missingbackdrop.png" title="'+Globalize.translate('MissingBackdropImage')+'" />';}}
 if(!item.ImageTags||!item.ImageTags.Logo){if(item.Type=="Movie"||item.Type=="Trailer"||item.Type=="Series"||item.Type=="MusicArtist"||item.Type=="BoxSet"){htmlName+='<img src="css/images/editor/missinglogo.png" title="'+Globalize.translate('MissingLogoImage')+'" />';}}
