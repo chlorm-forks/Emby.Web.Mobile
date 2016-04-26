@@ -1,4 +1,4 @@
-﻿define(['appSettings'],function(appSettings){function getReleases(){return fetch('https://api.github.com/repos/MediaBrowser/Emby/releases',{method:'GET'}).then(function(response){return response.json();},function(){return[];}).then(function(releases){var result={};for(var i=0,length=releases.length;i<length;i++){var release=releases[i];if(release.prerelease){if(!result.beta&&release.target_commitish=='beta'){result.beta=release;}
+﻿define(['appSettings','paper-button'],function(appSettings){function getReleases(){return fetch('https://api.github.com/repos/MediaBrowser/Emby/releases',{method:'GET'}).then(function(response){return response.json();},function(){return[];}).then(function(releases){var result={};for(var i=0,length=releases.length;i<length;i++){var release=releases[i];if(release.prerelease){if(!result.beta&&release.target_commitish=='beta'){result.beta=release;}
 if(!result.dev&&release.target_commitish=='dev'){result.dev=release;}}
 if(result.beta&&result.dev){break;}}
 return result;});}
