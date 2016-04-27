@@ -4,9 +4,9 @@ html+='<div class="'+cssClass+'">';html+='<div class="tvProgramTimeSlotInner">'+
 else if(program.IsSports){cssClass+=" sportsProgramInfo";}
 else if(program.IsNews){cssClass+=" newsProgramInfo";}
 else if(program.IsMovie){cssClass+=" movieProgramInfo";}
-html+='<div data-programid="'+program.Id+'" class="'+cssClass+'">';var name=program.Name;html+='<div class="tvProgramName">'+name+'</div>';html+='<div class="tvProgramTime">';if(program.IsLive){html+='<span class="liveTvProgram">'+Globalize.translate('LabelLiveProgram')+'&nbsp;&nbsp;</span>';}
-else if(program.IsPremiere){html+='<span class="premiereTvProgram">'+Globalize.translate('LabelPremiereProgram')+'&nbsp;&nbsp;</span>';}
-else if(program.IsSeries&&!program.IsRepeat){html+='<span class="newTvProgram">'+Globalize.translate('LabelNewProgram')+'&nbsp;&nbsp;</span>';}
+html+='<div data-programid="'+program.Id+'" class="'+cssClass+'">';var name=program.Name;html+='<div class="tvProgramName">'+name+'</div>';html+='<div class="tvProgramTime">';if(program.IsLive){html+='<span class="liveTvProgram">'+Globalize.translate('AttributeLive')+'&nbsp;&nbsp;</span>';}
+else if(program.IsPremiere){html+='<span class="premiereTvProgram">'+Globalize.translate('AttributePremiere')+'&nbsp;&nbsp;</span>';}
+else if(program.IsSeries&&!program.IsRepeat){html+='<span class="newTvProgram">'+Globalize.translate('AttributeNew')+'&nbsp;&nbsp;</span>';}
 var minutes=program.RunTimeTicks/600000000;minutes=Math.round(minutes||1)+' min';if(program.EpisodeTitle){html+=program.EpisodeTitle+'&nbsp;&nbsp;('+minutes+')';}else{html+=minutes;}
 if(program.SeriesTimerId){html+='<div class="timerCircle seriesTimerCircle"></div>';html+='<div class="timerCircle seriesTimerCircle"></div>';html+='<div class="timerCircle seriesTimerCircle"></div>';}
 else if(program.TimerId){html+='<div class="timerCircle"></div>';}

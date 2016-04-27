@@ -1,4 +1,4 @@
-﻿define(['appStorage','jQuery'],function(appStorage,$){$.fn.taskButton=function(options){function pollTasks(button){ApiClient.getScheduledTasks({IsEnabled:true}).then(function(tasks){updateTasks(button,tasks);});}
+﻿define(['appStorage','jQuery','paper-button'],function(appStorage,$){$.fn.taskButton=function(options){function pollTasks(button){ApiClient.getScheduledTasks({IsEnabled:true}).then(function(tasks){updateTasks(button,tasks);});}
 function updateTasks(button,tasks){var task=tasks.filter(function(t){return t.Key==options.taskKey;})[0];if(options.panel){if(task){$(options.panel).show();}else{$(options.panel).hide();}}
 if(!task){return;}
 if(task.State=='Idle'){$(button).removeAttr('disabled');}else{$(button).attr('disabled','disabled');}
