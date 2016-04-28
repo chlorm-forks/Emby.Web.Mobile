@@ -11,5 +11,5 @@ if(aVal>bVal){return 1;}}
 return 0;}
 function show(apiClient){var key='servertestermessagetime';var lastShown=parseInt(appSettings.get(key)||'0');if((new Date().getTime()-lastShown)<259200000){return;}
 appSettings.set(key,new Date().getTime());if(!lastShown){return;}
-apiClient.getPublicSystemInfo().then(function(info){if(compareVersions(info.Version,'3.0.5931')==1){showInternal();}});}
+apiClient.getPublicSystemInfo().then(function(info){if(compareVersions(info.Version,'3.0.5933')==1){showInternal();}});}
 return{show:show};});
