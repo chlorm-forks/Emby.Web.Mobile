@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){function getNode(item,folderState,selected){var htmlName=getNodeInnerHtml(item);var node={id:item.Id,text:htmlName,state:{opened:item.IsFolder&&folderState=='open',selected:selected},li_attr:{}};if(item.IsFolder){node.children=[{text:'Loading...',icon:false}];node.icon=false;}
+﻿define(['datetime','jQuery'],function(datetime,$){function getNode(item,folderState,selected){var htmlName=getNodeInnerHtml(item);var node={id:item.Id,text:htmlName,state:{opened:item.IsFolder&&folderState=='open',selected:selected},li_attr:{}};if(item.IsFolder){node.children=[{text:'Loading...',icon:false}];node.icon=false;}
 else{node.icon=false;}
 if(node.state.opened){node.li_attr.loadedFromServer=true;}
 if(selected){selectedNodeId=item.Id;}
@@ -10,7 +10,7 @@ var htmlName="<div class='"+cssClass+"'>";if(item.LockData){htmlName+='<iron-ico
 htmlName+=name;if(!item.ImageTags||!item.ImageTags.Primary){htmlName+='<img src="css/images/editor/missingprimaryimage.png" title="'+Globalize.translate('MissingPrimaryImage')+'" />';}
 if(!item.BackdropImageTags||!item.BackdropImageTags.length){if(item.Type!=="Episode"&&item.Type!=="Season"&&item.MediaType!=="Audio"&&item.Type!=="TvChannel"&&item.Type!=="MusicAlbum"){htmlName+='<img src="css/images/editor/missingbackdrop.png" title="'+Globalize.translate('MissingBackdropImage')+'" />';}}
 if(!item.ImageTags||!item.ImageTags.Logo){if(item.Type=="Movie"||item.Type=="Trailer"||item.Type=="Series"||item.Type=="MusicArtist"||item.Type=="BoxSet"){htmlName+='<img src="css/images/editor/missinglogo.png" title="'+Globalize.translate('MissingLogoImage')+'" />';}}
-if(item.Type=="Episode"&&item.LocationType=="Virtual"){try{if(item.PremiereDate&&(new Date().getTime()>=parseISO8601Date(item.PremiereDate,{toLocal:true}).getTime())){htmlName+='<img src="css/images/editor/missing.png" title="'+Globalize.translate('MissingEpisode')+'" />';}}catch(err){}}
+if(item.Type=="Episode"&&item.LocationType=="Virtual"){try{if(item.PremiereDate&&(new Date().getTime()>=datetime.parseISO8601Date(item.PremiereDate,true).getTime())){htmlName+='<img src="css/images/editor/missing.png" title="'+Globalize.translate('MissingEpisode')+'" />';}}catch(err){}}
 htmlName+="</div>";return htmlName;}
 function loadChildrenOfRootNode(page,scope,callback){ApiClient.getLiveTvChannels({limit:0}).then(function(result){var nodes=[];nodes.push({id:'MediaFolders',text:Globalize.translate('HeaderMediaFolders'),state:{opened:true},li_attr:{itemtype:'mediafolders',loadedFromServer:true},icon:false});if(result.TotalRecordCount){nodes.push({id:'livetv',text:Globalize.translate('HeaderLiveTV'),state:{opened:false},li_attr:{itemtype:'livetv'},children:[{text:'Loading...',icon:false}],icon:false});}
 callback.call(scope,nodes);nodesToLoad.push('MediaFolders');});}

@@ -20,5 +20,5 @@ if(sortFields.indexOf('PlayCount')!=-1){items.push({name:Globalize.translate('Op
 if(sortFields.indexOf('PremiereDate')!=-1){items.push({name:Globalize.translate('OptionReleaseDate'),id:'PremiereDate'});}
 if(sortFields.indexOf('Runtime')!=-1){items.push({name:Globalize.translate('OptionRuntime'),id:'Runtime'});}
 LibraryBrowser.showSortMenu({items:items,callback:function(){reloadItems(page);},query:getQuery(page)});}
-function updateFilterControls(page){var query=getQuery(page);$('.alphabetPicker',page).alphaValue(query.NameStartsWith);}
+function updateFilterControls(page){var query=getQuery(page);$('.alphabetPicker',page).alphaValue(query.NameStartsWithOrGreater);}
 pageIdOn('pageinit',"channelItemsPage",function(){var page=this;$('.alphabetPicker',this).on('alphaselect',function(e,character){var query=getQuery(page);query.NameStartsWithOrGreater=character;query.StartIndex=0;reloadItems(page);}).on('alphaclear',function(e){var query=getQuery(page);query.NameStartsWithOrGreater='';reloadItems(page);});});pageIdOn('pagebeforeshow',"channelItemsPage",function(){var page=this;reloadFeatures(page);updateFilterControls(page);});});

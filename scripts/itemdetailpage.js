@@ -1,4 +1,4 @@
-﻿define(['layoutManager','jQuery','scrollStyles'],function(layoutManager,$){var currentItem;function getPromise(){var id=getParameterByName('id');if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
+﻿define(['layoutManager','datetime','jQuery','scrollStyles'],function(layoutManager,datetime,$){var currentItem;function getPromise(){var id=getParameterByName('id');if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
 var name=getParameterByName('genre');if(name){return ApiClient.getGenre(name,Dashboard.getCurrentUserId());}
 name=getParameterByName('musicgenre');if(name){return ApiClient.getMusicGenre(name,Dashboard.getCurrentUserId());}
 name=getParameterByName('gamegenre');if(name){return ApiClient.getGameGenre(name,Dashboard.getCurrentUserId());}
@@ -7,7 +7,7 @@ else{throw new Error('Invalid request');}}
 function reload(page){Dashboard.showLoadingMsg();getPromise().then(function(item){reloadFromItem(page,item);});}
 function reloadFromItem(page,item){currentItem=item;var context=getContext(item);LibraryMenu.setBackButtonVisible(true);LibraryMenu.setMenuButtonVisible(false);LibraryBrowser.renderName(item,$('.itemName',page),false,context);LibraryBrowser.renderParentName(item,$('.parentName',page),context);LibraryMenu.setTitle(item.SeriesName||item.Name);Dashboard.getCurrentUser().then(function(user){renderImage(page,item,user);setInitialCollapsibleState(page,item,context,user);renderDetails(page,item,context);var hasBackdrop=false;if(item.Type=='MusicArtist'||item.Type=="MusicAlbum"||item.Type=="Playlist"||item.Type=="BoxSet"||item.MediaType=="Audio"||!layoutManager.mobile){$('#itemBackdrop',page).addClass('noBackdrop').css('background-image','none');require(['backdrop'],function(backdrop){backdrop.setBackdrops([item]);});}
 else{hasBackdrop=LibraryBrowser.renderDetailPageBackdrop(page,item);}
-var transparentHeader=hasBackdrop&&page.classList.contains('noSecondaryNavPage');LibraryMenu.setTransparentMenu(transparentHeader);var canPlay=false;if(item.Type=='Program'){var now=new Date();if(now>=parseISO8601Date(item.StartDate,{toLocal:true})&&now<parseISO8601Date(item.EndDate,{toLocal:true})){$('.btnPlay',page).removeClass('hide');canPlay=true;}else{$('.btnPlay',page).addClass('hide');}}
+var transparentHeader=hasBackdrop&&page.classList.contains('noSecondaryNavPage');LibraryMenu.setTransparentMenu(transparentHeader);var canPlay=false;if(item.Type=='Program'){var now=new Date();if(now>=datetime.parseISO8601Date(item.StartDate,true)&&now<datetime.parseISO8601Date(item.EndDate,true)){$('.btnPlay',page).removeClass('hide');canPlay=true;}else{$('.btnPlay',page).addClass('hide');}}
 else if(MediaController.canPlay(item)){$('.btnPlay',page).removeClass('hide');canPlay=true;}
 else{$('.btnPlay',page).addClass('hide');}
 if(item.LocalTrailerCount&&item.PlayAccess=='Full'){$('.btnPlayTrailer',page).removeClass('hide');}else{$('.btnPlayTrailer',page).addClass('hide');}
@@ -18,13 +18,13 @@ if(!item.LocalTrailerCount&&item.RemoteTrailers.length&&item.PlayAccess=='Full')
 var groupedVersions=(item.MediaSources||[]).filter(function(g){return g.Type=="Grouping";});if(user.Policy.IsAdministrator&&groupedVersions.length){$('.splitVersionContainer',page).show();}else{$('.splitVersionContainer',page).hide();}
 if(LibraryBrowser.getMoreCommands(item,user).length>0){$('.btnMoreCommands',page).removeClass('hide');}else{$('.btnMoreCommands',page).addClass('hide');}
 if(user.Policy.IsAdministrator){$('.chapterSettingsButton',page).show();}else{$('.chapterSettingsButton',page).hide();}
-LiveTvHelpers.renderOriginalAirDate($('.airDate',page),item);if(item.Type=="Person"&&item.PremiereDate){try{var birthday=parseISO8601Date(item.PremiereDate,{toLocal:true}).toDateString();$('#itemBirthday',page).show().html(Globalize.translate('BirthDateValue').replace('{0}',birthday));}
+LiveTvHelpers.renderOriginalAirDate($('.airDate',page),item);if(item.Type=="Person"&&item.PremiereDate){try{var birthday=datetime.parseISO8601Date(item.PremiereDate,true).toDateString();$('#itemBirthday',page).show().html(Globalize.translate('BirthDateValue').replace('{0}',birthday));}
 catch(err){$('#itemBirthday',page).hide();}}else{$('#itemBirthday',page).hide();}
-if(item.Type=="Person"&&item.EndDate){try{var deathday=parseISO8601Date(item.EndDate,{toLocal:true}).toDateString();$('#itemDeathDate',page).show().html(Globalize.translate('DeathDateValue').replace('{0}',deathday));}
+if(item.Type=="Person"&&item.EndDate){try{var deathday=datetime.parseISO8601Date(item.EndDate,true).toDateString();$('#itemDeathDate',page).show().html(Globalize.translate('DeathDateValue').replace('{0}',deathday));}
 catch(err){$('#itemBirthday',page).hide();}}else{}
 if(item.Type=="Person"&&item.ProductionLocations&&item.ProductionLocations.length){var gmap='<a class="textlink" target="_blank" href="https://maps.google.com/maps?q='+item.ProductionLocations[0]+'">'+item.ProductionLocations[0]+'</a>';$('#itemBirthLocation',page).show().html(Globalize.translate('BirthPlaceValue').replace('{0}',gmap));}else{$('#itemBirthLocation',page).hide();}});if(item.LocationType=="Offline"){$('.offlineIndicator',page).show();}
 else{$('.offlineIndicator',page).hide();}
-var isMissingEpisode=false;if(item.LocationType=="Virtual"&&item.Type=="Episode"){try{if(item.PremiereDate&&(new Date().getTime()>=parseISO8601Date(item.PremiereDate,{toLocal:true}).getTime())){isMissingEpisode=true;}}catch(err){}}
+var isMissingEpisode=false;if(item.LocationType=="Virtual"&&item.Type=="Episode"){try{if(item.PremiereDate&&(new Date().getTime()>=datetime.parseISO8601Date(item.PremiereDate,true).getTime())){isMissingEpisode=true;}}catch(err){}}
 if(isMissingEpisode){$('.missingIndicator',page).show();}
 else{$('.missingIndicator',page).hide();}
 setPeopleHeader(page,item);page.dispatchEvent(new CustomEvent("displayingitem",{detail:{item:item,context:context},bubbles:true}));Dashboard.hideLoadingMsg();}
@@ -136,7 +136,7 @@ function renderCriticReviewsContent(page,result,limit){var html='';var reviews=r
 else if(review.Likes!=null){if(review.Likes){html+='<paper-fab mini style="background-color:transparent;background-image:url(\'css/images/fresh.png\');background-repeat:no-repeat;background-position:center center;background-size: cover;" item-icon></paper-fab>';}else{html+='<paper-fab mini style="background-color:transparent;background-image:url(\'css/images/rotten.png\');background-repeat:no-repeat;background-position:center center;background-size: cover;" item-icon></paper-fab>';}}
 html+='<paper-item-body three-line>';html+='<div style="white-space:normal;">'+review.Caption+'</div>';var vals=[];if(review.ReviewerName){vals.push(review.ReviewerName);}
 if(review.Publisher){vals.push(review.Publisher);}
-html+='<div secondary>'+vals.join(', ')+'.';if(review.Date){try{var date=parseISO8601Date(review.Date,{toLocal:true}).toLocaleDateString();html+='<span class="reviewDate">'+date+'</span>';}
+html+='<div secondary>'+vals.join(', ')+'.';if(review.Date){try{var date=datetime.parseISO8601Date(review.Date,true).toLocaleDateString();html+='<span class="reviewDate">'+date+'</span>';}
 catch(error){}}
 html+='</div>';if(review.Url){html+='<div secondary><a class="textlink" href="'+review.Url+'" target="_blank">'+Globalize.translate('ButtonFullReview')+'</a></div>';}
 html+='</paper-item-body>';html+='</paper-icon-item>';html+='</div>';}
@@ -150,7 +150,7 @@ function renderAdditionalParts(page,item,user){ApiClient.getAdditionalVideoParts
 function renderScenes(page,item,user,limit,isStatic){var html='';var chapters=item.Chapters||[];var maxWidth=LibraryBrowser.getPosterViewInfo().backdropWidth;if(enableScrollX()){html+='<div class="hiddenScrollX itemsContainer">';limit=null;}else{html+='<div class="itemsContainer">';}
 for(var i=0,length=chapters.length;i<length;i++){if(limit&&i>=limit){break;}
 var chapter=chapters[i];var chapterName=chapter.Name||"Chapter "+i;var onclick=item.PlayAccess=='Full'&&!isStatic?' onclick="ItemDetailPage.play('+chapter.StartPositionTicks+');"':'';html+='<a class="card '+getThumbShape()+'Card" href="#"'+onclick+'>';html+='<div class="cardBox">';html+='<div class="cardScalable">';var imgUrl;if(chapter.ImageTag){imgUrl=ApiClient.getScaledImageUrl(item.Id,{maxWidth:maxWidth,tag:chapter.ImageTag,type:"Chapter",index:i});}else{imgUrl="css/images/items/list/chapter.png";}
-html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+chapterName+'</div>';html+='<div class="cardText">';html+=Dashboard.getDisplayTime(chapter.StartPositionTicks);html+='</div>';html+="</div>";html+='</div>';html+='</div>';html+='</div>';html+='</a>';}
+html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+chapterName+'</div>';html+='<div class="cardText">';html+=datetime.getDisplayRunningTime(chapter.StartPositionTicks);html+='</div>';html+="</div>";html+='</div>';html+='</div>';html+='</div>';html+='</a>';}
 html+='</div>';if(limit&&chapters.length>limit){html+='<p style="margin: 0;"><paper-button raised class="more moreScenes">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
 var scenesContent=page.querySelector('#scenesContent');scenesContent.innerHTML=html;ImageLoader.lazyChildren(scenesContent);}
 function renderMediaSources(page,item){var html=item.MediaSources.map(function(v){return getMediaSourceHtml(item,v);}).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');if(item.MediaSources.length>1){html='<br/>'+html;}
@@ -188,7 +188,7 @@ return html;}
 function createAttribute(label,value){return'<span class="mediaInfoLabel">'+label+'</span><span class="mediaInfoAttribute">'+value+'</span>'}
 function getVideosHtml(items,user,limit,moreButtonClass){var html='';var maxWidth=LibraryBrowser.getPosterViewInfo().backdropWidth;for(var i=0,length=items.length;i<length;i++){if(limit&&i>=limit){break;}
 var item=items[i];var cssClass="card detailPage169Card";var href="itemdetails.html?id="+item.Id;var onclick=item.PlayAccess=='Full'?' onclick="MediaController.play(\''+item.Id+'\'); return false;"':"";html+='<a class="'+cssClass+'" href="'+href+'"'+onclick+'>';html+='<div class="cardBox">';html+='<div class="cardScalable">';var imageTags=item.ImageTags||{};var imgUrl;if(imageTags.Primary){imgUrl=ApiClient.getScaledImageUrl(item.Id,{maxWidth:maxWidth,tag:imageTags.Primary,type:"primary"});}else{imgUrl="css/images/items/detail/video.png";}
-html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+item.Name+'</div>';html+='<div class="cardText">';if(item.RunTimeTicks!=""){html+=Dashboard.getDisplayTime(item.RunTimeTicks);}
+html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+item.Name+'</div>';html+='<div class="cardText">';if(item.RunTimeTicks!=""){html+=datetime.getDisplayRunningTime(item.RunTimeTicks);}
 else{html+="&nbsp;";}
 html+='</div>';html+="</div>";html+='</div>';html+='</div>';html+='</div>';html+='</a>';}
 if(limit&&items.length>limit){html+='<p style="margin: 0;padding-left:5px;"><paper-button raised class="more '+moreButtonClass+'">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
