@@ -13,7 +13,8 @@ function loadlibraryButtons(elem,userId,index){return getUserViews(userId).then(
 html+='<div>';html+=getLibraryButtonsHtml(items);html+='</div>';return getAppInfo().then(function(infoHtml){elem.innerHTML=html+infoHtml;handleLibraryLinkNavigations(elem);});});}
 function getRandomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
 function getAppInfo(){var frequency=86400000;if(AppInfo.isNativeApp){frequency=604800000;}
-var cacheKey='lastappinfopresent5';if((new Date().getTime()-parseInt(appSettings.get(cacheKey)||'0'))<frequency){return Promise.resolve('');}
+var cacheKey='lastappinfopresent5';var lastDatePresented=parseInt(appSettings.get(cacheKey)||'0');if(!lastDatePresented){appSettings.set(cacheKey,new Date().getTime());return Promise.resolve('');}
+if((new Date().getTime()-lastDatePresented)<frequency){return Promise.resolve('');}
 return Dashboard.getPluginSecurityInfo().then(function(pluginSecurityInfo){appSettings.set(cacheKey,new Date().getTime());if(pluginSecurityInfo.IsMBSupporter){return'';}
 var infos=[getPremiereInfo];if(!browserInfo.safari||!AppInfo.isNativeApp){infos.push(getTheaterInfo);}
 appSettings.set(cacheKey,new Date().getTime());return infos[getRandomInt(0,1)]();});}
