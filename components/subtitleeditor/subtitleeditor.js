@@ -18,7 +18,7 @@ html+='<h1>'+provider+'</h1>';html+='<div class="paperList">';lastProvider=provi
 html+='<paper-icon-item>';html+='<paper-fab mini class="blue" icon="closed-caption" item-icon></paper-fab>';if(result.Comment){html+='<paper-item-body three-line>';}
 else{html+='<paper-item-body two-line>';}
 html+='<div>'+(result.Name)+'</div>';html+='<div secondary>'+(result.Format)+'</div>';if(result.Comment){html+='<div secondary>'+(result.Comment)+'</div>';}
-html+='</paper-item-body>';html+='<div style="font-size:86%;opacity:.7;">'+(result.DownloadCount||0)+'</div>';html+='<paper-icon-button icon="cloud-download" data-subid="'+result.Id+'" title="'+Globalize.translate('ButtonDownload')+'" class="btnDownload"></paper-icon-button>';html+='</paper-icon-item>';}
+html+='</paper-item-body>';html+='<div style="font-size:86%;opacity:.7;">'+(result.DownloadCount||0)+'</div>';html+='<button type="button" is="paper-icon-button-light" data-subid="'+result.Id+'" title="'+Globalize.translate('ButtonDownload')+'" class="btnDownload"><iron-icon icon="cloud-download"></iron-icon></button>';html+='</paper-icon-item>';}
 if(results.length){html+='</div>';}
 var elem=$('.subtitleResults',page).html(html);$('.btnViewSubtitle',elem).on('click',function(){var id=this.getAttribute('data-subid');showRemoteSubtitles(page,id);});$('.btnDownload',elem).on('click',function(){var id=this.getAttribute('data-subid');downloadRemoteSubtitles(page,id);});Dashboard.hideLoadingMsg();}
 function searchForSubtitles(page,language){appStorage.setItem('subtitleeditor-language',language);Dashboard.showLoadingMsg();var url=ApiClient.getUrl('Items/'+currentItem.Id+'/RemoteSearch/Subtitles/'+language);ApiClient.getJSON(url).then(function(results){renderSearchResults(page,results);});}
