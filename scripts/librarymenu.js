@@ -84,8 +84,8 @@ function updateTabLinks(page){var elems=page.querySelectorAll('.scopedLibraryVie
 for(i=0,length=elems.length;i<length;i++){var lnk=elems[i];var src=lnk.href;if(src.indexOf('#')!=-1){continue;}
 src=replaceQueryString(src,'topParentId',id);lnk.href=src;}}
 function onWebSocketMessage(e,data){var msg=data;if(msg.MessageType==="UserConfigurationUpdated"){if(msg.Data.Id==Dashboard.getCurrentUserId()){}}}
-function updateViewMenuBar(page){var viewMenuBar=document.querySelector('.viewMenuBar');if(page.classList.contains('standalonePage')){viewMenuBar.classList.add('hide');}else{viewMenuBar.classList.remove('hide');}
-if(page.classList.contains('type-interior')&&!layoutManager.mobile){viewMenuBar.classList.add('headroomDisabled');}else{viewMenuBar.classList.remove('headroomDisabled');}
+function updateViewMenuBar(page){var viewMenuBar=document.querySelector('.viewMenuBar');if(viewMenuBar){if(page.classList.contains('standalonePage')){viewMenuBar.classList.add('hide');}else{viewMenuBar.classList.remove('hide');}
+if(page.classList.contains('type-interior')&&!layoutManager.mobile){viewMenuBar.classList.add('headroomDisabled');}else{viewMenuBar.classList.remove('headroomDisabled');}}
 if(requiresUserRefresh){ConnectionManager.user(window.ApiClient).then(updateUserInHeader);}}
 pageClassOn('pageinit','page',function(){var page=this;var isLibraryPage=page.classList.contains('libraryPage');if(isLibraryPage){var navs=page.querySelectorAll('.libraryViewNav');for(var i=0,length=navs.length;i<length;i++){initHeadRoom(navs[i]);}}});pageClassOn('pagebeforeshow','page',function(e){var page=this;if(!page.classList.contains('withTabs')){LibraryMenu.setTabs(null);}});pageClassOn('pageshow','page',function(e){var page=this;var isDashboardPage=page.classList.contains('type-interior');if(isDashboardPage){refreshDashboardInfoInDrawer(page);mainDrawerPanel.forceNarrow=false;}else{if(mainDrawerPanel.classList.contains('adminDrawerPanel')){refreshLibraryDrawer();}
 mainDrawerPanel.forceNarrow=true;}
