@@ -3,7 +3,7 @@ function getTimersHtml(timers){var items=timers.map(function(t){t.Type='Timer';r
 if(dateText!=currentGroupName){if(currentGroup.length){groups.push({name:currentGroupName,items:currentGroup});}
 currentGroupName=dateText;currentGroup=[item];}else{currentGroup.push(item);}}
 var html='';for(i=0,length=groups.length;i<length;i++){var group=groups[i];html+='<div class="homePageSection">';html+='<h1 class="listHeader">'+group.name+'</h1>';if(enableScrollX()){html+='<div class="itemsContainer hiddenScrollX">';}else{html+='<div class="itemsContainer">';}
-html+=LibraryBrowser.getPosterViewHtml({items:group.items,shape:"square",showTitle:true,showAirTime:true,showChannelName:true,lazy:true,cardLayout:true,showDetailsMenu:true});html+='</div>';html+='</div>';}
+html+=LibraryBrowser.getPosterViewHtml({items:group.items,shape:"square",showTitle:true,showAirTime:true,showChannelName:true,lazy:true,cardLayout:true,showDetailsMenu:true,defaultAction:'edit'});html+='</div>';html+='</div>';}
 return Promise.resolve(html);}
 window.LiveTvHelpers={getDaysOfWeek:function(){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];return days.map(function(d){return{name:d,value:d};});},renderOriginalAirDate:function(elem,item){var airDate=item.PremiereDate;if(airDate&&item.IsRepeat){try{airDate=datetime.parseISO8601Date(airDate,true).toLocaleDateString();}
 catch(e){console.log("Error parsing date: "+airDate);}
