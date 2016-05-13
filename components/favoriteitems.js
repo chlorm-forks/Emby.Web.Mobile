@@ -15,5 +15,5 @@ if(types){sections=sections.filter(function(s){return types.indexOf(s.id)!=-1;})
 var i,length;var elem=page.querySelector('.favoriteSections');if(!elem.innerHTML){var html='';for(i=0,length=sections.length;i<length;i++){html+='<div class="homePageSection section'+sections[i].id+'"></div>';}
 elem.innerHTML=html;}
 var promises=[];for(i=0,length=sections.length;i<length;i++){var section=sections[i];elem=page.querySelector('.section'+section.id);promises.push(loadSection(elem,userId,topParentId,section,sections.length==1));}
-Promise.all(promises).then(function(){Dashboard.hideLoadingMsg();libraryBrowser.setLastRefreshed(page);});}
+Promise.all(promises).then(function(){Dashboard.hideLoadingMsg();});}
 return{render:loadSections};});

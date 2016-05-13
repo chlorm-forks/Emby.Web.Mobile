@@ -8,5 +8,5 @@ else if(timer.ChannelId){html+=timer.ChannelName;}
 html+='</div>';html+='</a>';html+='</paper-item-body>';html+='<button type="button" is="paper-icon-button-light" data-seriestimerid="'+timer.Id+'" title="'+Globalize.translate('ButtonCancelSeries')+'" class="btnCancelSeries"><iron-icon icon="cancel"></iron-icon></button>';html+='</paper-icon-item>';}
 if(timers.length){html+='</div>';}
 var elem=$('#items',page).html(html);$('.btnCancelSeries',elem).on('click',function(){deleteSeriesTimer(page,this.getAttribute('data-seriestimerid'));});Dashboard.hideLoadingMsg();}
-function reload(page){Dashboard.showLoadingMsg();ApiClient.getLiveTvSeriesTimers(query).then(function(result){require(['paper-fab','paper-item-body','paper-icon-item'],function(){renderTimers(page,result.Items);});LibraryBrowser.setLastRefreshed(page);});}
-window.LiveTvPage.renderSeriesTimersTab=function(page,tabContent){if(LibraryBrowser.needsRefresh(tabContent)){reload(tabContent);}};});
+function reload(page){Dashboard.showLoadingMsg();ApiClient.getLiveTvSeriesTimers(query).then(function(result){require(['paper-fab','paper-item-body','paper-icon-item'],function(){renderTimers(page,result.Items);});});}
+window.LiveTvPage.renderSeriesTimersTab=function(page,tabContent){reload(tabContent);};});

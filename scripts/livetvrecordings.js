@@ -6,7 +6,7 @@ html+='</div>';page.querySelector('#recordingGroupItems').innerHTML=html;Dashboa
 function renderRecordings(elem,recordings){if(recordings.length){elem.classList.remove('hide');}else{elem.classList.add('hide');}
 var recordingItems=elem.querySelector('.recordingItems');recordingItems.innerHTML=LibraryBrowser.getPosterViewHtml({items:recordings,shape:"auto",showTitle:true,showParentTitle:true,centerText:true,coverImage:true,lazy:true,overlayPlayButton:true});ImageLoader.lazyChildren(recordingItems);}
 function renderActiveRecordings(page){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),IsInProgress:true,Fields:'CanDelete'}).then(function(result){renderRecordings(page.querySelector('#activeRecordings'),result.Items);});}
-function renderLatestRecordings(page){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:12,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio'}).then(function(result){renderRecordings(page.querySelector('#latestRecordings'),result.Items);});}
+function renderLatestRecordings(page){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:6,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio'}).then(function(result){renderRecordings(page.querySelector('#latestRecordings'),result.Items);});}
 function renderTimers(page,timers){LiveTvHelpers.getTimersHtml(timers).then(function(html){var elem=page.querySelector('#upcomingRecordings');if(html){elem.classList.remove('hide');}else{elem.classList.add('hide');}
 elem.querySelector('.recordingItems').innerHTML=html;ImageLoader.lazyChildren(elem);$(elem).createCardMenus();});}
 function renderUpcomingRecordings(page){ApiClient.getLiveTvTimers().then(function(result){renderTimers(page,result.Items);});}

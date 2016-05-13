@@ -6,6 +6,4 @@ currentGroupName=dateText;currentGroup=[item];}else{currentGroup.push(item);}}
 var html='';for(i=0,length=groups.length;i<length;i++){var group=groups[i];html+='<div class="homePageSection">';html+='<h1 class="listHeader">'+group.name+'</h1>';if(enableScrollX()){html+='<div class="itemsContainer hiddenScrollX">';}else{html+='<div class="itemsContainer">';}
 html+=LibraryBrowser.getPosterViewHtml({items:group.items,shape:getSquareShape(),showTitle:true,showAirTime:true,showChannelName:true,lazy:true,cardLayout:true,showDetailsMenu:true,defaultAction:'edit'});html+='</div>';html+='</div>';}
 return Promise.resolve(html);}
-window.LiveTvHelpers={getDaysOfWeek:function(){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];return days.map(function(d){return{name:d,value:d};});},renderOriginalAirDate:function(elem,item){var airDate=item.PremiereDate;if(airDate&&item.IsRepeat){try{airDate=datetime.parseISO8601Date(airDate,true).toLocaleDateString();}
-catch(e){console.log("Error parsing date: "+airDate);}
-elem.html(Globalize.translate('ValueOriginalAirDate').replace('{0}',airDate)).show();}else{elem.hide();}},getTimersHtml:getTimersHtml};});
+window.LiveTvHelpers={getDaysOfWeek:function(){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];return days.map(function(d){return{name:d,value:d};});},getTimersHtml:getTimersHtml};});

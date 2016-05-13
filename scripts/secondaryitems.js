@@ -15,6 +15,6 @@ function reloadItems(parentItem){Dashboard.showLoadingMsg();var query=getQuery(p
 else if(query.IncludeItemTypes=="MusicArtist"){posterOptions.overlayText=false;posterOptions.overlayPlayButton=true;}
 else if(query.IncludeItemTypes=="Episode"){posterOptions.overlayText=false;posterOptions.showParentTitle=true;posterOptions.showTitle=true;posterOptions.overlayPlayButton=true;}
 html=libraryBrowser.getPosterViewHtml(posterOptions);}
-var elem=view.querySelector('#items');elem.innerHTML=html+pagingHtml;ImageLoader.lazyChildren(elem);$('.btnNextPage',view).on('click',function(){query.StartIndex+=query.Limit;reloadItems(parentItem);});$('.btnPreviousPage',view).on('click',function(){query.StartIndex-=query.Limit;reloadItems(parentItem);});libraryBrowser.setLastRefreshed(view);Dashboard.hideLoadingMsg();});}
-$(view).on('click','.mediaItem',onListItemClick);view.addEventListener('viewbeforeshow',function(e){if(params.parentId){ApiClient.getItem(Dashboard.getCurrentUserId(),params.parentId).then(function(parent){LibraryMenu.setTitle(parent.Name);if(libraryBrowser.needsRefresh(view)){reloadItems(parent);}});}
-else if(libraryBrowser.needsRefresh(view)){reloadItems();}});};});
+var elem=view.querySelector('#items');elem.innerHTML=html+pagingHtml;ImageLoader.lazyChildren(elem);$('.btnNextPage',view).on('click',function(){query.StartIndex+=query.Limit;reloadItems(parentItem);});$('.btnPreviousPage',view).on('click',function(){query.StartIndex-=query.Limit;reloadItems(parentItem);});Dashboard.hideLoadingMsg();});}
+$(view).on('click','.mediaItem',onListItemClick);view.addEventListener('viewbeforeshow',function(e){if(params.parentId){ApiClient.getItem(Dashboard.getCurrentUserId(),params.parentId).then(function(parent){LibraryMenu.setTitle(parent.Name);reloadItems(parent);});}
+else{reloadItems();}});};});
