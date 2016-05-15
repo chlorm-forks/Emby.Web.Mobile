@@ -2,4 +2,4 @@
 else if(view=="ThumbCard"){html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"backdrop",preferThumb:true,context:'channels',lazy:true,cardLayout:true,showTitle:true});}
 var elem=page.querySelector('#items');elem.innerHTML=html;ImageLoader.lazyChildren(elem);libraryBrowser.saveQueryValues('channels',query);Dashboard.hideLoadingMsg();});}
 function loadTab(page,index){switch(index){case 1:libraryBrowser.loadSavedQueryValues('channels',query);reloadItems(page);break;default:break;}}
-pageIdOn('pageinit',"channelsPage",function(){var page=this;var mdlTabs=page.querySelector('.libraryViewNav');libraryBrowser.configurePaperLibraryTabs(page,mdlTabs,page.querySelectorAll('.pageTabContent'));mdlTabs.addEventListener('tabchange',function(e){loadTab(page,parseInt(e.detail.selectedTabIndex));});});});
+pageIdOn('pageinit',"channelsPage",function(){var page=this;var mdlTabs=page.querySelector('.libraryViewNav');libraryBrowser.configurePaperLibraryTabs(page,mdlTabs,page.querySelectorAll('.pageTabContent'),true);mdlTabs.addEventListener('tabchange',function(e){loadTab(page,parseInt(e.detail.selectedTabIndex));});});});
