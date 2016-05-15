@@ -3,13 +3,13 @@ function showAudioMenu(context,player,button,item,currentIndex){var streams=(ite
 if(s.Language){name+=' · '+s.Language;}
 if(s.Layout){name+=' · '+s.Layout;}
 else if(s.Channels){name+=' · '+s.Channels+' ch';}
-var menuItem={name:name,id:s.Index};if(s.Index==currentIndex){menuItem.ironIcon='check';}
+var menuItem={name:s.DisplayTitle||name,id:s.Index};if(s.Index==currentIndex){menuItem.selected=true;}
 return menuItem;});require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,positionTo:button,callback:function(id){player.setAudioStreamIndex(parseInt(id));}});});}
 function showSubtitleMenu(context,player,button,item,currentIndex){var streams=(item.MediaStreams||[]).filter(function(i){return i.Type=='Subtitle';});var menuItems=streams.map(function(s){var name=(s.Language||Globalize.translate('LabelUnknownLanguage'));if(s.IsDefault&&s.IsForced){name+=' · '+Globalize.translate('LabelDefaultForcedStream');}
 else if(s.IsDefault){name+=' · '+Globalize.translate('LabelDefaultStream');}
 else if(s.IsForced){name+=' · '+Globalize.translate('LabelForcedStream');}
 if(s.Codec){name+=' · '+s.Codec.toUpperCase();}
-var menuItem={name:name,id:s.Index};if(s.Index==currentIndex){menuItem.ironIcon='check';}
+var menuItem={name:s.DisplayTitle||name,id:s.Index};if(s.Index==currentIndex){menuItem.selected=true;}
 return menuItem;});menuItems.unshift({id:-1,name:Globalize.translate('ButtonOff'),ironIcon:currentIndex==null?'check':null});require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,positionTo:button,callback:function(id){player.setSubtitleStreamIndex(parseInt(id));}});});}
 function showButton(button){button.classList.remove('hide');}
 function hideButton(button){button.classList.add('hide');}
@@ -45,7 +45,7 @@ function loadPlaylist(context){var html='';var playlistOpen=isPlaylistOpen(conte
 var deps=[];if(playlistOpen){deps.push('paper-icon-item');deps.push('paper-item-body');}
 require(deps,function(){var itemsContainer=context.querySelector('.playlist');itemsContainer.innerHTML=html;if(playlistOpen){var index=MediaController.currentPlaylistIndex();if(index!=-1){var item=itemsContainer.querySelectorAll('.listItem')[index];if(item){var img=item.querySelector('.listviewImage');img.classList.remove('lazy');img.classList.add('playlistIndexIndicatorImage');}}}
 ImageLoader.lazyChildren(itemsContainer);});}
-function isPlaylistOpen(context){return libraryBrowser.selectedTab(context.querySelector('.mdl-tabs'))==2;}
+function isPlaylistOpen(context){return libraryBrowser.selectedTab(context.querySelector('.libraryViewNav'))==2;}
 function onStateChanged(e,state){if(e.type=='positionchange'){var now=new Date().getTime();if((now-lastUpdateTime)<700){return;}
 lastUpdateTime=now;}
 updatePlayerState(dlg,state);}
@@ -65,9 +65,9 @@ var ticks=state.NowPlayingItem.RunTimeTicks;ticks/=100;ticks*=value;this.pinValu
 function onPlayerChange(){var context=dlg;updateCastIcon(context);bindToPlayer(context,MediaController.getCurrentPlayer());}
 function onMessageSubmit(e){var form=e.target;MediaController.sendCommand({Name:'DisplayMessage',Arguments:{Header:$('#txtMessageTitle',form).val(),Text:$('#txtMessageText',form).val()}},currentPlayer);$('input',form).val('');require(['toast'],function(toast){toast('Message sent.');});e.preventDefault();e.stopPropagation();return false;}
 function onSendStringSubmit(e){var form=e.target;MediaController.sendCommand({Name:'SendString',Arguments:{String:$('#txtTypeText',form).val()}},currentPlayer);$('input',form).val('');require(['toast'],function(toast){toast('Text sent.');});e.preventDefault();e.stopPropagation();return false;}
-function init(ownerView,context){require(['css!css/nowplaying.css']);bindEvents(context);context.querySelector('.sendMessageForm').addEventListener('submit',onMessageSubmit);context.querySelector('.typeTextForm').addEventListener('submit',onSendStringSubmit);context.querySelector('.nowPlayingCastIcon').addEventListener('click',function(){MediaController.showPlayerSelection();});context.querySelector('.btnExitRemoteControl').addEventListener('click',function(){history.back();});var mdlTabs=context.querySelector('.mdl-tabs');if(AppInfo.enableNowPlayingPageBottomTabs){context.querySelector('.libraryViewNav').classList.add('bottom');}else{context.querySelector('.libraryViewNav').classList.remove('bottom');}
-libraryBrowser.configurePaperLibraryTabs(ownerView,mdlTabs);mdlTabs.addEventListener('tabchange',function(e){if(e.detail.selectedTabIndex==2&&playlistNeedsRefresh){loadPlaylist(context);}});Events.on(MediaController,'playerchange',onPlayerChange);$(context.querySelector('.itemsContainer')).createCardMenus();}
+function init(ownerView,context){require(['css!css/nowplaying.css']);bindEvents(context);context.querySelector('.sendMessageForm').addEventListener('submit',onMessageSubmit);context.querySelector('.typeTextForm').addEventListener('submit',onSendStringSubmit);context.querySelector('.nowPlayingCastIcon').addEventListener('click',function(){MediaController.showPlayerSelection();});context.querySelector('.btnExitRemoteControl').addEventListener('click',function(){history.back();});var mdlTabs=context.querySelector('.libraryViewNav');if(AppInfo.enableNowPlayingPageBottomTabs){context.querySelector('.libraryViewNav').classList.add('bottom');}else{context.querySelector('.libraryViewNav').classList.remove('bottom');}
+libraryBrowser.configurePaperLibraryTabs(ownerView,mdlTabs,ownerView.querySelectorAll('.pageTabContent'));mdlTabs.addEventListener('tabchange',function(e){if(e.detail.selectedTabIndex==2&&playlistNeedsRefresh){loadPlaylist(context);}});Events.on(MediaController,'playerchange',onPlayerChange);$(context.querySelector('.itemsContainer')).createCardMenus();}
 function onDialogClosed(e){releaseCurrentPlayer();Events.off(MediaController,'playerchange',onPlayerChange);lastPlayerState=null;}
 function onShow(context,tab){currentImgUrl=null;bindToPlayer(context,MediaController.getCurrentPlayer());updateCastIcon(context);}
 self.init=function(ownerView,context){dlg=context;if(!AppInfo.enableNowPlayingPageBottomTabs){context.querySelector('.btnExitRemoteControl').style.position='relative';context.querySelector('.topRightContainer').style.position='relative';}
-componentHandler.upgradeAllRegistered(dlg);init(ownerView,dlg);};self.onShow=function(){onShow(dlg,window.location.hash);};self.destroy=function(){onDialogClosed();};};});
+init(ownerView,dlg);};self.onShow=function(){onShow(dlg,window.location.hash);};self.destroy=function(){onDialogClosed();};};});
