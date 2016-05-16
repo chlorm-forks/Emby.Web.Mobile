@@ -3,8 +3,11 @@ html+='</div>';html+='</a>';html+='</paper-item-body>';html+='</paper-icon-item>
 function renderRecordingGroups(context,groups){if(groups.length){$('#recordingGroups',context).show();}else{$('#recordingGroups',context).hide();}
 var html='';html+='<div class="paperList">';for(var i=0,length=groups.length;i<length;i++){html+=getRecordingGroupHtml(groups[i]);}
 html+='</div>';context.querySelector('#recordingGroupItems').innerHTML=html;Dashboard.hideLoadingMsg();}
+function getSquareShape(){return enableScrollX()?'overflowSquare':'square';}
+function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function renderRecordings(elem,recordings){if(recordings.length){elem.classList.remove('hide');}else{elem.classList.add('hide');}
-var recordingItems=elem.querySelector('.recordingItems');recordingItems.innerHTML=LibraryBrowser.getPosterViewHtml({items:recordings,shape:"auto",showTitle:true,showParentTitle:true,centerText:true,coverImage:true,lazy:true,overlayPlayButton:true});ImageLoader.lazyChildren(recordingItems);}
+var recordingItems=elem.querySelector('.recordingItems');if(enableScrollX()){recordingItems.classList.add('hiddenScrollX');}else{recordingItems.classList.remove('hiddenScrollX');}
+recordingItems.innerHTML=LibraryBrowser.getPosterViewHtml({items:recordings,shape:(enableScrollX()?getSquareShape():'auto'),showTitle:true,showParentTitle:true,centerText:true,coverImage:true,lazy:true,overlayPlayButton:true});ImageLoader.lazyChildren(recordingItems);}
 function renderActiveRecordings(context){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),IsInProgress:true,Fields:'CanDelete'}).then(function(result){renderRecordings(context.querySelector('#activeRecordings'),result.Items);});}
 function renderLatestRecordings(context){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:4,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio'}).then(function(result){renderRecordings(context.querySelector('#latestRecordings'),result.Items);});}
 function renderTimers(context,timers){LiveTvHelpers.getTimersHtml(timers).then(function(html){var elem=context.querySelector('#upcomingRecordings');if(html){elem.classList.remove('hide');}else{elem.classList.add('hide');}
