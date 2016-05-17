@@ -10,7 +10,8 @@ var view;if(typeof(newView)=='string'){animatable.innerHTML=newView;view=animata
 enhanceNewView(dependencies,newView);view=newView;}
 if(onBeforeChange){onBeforeChange(view,false,options);}
 beforeAnimate(allPages,pageIndex,selected);animate(animatable,previousAnimatable,options.transition,options.isBack).then(function(){selectedPageIndex=pageIndex;currentUrls[pageIndex]=options.url;if(!options.cancel&&previousAnimatable){afterAnimate(allPages,pageIndex);}
-document.dispatchEvent(new CustomEvent('scroll',{}));$.mobile=$.mobile||{};$.mobile.activePage=view;resolve(view);});});});}
+document.dispatchEvent(new CustomEvent('scroll',{}));if(window.$){$.mobile=$.mobile||{};$.mobile.activePage=view;}
+resolve(view);});});});}
 function enhanceNewView(dependencies,newView){var hasJqm=false;for(var i=0,length=dependencies.length;i<length;i++){if(dependencies[i].indexOf('jqm')==0){hasJqm=true;break;}}
 if(hasJqm){$(newView).trigger('create');}}
 function replaceAll(str,find,replace){return str.split(find).join(replace);}
@@ -36,7 +37,8 @@ function getSelectedIndex(allPages){return selectedPageIndex;}
 function tryRestoreView(options){var url=options.url;var index=currentUrls.indexOf(url);if(index!=-1){var page=allPages[index];var view=page.querySelector(".page-view");if(view){if(options.cancel){return;}
 cancelActiveAnimations();var animatable=allPages[index];var selected=getSelectedIndex(allPages);var previousAnimatable=selected==-1?null:allPages[selected];if(onBeforeChange){onBeforeChange(view,true,options);}
 beforeAnimate(allPages,index,selected);return animate(animatable,previousAnimatable,options.transition,options.isBack).then(function(){selectedPageIndex=index;if(!options.cancel&&previousAnimatable){afterAnimate(allPages,index);}
-document.dispatchEvent(new CustomEvent('scroll',{}));$.mobile=$.mobile||{};$.mobile.activePage=view;return view;});}}
+document.dispatchEvent(new CustomEvent('scroll',{}));if(window.$){$.mobile=$.mobile||{};$.mobile.activePage=view;}
+return view;});}}
 return Promise.reject();}
 function triggerDestroy(view){view.dispatchEvent(new CustomEvent("viewdestroy",{}));}
 function reset(){currentUrls=[];}

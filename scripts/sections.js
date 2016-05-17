@@ -12,7 +12,7 @@ return html;}
 function loadlibraryButtons(elem,userId,index){return getUserViews(userId).then(function(items){var html='<br/>';if(index){html+='<h1 class="listHeader">'+Globalize.translate('HeaderMyMedia')+'</h1>';}
 html+='<div>';html+=getLibraryButtonsHtml(items);html+='</div>';return getAppInfo().then(function(infoHtml){elem.innerHTML=html+infoHtml;handleLibraryLinkNavigations(elem);});});}
 function getRandomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-function getAppInfo(){var frequency=86400000;if(AppInfo.isNativeApp){frequency=259200000;}
+function getAppInfo(){var frequency=86400000;if(AppInfo.isNativeApp){frequency=172800000;}
 var cacheKey='lastappinfopresent5';var lastDatePresented=parseInt(appSettings.get(cacheKey)||'0');if(!lastDatePresented){appSettings.set(cacheKey,new Date().getTime());return Promise.resolve('');}
 if((new Date().getTime()-lastDatePresented)<frequency){return Promise.resolve('');}
 return Dashboard.getPluginSecurityInfo().then(function(pluginSecurityInfo){appSettings.set(cacheKey,new Date().getTime());if(pluginSecurityInfo.IsMBSupporter){return'';}
