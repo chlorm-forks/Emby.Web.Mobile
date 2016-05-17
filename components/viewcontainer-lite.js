@@ -40,5 +40,5 @@ document.dispatchEvent(new CustomEvent('scroll',{}));$.mobile=$.mobile||{};$.mob
 return Promise.reject();}
 function triggerDestroy(view){view.dispatchEvent(new CustomEvent("viewdestroy",{}));}
 function reset(){currentUrls=[];}
-if(enableAnimation()&&!browser.animate){require(['webAnimations']);}
+if(enableAnimation()&&!document.documentElement.animate){require(['webAnimations']);}
 return{loadView:loadView,tryRestoreView:tryRestoreView,reset:reset,setOnBeforeChange:setOnBeforeChange};});
