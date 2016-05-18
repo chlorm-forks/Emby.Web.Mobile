@@ -1,7 +1,8 @@
 ﻿define(['playlistManager','scrollHelper','appSettings','appStorage','apphost','datetime','jQuery','itemHelper','mediaInfo','scrollStyles'],function(playlistManager,scrollHelper,appSettings,appStorage,appHost,datetime,$,itemHelper,mediaInfo){function parentWithClass(elem,className){while(!elem.classList||!elem.classList.contains(className)){elem=elem.parentNode;if(!elem){return null;}}
 return elem;}
 function fadeInRight(elem){var pct=browserInfo.mobile?'2%':'0.5%';var keyframes=[{opacity:'0',transform:'translate3d('+pct+', 0, 0)',offset:0},{opacity:'1',transform:'none',offset:1}];elem.animate(keyframes,{duration:160,iterations:1,easing:'ease-out'});}
-function animateSelectionBar(button){var elem=button.querySelector('.pageTabButtonSelectionBar');var keyframes=[{transform:'translate3d(-100%, 0, 0)',offset:0},{transform:'none',offset:1}];if(!elem.animate){return;}
+function animateSelectionBar(button){var elem=button.querySelector('.pageTabButtonSelectionBar');if(!elem){return;}
+var keyframes=[{transform:'translate3d(-100%, 0, 0)',offset:0},{transform:'none',offset:1}];if(!elem.animate){return;}
 elem.animate(keyframes,{duration:120,iterations:1,easing:'ease-out'});}
 var libraryBrowser=(function(window,document,screen){var SURROGATE_PAIR_REGEXP=/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,NON_ALPHANUMERIC_REGEXP=/([^\#-~| |!])/g;function htmlEncode(value){return value.replace(/&/g,'&amp;').replace(SURROGATE_PAIR_REGEXP,function(value){var hi=value.charCodeAt(0);var low=value.charCodeAt(1);return'&#'+(((hi-0xD800)*0x400)+(low-0xDC00)+0x10000)+';';}).replace(NON_ALPHANUMERIC_REGEXP,function(value){return'&#'+value.charCodeAt(0)+';';}).replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 var pageSizeKey='pagesize_v4';function getDesiredAspect(shape){if(shape){shape=shape.toLowerCase();if(shape.indexOf('portrait')!=-1){return(2/3);}

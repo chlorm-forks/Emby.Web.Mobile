@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser','scrollStyles'],function(libraryBrowser){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
+﻿define(['libraryBrowser','events','scrollStyles'],function(libraryBrowser,events){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
 function getAdditionalTextLines(hint){if(hint.Type=="Audio"){return[[hint.AlbumArtist,hint.Album].join(" - ")];}
 else if(hint.Type=="MusicAlbum"){return[hint.AlbumArtist];}
 else if(hint.Type=="MusicArtist"){return[Globalize.translate('LabelArtist')];}
@@ -24,8 +24,8 @@ isVisible=true;document.body.classList.add('bodyWithPopupOpen');updateSearchOver
 document.body.classList.remove('bodyWithPopupOpen');}}}
 function fadeIn(elem,iterations){var keyframes=[{opacity:'0',offset:0},{opacity:'1',offset:1}];var timing={duration:200,iterations:iterations,fill:'both'};if(elem.animate){elem.animate(keyframes,timing);}}
 function fadeOut(elem,iterations){var keyframes=[{opacity:'1',offset:0},{opacity:'0',offset:1}];var timing={duration:600,iterations:iterations,fill:'both'};var onfinish=function(){elem.parentNode.removeChild(elem);};if(elem.animate){elem.animate(keyframes,timing).onfinish=onfinish;}else{onfinish();}}
-function bindSearchEvents(){require(['searchmenu'],function(searchmenu){Events.on(window.SearchMenu,'closed',closeSearchResults);Events.on(window.SearchMenu,'change',function(e,value){onHeaderSearchChange(value);});});}
+function bindSearchEvents(){require(['searchmenu'],function(searchmenu){events.on(window.SearchMenu,'closed',closeSearchResults);events.on(window.SearchMenu,'change',function(e,value){onHeaderSearchChange(value);});});}
 function closeSearchResults(){onHeaderSearchChange('');hideSearchMenu();}
 function showSearchMenu(){require(['searchmenu'],function(searchmenu){window.SearchMenu.show();});}
 function hideSearchMenu(){require(['searchmenu'],function(searchmenu){window.SearchMenu.hide();});}
-document.addEventListener('pagebeforehide',closeSearchResults);document.addEventListener('headercreated',function(){bindSearchEvents();});});
+document.addEventListener('viewbeforehide',closeSearchResults);document.addEventListener('headercreated',function(){bindSearchEvents();});events.on(MediaController,'beforeplaybackstart',closeSearchResults);});
