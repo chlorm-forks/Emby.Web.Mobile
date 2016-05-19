@@ -24,12 +24,12 @@ function afterAnimate(allPages,newPageIndex){for(var i=0,length=allPages.length;
 function animate(newAnimatedPage,oldAnimatedPage,transition,isBack){if(enableAnimation()&&newAnimatedPage.animate){if(transition=='slide'){return slide(newAnimatedPage,oldAnimatedPage,transition,isBack);}else if(transition=='fade'){return fade(newAnimatedPage,oldAnimatedPage,transition,isBack);}}
 return nullAnimation(newAnimatedPage,oldAnimatedPage,transition,isBack);}
 function nullAnimation(newAnimatedPage,oldAnimatedPage,transition,isBack){newAnimatedPage.classList.remove('hide');return Promise.resolve();}
-function slide(newAnimatedPage,oldAnimatedPage,transition,isBack){var timings={duration:450,iterations:1,easing:'ease-out',fill:'both'}
+function slide(newAnimatedPage,oldAnimatedPage,transition,isBack){return new Promise(function(resolve,reject){var timings={duration:450,iterations:1,easing:'ease-out'}
 var animations=[];if(oldAnimatedPage){var destination=isBack?'100%':'-100%';animations.push(oldAnimatedPage.animate([{transform:'none',offset:0},{transform:'translate3d('+destination+', 0, 0)',offset:1}],timings));}
-newAnimatedPage.classList.remove('hide');var start=isBack?'-100%':'100%';animations.push(newAnimatedPage.animate([{transform:'translate3d('+start+', 0, 0)',offset:0},{transform:'none',offset:1}],timings));currentAnimations=animations;return new Promise(function(resolve,reject){animations[animations.length-1].onfinish=resolve;});}
-function fade(newAnimatedPage,oldAnimatedPage,transition,isBack){var timings={duration:140,iterations:1,easing:'ease-out',fill:'both'}
+newAnimatedPage.classList.remove('hide');var start=isBack?'-100%':'100%';animations.push(newAnimatedPage.animate([{transform:'translate3d('+start+', 0, 0)',offset:0},{transform:'none',offset:1}],timings));currentAnimations=animations;animations[animations.length-1].onfinish=resolve;});}
+function fade(newAnimatedPage,oldAnimatedPage,transition,isBack){return new Promise(function(resolve,reject){var timings={duration:140,iterations:1,easing:'ease-out'}
 var animations=[];if(oldAnimatedPage){animations.push(oldAnimatedPage.animate([{opacity:1,offset:0},{opacity:0,offset:1}],timings));}
-newAnimatedPage.classList.remove('hide');animations.push(newAnimatedPage.animate([{opacity:0,offset:0},{opacity:1,offset:1}],timings));currentAnimations=animations;return new Promise(function(resolve,reject){animations[animations.length-1].onfinish=resolve;});}
+newAnimatedPage.classList.remove('hide');animations.push(newAnimatedPage.animate([{opacity:0,offset:0},{opacity:1,offset:1}],timings));currentAnimations=animations;animations[animations.length-1].onfinish=resolve;});}
 var currentAnimations=[];function cancelActiveAnimations(){var animations=currentAnimations;for(var i=0,length=animations.length;i<length;i++){cancelAnimation(animations[i]);}}
 function cancelAnimation(animation){try{animation.cancel();}catch(err){console.log('Error canceling animation: '+err);}}
 var onBeforeChange;function setOnBeforeChange(fn){onBeforeChange=fn;}
