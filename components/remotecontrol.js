@@ -41,16 +41,13 @@ if(item&&item.MediaType=='Audio'){context.querySelector('.buttonsRow2').classLis
 var toggleRepeatButton=context.querySelector('.repeatToggleButton');if(playState.RepeatMode=='RepeatAll'){toggleRepeatButton.icon="repeat";toggleRepeatButton.classList.add('nowPlayingPageRepeatActive');}
 else if(playState.RepeatMode=='RepeatOne'){toggleRepeatButton.icon="repeat-one";toggleRepeatButton.classList.add('nowPlayingPageRepeatActive');}else{toggleRepeatButton.icon="repeat";toggleRepeatButton.classList.remove('nowPlayingPageRepeatActive');}
 updateNowPlayingInfo(context,state);}
-function loadPlaylist(context){var html='';var playlistOpen=isPlaylistOpen(context);if(playlistOpen){html+=libraryBrowser.getListViewHtml({items:MediaController.playlist(),smallIcon:true});playlistNeedsRefresh=false;}
-var deps=[];if(playlistOpen){deps.push('paper-icon-item');deps.push('paper-item-body');}
-require(deps,function(){var itemsContainer=context.querySelector('.playlist');itemsContainer.innerHTML=html;if(playlistOpen){var index=MediaController.currentPlaylistIndex();if(index!=-1){var item=itemsContainer.querySelectorAll('.listItem')[index];if(item){var img=item.querySelector('.listviewImage');img.classList.remove('lazy');img.classList.add('playlistIndexIndicatorImage');}}}
+function loadPlaylist(context){var html='';html+=libraryBrowser.getListViewHtml({items:MediaController.playlist(),smallIcon:true});playlistNeedsRefresh=false;var deps=[];deps.push('paper-icon-item');deps.push('paper-item-body');require(deps,function(){var itemsContainer=context.querySelector('.playlist');itemsContainer.innerHTML=html;var index=MediaController.currentPlaylistIndex();if(index!=-1){var item=itemsContainer.querySelectorAll('.listItem')[index];if(item){var img=item.querySelector('.listviewImage');img.classList.remove('lazy');img.classList.add('playlistIndexIndicatorImage');}}
 ImageLoader.lazyChildren(itemsContainer);});}
-function isPlaylistOpen(context){return libraryBrowser.selectedTab(context.querySelector('.libraryViewNav'))==2;}
 function onStateChanged(e,state){if(e.type=='positionchange'){var now=new Date().getTime();if((now-lastUpdateTime)<700){return;}
 lastUpdateTime=now;}
 updatePlayerState(dlg,state);}
-function onPlaybackStart(e,state){var player=this;player.beginPlayerUpdates();onStateChanged.call(player,e,state);if(isPlaylistOpen(dlg)){loadPlaylist(dlg);}else{playlistNeedsRefresh=true;}}
-function onPlaybackStopped(e,state){var player=this;player.endPlayerUpdates();onStateChanged.call(player,e,{});if(isPlaylistOpen(dlg)){loadPlaylist(dlg);}else{playlistNeedsRefresh=true;}}
+function onPlaybackStart(e,state){var player=this;player.beginPlayerUpdates();onStateChanged.call(player,e,state);loadPlaylist(dlg);}
+function onPlaybackStopped(e,state){var player=this;player.endPlayerUpdates();onStateChanged.call(player,e,{});loadPlaylist(dlg);}
 function releaseCurrentPlayer(){if(currentPlayer){Events.off(currentPlayer,'playbackstart',onPlaybackStart);Events.off(currentPlayer,'playbackstop',onPlaybackStopped);Events.off(currentPlayer,'volumechange',onStateChanged);Events.off(currentPlayer,'playstatechange',onStateChanged);Events.off(currentPlayer,'positionchange',onStateChanged);currentPlayer.endPlayerUpdates();currentPlayer=null;}}
 function bindToPlayer(context,player){releaseCurrentPlayer();currentPlayer=player;player.getPlayerState().then(function(state){if(state.NowPlayingItem){player.beginPlayerUpdates();}
 onStateChanged.call(player,{type:'init'},state);});Events.on(player,'playbackstart',onPlaybackStart);Events.on(player,'playbackstop',onPlaybackStopped);Events.on(player,'volumechange',onStateChanged);Events.on(player,'playstatechange',onStateChanged);Events.on(player,'positionchange',onStateChanged);var playerInfo=MediaController.getPlayerInfo();var supportedCommands=playerInfo.supportedCommands;updateSupportedCommands(context,supportedCommands);}
