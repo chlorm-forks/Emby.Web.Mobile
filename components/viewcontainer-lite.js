@@ -1,5 +1,5 @@
-﻿define(['browser'],function(browser){var allPages=document.querySelectorAll('.mainAnimatedPage');var currentUrls=[];var pageContainerCount=allPages.length;var allowAnimation=true;var selectedPageIndex=-1;function enableAnimation(){if(!allowAnimation){return false;}
-if(browser.tv){return false;}
+﻿define(['browser'],function(browser){var allPages=document.querySelectorAll('.mainAnimatedPage');var currentUrls=[];var pageContainerCount=allPages.length;var selectedPageIndex=-1;function enableAnimation(){if(browser.tv){return false;}
+if(browser.safari){return false;}
 return true;}
 function loadView(options){if(options.cancel){return;}
 cancelActiveAnimations();var selected=getSelectedIndex(allPages);var previousAnimatable=selected==-1?null:allPages[selected];var pageIndex=selected+1;if(pageIndex>=pageContainerCount){pageIndex=0;}
