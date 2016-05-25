@@ -30,6 +30,4 @@ function cancelListener(){destroyCurrentRecognition();hideVoiceHelp();}
 function showCommands(createUI,result){if(createUI!==false){require(['paper-fab','css!voice/voice.css'],function(){if(result)
 showVoiceHelp(result.groupid,result.name);else
 showVoiceHelp();});}}
-function speak(text){if(!SpeechSynthesisUtterance){console.log('API not supported');}
-var utterance=new SpeechSynthesisUtterance(text);utterance.lang=lang;utterance.rate=0.9;utterance.pitch=1;utterance.addEventListener('end',function(){console.log('Synthesizing completed');});utterance.addEventListener('error',function(event){console.log('Synthesizing error');});console.log('Synthesizing the text: '+text);speechSynthesis.speak(utterance);}
 return{startListening:startListening};});
