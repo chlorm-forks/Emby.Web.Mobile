@@ -22,7 +22,6 @@
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('inputLabel');
 
-        label.classList.add('inputLabelUnfocused');
         label.htmlFor = this.id;
         parentNode.insertBefore(label, this);
 
@@ -40,12 +39,10 @@
 
         this.addEventListener('focus', function () {
             onChange.call(this);
-            label.classList.add('inputLabelFocused');
-            label.classList.remove('inputLabelUnfocused');
+            label.classList.add('focused');
         });
         this.addEventListener('blur', function () {
-            label.classList.add('inputLabelUnfocused');
-            label.classList.remove('inputLabelFocused');
+            label.classList.remove('focused');
         });
 
         this.addEventListener('change', onChange);
@@ -53,6 +50,32 @@
         this.addEventListener('keyup', onChange);
 
         onChange.call(this);
+
+        if (window.IntersectionObserver) {
+            var observer = new IntersectionObserver(function (entries) {
+                for (var j = 0, length2 = entries.length; j < length2; j++) {
+                    var entry = entries[j];
+                    var intersectionRatio = entry.intersectionRatio;
+                    if (intersectionRatio) {
+
+                        var target = entry.target;
+                        onChange.call(target);
+                    }
+                }
+            }, {});
+
+            observer.observe(this);
+            this.observer = observer;
+        }
+    };
+
+    EmbyInputPrototype.detachedCallback = function () {
+
+        var observer = this.observer;
+        if (observer) {
+            observer.disconnect();
+            this.observer = null;
+        }
     };
 
     document.registerElement('emby-input', {
