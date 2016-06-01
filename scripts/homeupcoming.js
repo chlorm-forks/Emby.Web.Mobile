@@ -7,5 +7,5 @@ if(dateText!=currentGroupName){if(currentGroup.length){groups.push({name:current
 currentGroupName=dateText;currentGroup=[item];}else{currentGroup.push(item);}}
 var html='';for(i=0,length=groups.length;i<length;i++){var group=groups[i];html+='<div class="homePageSection">';html+='<h1 class="listHeader">'+group.name+'</h1>';if(enableScrollX()){html+='<div class="itemsContainer hiddenScrollX">';}else{html+='<div class="itemsContainer">';}
 html+=LibraryBrowser.getPosterViewHtml({items:group.items,showLocationTypeIndicator:false,shape:getThumbShape(),showTitle:true,showPremiereDate:true,preferThumb:true,lazy:true,showDetailsMenu:true,centerText:true,context:'home-upcoming',overlayMoreButton:true});html+='</div>';html+='</div>';}
-elem.innerHTML=html;ImageLoader.lazyChildren(elem);}
+elem.innerHTML=html;LibraryBrowser.createCardMenus(elem);ImageLoader.lazyChildren(elem);}
 return function(view,params,tabContent){var self=this;self.renderTab=function(){loadUpcoming(tabContent);};};});

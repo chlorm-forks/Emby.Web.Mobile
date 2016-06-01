@@ -16,9 +16,9 @@ html+='</div>';}
 html+='<div>';var buttonCount=0;if(MediaController.canPlay(item)){var resumePosition=(item.UserData||{}).PlaybackPositionTicks||0;html+='<button is="paper-icon-button-light" class="btnPlayItem" data-itemid="'+item.Id+'" data-itemtype="'+item.Type+'" data-isfolder="'+item.IsFolder+'" data-mediatype="'+item.MediaType+'" data-resumeposition="'+resumePosition+'"><iron-icon icon="play-circle-outline"></iron-icon></button>';buttonCount++;}
 if(commands.indexOf('trailer')!=-1){html+='<button is="paper-icon-button-light" class="btnPlayTrailer" data-itemid="'+item.Id+'"><iron-icon icon="videocam"></iron-icon></button>';buttonCount++;}
 html+='<button is="paper-icon-button-light" class="btnMoreCommands"><iron-icon icon="'+AppInfo.moreIcon+'"></iron-icon></button>';buttonCount++;html+='</div>';html+='</div>';return html;}
-function onTrailerButtonClick(){var id=this.getAttribute('data-itemid');ApiClient.getLocalTrailers(Dashboard.getCurrentUserId(),id).then(function(trailers){MediaController.play({items:trailers});});return false;}
-function onPlayItemButtonClick(){var target=this;var id=target.getAttribute('data-itemid');var type=target.getAttribute('data-itemtype');var isFolder=target.getAttribute('data-isfolder')=='true';var mediaType=target.getAttribute('data-mediatype');var resumePosition=parseInt(target.getAttribute('data-resumeposition'));LibraryBrowser.showPlayMenu(this,id,type,isFolder,mediaType,resumePosition);return false;}
-function onMoreButtonClick(){var card=parentWithClass(this,'card');showContextMenu(card,{showPlayOptions:false});return false;}
+function onTrailerButtonClick(e){var id=this.getAttribute('data-itemid');ApiClient.getLocalTrailers(Dashboard.getCurrentUserId(),id).then(function(trailers){MediaController.play({items:trailers});});e.preventDefault();e.stopPropagation();return false;}
+function onPlayItemButtonClick(e){var target=this;var id=target.getAttribute('data-itemid');var type=target.getAttribute('data-itemtype');var isFolder=target.getAttribute('data-isfolder')=='true';var mediaType=target.getAttribute('data-mediatype');var resumePosition=parseInt(target.getAttribute('data-resumeposition'));LibraryBrowser.showPlayMenu(this,id,type,isFolder,mediaType,resumePosition);e.preventDefault();e.stopPropagation();return false;}
+function onMoreButtonClick(e){var card=parentWithClass(this,'card');showContextMenu(card,{showPlayOptions:false});e.preventDefault();e.stopPropagation();return false;}
 function onContextMenu(e){var card=parentWithClass(e.target,'card');if(card){var itemSelectionPanel=card.querySelector('.itemSelectionPanel');if(!itemSelectionPanel){showContextMenu(card,{});}
 e.preventDefault();return false;}}
 function deleteTimer(id,itemsContainer){require(['confirm'],function(confirm){confirm(Globalize.translate('MessageConfirmRecordingCancellation'),Globalize.translate('HeaderConfirmRecordingCancellation')).then(function(){Dashboard.showLoadingMsg();ApiClient.cancelLiveTvTimer(id).then(function(){require(['toast'],function(toast){toast(Globalize.translate('MessageRecordingCancelled'));});Dashboard.hideLoadingMsg();itemsContainer.dispatchEvent(new CustomEvent('timercancelled',{bubbles:true}));});});});}
@@ -60,7 +60,7 @@ function isClickable(target){while(target!=null){var tagName=target.tagName||'';
 return false;}
 return false;}
 function onCardClick(e){var playButton=parentWithClass(e.target,'cardOverlayPlayButton');if(playButton){return onListViewPlayButtonClick(e,playButton);}
-var listviewMenuButton=parentWithClass(e.target,'listviewMenuButton')||parentWithClass(e.target,'cardOverlayMoreButton');if(listviewMenuButton){showContextMenu(listviewMenuButton,{});e.preventDefault();return false;}
+var listviewMenuButton=parentWithClass(e.target,'listviewMenuButton')||parentWithClass(e.target,'cardOverlayMoreButton');if(listviewMenuButton){showContextMenu(listviewMenuButton,{});e.stopPropagation();e.preventDefault();return false;}
 var button=parentWithClass(e.target,'btnUserItemRating');if(button){e.stopPropagation();e.preventDefault();return false;}
 var card=parentWithClass(e.target,'card');if(card){var itemSelectionPanel=card.querySelector('.itemSelectionPanel');if(itemSelectionPanel){return onItemSelectionPanelClick(e,itemSelectionPanel);}
 else if(card.classList.contains('groupedCard')){return onGroupedCardClick(e,card);}}}
