@@ -7,7 +7,7 @@ var newViewInfo=normalizeNewView(options);var newView=newViewInfo.elem;var depen
 if(isPluginpage||(newView.classList&&newView.classList.contains('type-interior'))){dependencies.push('jqmlistview');dependencies.push('scripts/notifications');dependencies.push('dashboardcss');}
 return new Promise(function(resolve,reject){require(dependencies,function(){var currentPage=allPages[pageIndex];if(currentPage){triggerDestroy(currentPage);}
 var view=newView;if(typeof(view)=='string'){view=document.createElement('div');view.innerHTML=newView;}
-if(currentPage){if(newViewInfo.hasScript){view=$(view).appendTo(mainAnimatedPages)[0];mainAnimatedPages.removeChild(currentPage);}else{mainAnimatedPages.replaceChild(view,currentPage);}}else{if(newViewInfo.hasScript){view=$(view).appendTo(mainAnimatedPages)[0];}else{mainAnimatedPages.appendChild(view);}}
+if(currentPage){if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];mainAnimatedPages.removeChild(currentPage);}else{mainAnimatedPages.replaceChild(view,currentPage);}}else{if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];}else{mainAnimatedPages.appendChild(view);}}
 if(typeof(newView)!='string'){enhanceNewView(dependencies,view);}
 if(options.type){view.setAttribute('data-type',options.type);}
 var animatable=view;view.classList.add('mainAnimatedPage');allPages[pageIndex]=view;if(onBeforeChange){onBeforeChange(view,false,options);}

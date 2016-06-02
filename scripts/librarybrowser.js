@@ -1,6 +1,6 @@
 ﻿define(['scrollHelper','appSettings','appStorage','apphost','datetime','itemHelper','mediaInfo','scrollStyles'],function(scrollHelper,appSettings,appStorage,appHost,datetime,itemHelper,mediaInfo){function parentWithClass(elem,className){while(!elem.classList||!elem.classList.contains(className)){elem=elem.parentNode;if(!elem){return null;}}
 return elem;}
-function fadeInRight(elem){var pct=browserInfo.mobile?'2%':'0.5%';var keyframes=[{opacity:'0',transform:'translate3d('+pct+', 0, 0)',offset:0},{opacity:'1',transform:'none',offset:1}];elem.animate(keyframes,{duration:160,iterations:1,easing:'ease-out'});}
+function fadeInRight(elem){var pct=browserInfo.mobile?'2.5%':'0.5%';var keyframes=[{opacity:'0',transform:'translate3d('+pct+', 0, 0)',offset:0},{opacity:'1',transform:'none',offset:1}];elem.animate(keyframes,{duration:160,iterations:1,easing:'ease-out'});}
 function animateSelectionBar(button){var elem=button.querySelector('.pageTabButtonSelectionBar');if(!elem){return;}
 var keyframes=[{transform:'translate3d(-100%, 0, 0)',offset:0},{transform:'none',offset:1}];if(!elem.animate){return;}
 elem.animate(keyframes,{duration:120,iterations:1,easing:'ease-out'});}

@@ -1,4 +1,4 @@
-﻿define(['datetime'],function(datetime){function renderNoHealthAlertsMessage(page){var html='<p style="padding:0 .5em;display:flex;align-items:center;">';html+='<iron-icon icon="check" style="margin-right:.5em;background-color: #52B54B;border-radius:1em;color: #fff;"></iron-icon>';html+=Globalize.translate('HealthMonitorNoAlerts')+'</p>';page.querySelector('.healthMonitor').innerHTML=html;}
+﻿define(['datetime','jQuery'],function(datetime,$){function renderNoHealthAlertsMessage(page){var html='<p style="padding:0 .5em;display:flex;align-items:center;">';html+='<iron-icon icon="check" style="margin-right:.5em;background-color: #52B54B;border-radius:1em;color: #fff;"></iron-icon>';html+=Globalize.translate('HealthMonitorNoAlerts')+'</p>';page.querySelector('.healthMonitor').innerHTML=html;}
 function refreshHealthMonitor(page){renderNoHealthAlertsMessage(page);}
 window.DashboardPage={newsStartIndex:0,onPageShow:function(){var page=this;var apiClient=ApiClient;if(!apiClient){return;}
 if(Dashboard.lastSystemInfo){page.querySelector('.serverNameHeader').innerHTML=Dashboard.lastSystemInfo.ServerName;}
