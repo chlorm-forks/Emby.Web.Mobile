@@ -7,20 +7,21 @@ var newViewInfo=normalizeNewView(options);var newView=newViewInfo.elem;var depen
 if(isPluginpage||(newView.classList&&newView.classList.contains('type-interior'))){dependencies.push('jqmlistview');dependencies.push('scripts/notifications');dependencies.push('dashboardcss');}
 return new Promise(function(resolve,reject){require(dependencies,function(){var currentPage=allPages[pageIndex];if(currentPage){triggerDestroy(currentPage);}
 var view=newView;if(typeof(view)=='string'){view=document.createElement('div');view.innerHTML=newView;}
-if(currentPage){if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];mainAnimatedPages.removeChild(currentPage);}else{mainAnimatedPages.replaceChild(view,currentPage);}}else{if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];}else{mainAnimatedPages.appendChild(view);}}
+view.classList.add('mainAnimatedPage');if(currentPage){if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];mainAnimatedPages.removeChild(currentPage);}else{mainAnimatedPages.replaceChild(view,currentPage);}}else{if(newViewInfo.hasScript&&window.$){view=$(view).appendTo(mainAnimatedPages)[0];}else{mainAnimatedPages.appendChild(view);}}
 if(typeof(newView)!='string'){enhanceNewView(dependencies,view);}
 if(options.type){view.setAttribute('data-type',options.type);}
-var animatable=view;view.classList.add('mainAnimatedPage');allPages[pageIndex]=view;if(onBeforeChange){onBeforeChange(view,false,options);}
+var animatable=view;allPages[pageIndex]=view;if(onBeforeChange){onBeforeChange(view,false,options);}
 beforeAnimate(allPages,pageIndex,selected);animate(animatable,previousAnimatable,options.transition,options.isBack).then(function(){selectedPageIndex=pageIndex;currentUrls[pageIndex]=options.url;if(!options.cancel&&previousAnimatable){afterAnimate(allPages,pageIndex);}
 document.dispatchEvent(new CustomEvent('scroll',{}));if(window.$){$.mobile=$.mobile||{};$.mobile.activePage=view;}
 resolve(view);});});});}
 function enhanceNewView(dependencies,newView){var hasJqm=false;for(var i=0,length=dependencies.length;i<length;i++){if(dependencies[i].indexOf('jqm')==0){hasJqm=true;break;}}
-if(hasJqm){$(newView).trigger('create');}}
+if(hasJqm&&window.$){$(newView).trigger('create');}}
 function replaceAll(str,find,replace){return str.split(find).join(replace);}
 function parseHtml(html,hasScript){if(hasScript){html=replaceAll(html,'<!--<script','<script');html=replaceAll(html,'</script>-->','</script>');}
 var wrapper=document.createElement('div');wrapper.innerHTML=html;return wrapper.querySelector('div[data-role="page"]');}
 function normalizeNewView(options){if(options.view.indexOf('data-role="page"')==-1){return options.view;}
-var hasScript=options.view.indexOf('<script')!=-1;return{elem:parseHtml(options.view,hasScript),hasScript:hasScript};}
+var hasScript=options.view.indexOf('<script')!=-1;var elem=parseHtml(options.view,hasScript);if(hasScript){hasScript=elem.querySelector('script')!=null;}
+return{elem:elem,hasScript:hasScript};}
 function beforeAnimate(allPages,newPageIndex,oldPageIndex){for(var i=0,length=allPages.length;i<length;i++){if(newPageIndex==i||oldPageIndex==i){}else{allPages[i].classList.add('hide');}}}
 function afterAnimate(allPages,newPageIndex){for(var i=0,length=allPages.length;i<length;i++){if(newPageIndex==i){}else{allPages[i].classList.add('hide');}}}
 function animate(newAnimatedPage,oldAnimatedPage,transition,isBack){if(enableAnimation()&&oldAnimatedPage&&newAnimatedPage.animate){if(transition=='slide'){return slide(newAnimatedPage,oldAnimatedPage,transition,isBack);}else if(transition=='fade'){return fade(newAnimatedPage,oldAnimatedPage,transition,isBack);}}
