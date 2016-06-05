@@ -139,7 +139,7 @@ html+='<div secondary>'+vals.join(', ')+'.';if(review.Date){try{var date=datetim
 catch(error){}}
 html+='</div>';if(review.Url){html+='<div secondary><a class="textlink" href="'+review.Url+'" target="_blank">'+Globalize.translate('ButtonFullReview')+'</a></div>';}
 html+='</paper-item-body>';html+='</paper-icon-item>';html+='</div>';}
-if(limit&&result.TotalRecordCount>limit){html+='<p style="margin: 0;"><paper-button raised class="more moreCriticReviews">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
+if(limit&&result.TotalRecordCount>limit){html+='<p style="margin: 0;"><button is="emby-button" type="button" class="raised more moreCriticReviews">'+Globalize.translate('ButtonMore')+'</button></p>';}
 var criticReviewsContent=page.querySelector('#criticReviewsContent');criticReviewsContent.innerHTML=html;if(enableScrollX()){criticReviewsContent.classList.add('hiddenScrollX');}else{criticReviewsContent.classList.remove('hiddenScrollX');}}
 function renderThemeMedia(page,item){ApiClient.getThemeMedia(Dashboard.getCurrentUserId(),item.Id,true).then(function(result){var themeSongs=result.ThemeSongsResult.OwnerId==item.Id?result.ThemeSongsResult.Items:[];var themeVideos=result.ThemeVideosResult.OwnerId==item.Id?result.ThemeVideosResult.Items:[];renderThemeSongs(page,themeSongs);renderThemeVideos(page,themeVideos);page.dispatchEvent(new CustomEvent("thememediadownload",{detail:{themeMediaResult:result},bubbles:true}));});}
 function renderThemeSongs(page,items){if(items.length){$('#themeSongsCollapsible',page).show();var html=LibraryBrowser.getListViewHtml({items:items,smallIcon:true});page.querySelector('#themeSongsContent').innerHTML=html;}else{$('#themeSongsCollapsible',page).hide();}}
@@ -150,7 +150,7 @@ function renderScenes(page,item,user,limit,isStatic){var html='';var chapters=it
 for(var i=0,length=chapters.length;i<length;i++){if(limit&&i>=limit){break;}
 var chapter=chapters[i];var chapterName=chapter.Name||"Chapter "+i;var onclick=item.PlayAccess=='Full'&&!isStatic?' onclick="ItemDetailPage.play('+chapter.StartPositionTicks+');"':'';html+='<a class="card '+getThumbShape()+'Card" href="#"'+onclick+'>';html+='<div class="cardBox">';html+='<div class="cardScalable">';var imgUrl;if(chapter.ImageTag){imgUrl=ApiClient.getScaledImageUrl(item.Id,{maxWidth:maxWidth,tag:chapter.ImageTag,type:"Chapter",index:i});}else{imgUrl="css/images/items/list/chapter.png";}
 html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+chapterName+'</div>';html+='<div class="cardText">';html+=datetime.getDisplayRunningTime(chapter.StartPositionTicks);html+='</div>';html+="</div>";html+='</div>';html+='</div>';html+='</div>';html+='</a>';}
-html+='</div>';if(limit&&chapters.length>limit){html+='<p style="margin: 0;"><paper-button raised class="more moreScenes">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
+html+='</div>';if(limit&&chapters.length>limit){html+='<p style="margin: 0;"><button is="emby-button" type="button" class="raised more moreScenes">'+Globalize.translate('ButtonMore')+'</button></p>';}
 var scenesContent=page.querySelector('#scenesContent');scenesContent.innerHTML=html;ImageLoader.lazyChildren(scenesContent);}
 function renderMediaSources(page,item){var html=item.MediaSources.map(function(v){return getMediaSourceHtml(item,v);}).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');if(item.MediaSources.length>1){html='<br/>'+html;}
 var mediaInfoContent=page.querySelector('#mediaInfoContent');mediaInfoContent.innerHTML=html;}
@@ -191,7 +191,7 @@ var item=items[i];var cssClass="card detailPage169Card";var href="itemdetails.ht
 html+='<div class="cardPadder"></div>';html+='<div class="cardContent">';html+='<div class="cardImage lazy" data-src="'+imgUrl+'"></div>';html+='<div class="cardFooter">';html+='<div class="cardText">'+item.Name+'</div>';html+='<div class="cardText">';if(item.RunTimeTicks!=""){html+=datetime.getDisplayRunningTime(item.RunTimeTicks);}
 else{html+="&nbsp;";}
 html+='</div>';html+="</div>";html+='</div>';html+='</div>';html+='</div>';html+='</a>';}
-if(limit&&items.length>limit){html+='<p style="margin: 0;padding-left:5px;"><paper-button raised class="more '+moreButtonClass+'">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
+if(limit&&items.length>limit){html+='<p style="margin: 0;padding-left:5px;"><button is="emby-button" type="button" class="raised more '+moreButtonClass+'">'+Globalize.translate('ButtonMore')+'</button></p>';}
 return html;}
 function renderSpecials(page,item,user,limit){ApiClient.getSpecialFeatures(user.Id,item.Id).then(function(specials){var specialsContent=page.querySelector('#specialsContent');specialsContent.innerHTML=getVideosHtml(specials,user,limit,"moreSpecials");ImageLoader.lazyChildren(specialsContent);});}
 function renderCast(page,item,context,limit,isStatic){if(enableScrollX()){renderHorizontalCast(page,item,context,isStatic);return;}
@@ -201,7 +201,7 @@ if(lazy){html+='<div class="tileImage lazy" data-src="'+imgUrl+'"></div>';}else{
 html+='<div class="tileContent">';html+='<p>'+cast.Name+'</p>';var role=cast.Role?Globalize.translate('ValueAsRole',cast.Role):cast.Type;if(role=="GuestStar"){role=Globalize.translate('ValueGuestStar');}
 role=role||"";var maxlength=40;if(role.length>maxlength){role=role.substring(0,maxlength-3)+'...';}
 html+='<p>'+role+'</p>';html+='</div>';html+='</a>';}
-if(limit&&casts.length>limit){html+='<p style="margin: 0;padding-left:5px;"><paper-button raised class="more morePeople">'+Globalize.translate('ButtonMore')+'</paper-button></p>';}
+if(limit&&casts.length>limit){html+='<p style="margin: 0;padding-left:5px;"><button is="emby-button" type="button" class="raised more morePeople">'+Globalize.translate('ButtonMore')+'</button></p>';}
 var castContent=page.querySelector('#castContent');castContent.innerHTML=html;ImageLoader.lazyChildren(castContent);}
 function renderHorizontalCast(page,item,context,isStatic){var html='';if(enableScrollX()){html+='<div class="hiddenScrollX itemsContainer">';}else{html+='<div class="itemsContainer">';}
 var casts=item.People||[];casts=casts.filter(function(c){return c.PrimaryImageTag;});if(!casts.length){casts=item.People||[];}

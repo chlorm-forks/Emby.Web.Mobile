@@ -24,7 +24,7 @@ var hasScript=options.view.indexOf('<script')!=-1;var elem=parseHtml(options.vie
 return{elem:elem,hasScript:hasScript};}
 function beforeAnimate(allPages,newPageIndex,oldPageIndex){for(var i=0,length=allPages.length;i<length;i++){if(newPageIndex==i||oldPageIndex==i){}else{allPages[i].classList.add('hide');}}}
 function afterAnimate(allPages,newPageIndex){for(var i=0,length=allPages.length;i<length;i++){if(newPageIndex==i){}else{allPages[i].classList.add('hide');}}}
-function animate(newAnimatedPage,oldAnimatedPage,transition,isBack){if(enableAnimation()&&oldAnimatedPage&&newAnimatedPage.animate){if(transition=='slide'){return slide(newAnimatedPage,oldAnimatedPage,transition,isBack);}else if(transition=='fade'){return fade(newAnimatedPage,oldAnimatedPage,transition,isBack);}}
+function animate(newAnimatedPage,oldAnimatedPage,transition,isBack){transition=transition||'fade';if(enableAnimation()&&oldAnimatedPage&&newAnimatedPage.animate){if(transition=='slide'){return slide(newAnimatedPage,oldAnimatedPage,transition,isBack);}else if(transition=='fade'){return fade(newAnimatedPage,oldAnimatedPage,transition,isBack);}}
 return Promise.resolve();}
 function slide(newAnimatedPage,oldAnimatedPage,transition,isBack){return new Promise(function(resolve,reject){var timings={duration:450,iterations:1,easing:'ease-out'}
 if(!browser.chrome){timings.fill='both';}
