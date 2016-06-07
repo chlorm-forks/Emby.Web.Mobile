@@ -1,4 +1,4 @@
-﻿define(['jQuery','libraryBrowser','scrollStyles'],function($,libraryBrowser){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
+﻿define(['libraryBrowser','scrollStyles'],function(libraryBrowser){function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function getPortraitShape(){return enableScrollX()?'overflowPortrait':'portrait';}
 function getLimit(){return enableScrollX()?12:8;}
 function loadRecommendedPrograms(page){Dashboard.showLoadingMsg();ApiClient.getLiveTvRecommendedPrograms({userId:Dashboard.getCurrentUserId(),IsAiring:true,limit:getLimit()*2,ImageTypeLimit:1,EnableImageTypes:"Primary",EnableTotalRecordCount:false}).then(function(result){renderItems(page,result.Items,'activeProgramItems','play');Dashboard.hideLoadingMsg();});}

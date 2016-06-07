@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser','scripts/alphapicker','scrollStyles'],function(libraryBrowser){return function(view,params){var self=this;function getView(){return'Thumb';}
+﻿define(['libraryBrowser','scrollStyles'],function(libraryBrowser){return function(view,params){var self=this;function getView(){return'Thumb';}
 function getResumeView(){return'Poster';}
 function reload(){Dashboard.showLoadingMsg();loadResume();loadNextUp();}
 function loadNextUp(){var query={Limit:24,Fields:"PrimaryImageAspectRatio,SeriesInfo,DateCreated,SyncInfo",UserId:Dashboard.getCurrentUserId(),ImageTypeLimit:1,EnableImageTypes:"Primary,Backdrop,Banner,Thumb"};query.ParentId=LibraryMenu.getTopParentId();ApiClient.getNextUpEpisodes(query).then(function(result){if(result.Items.length){view.querySelector('.noNextUpItems').classList.add('hide');}else{view.querySelector('.noNextUpItems').classList.remove('hide');}

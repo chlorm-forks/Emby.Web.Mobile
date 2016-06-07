@@ -139,7 +139,7 @@ else if(userData.UnplayedItemCount){var playedIndicator=card.querySelector('.pla
 playedIndicator.innerHTML=userData.UnplayedItemCount;}
 var progressHtml=LibraryBrowser.getItemProgressBarHtml(userData);var cardProgress;if(progressHtml){cardProgress=card.querySelector('.cardProgress');if(!cardProgress){cardProgress=document.createElement('div');cardProgress.classList.add('cardProgress');var cardFooter=card.querySelector('.cardFooter');if(cardFooter){cardFooter.appendChild(cardProgress);}}
 cardProgress.innerHTML=progressHtml;}
-else{cardProgress=card.querySelector('.cardFooter');if(cardProgress){cardProgress.parentNode.removeChild(cardProgress);}}}
+else{cardProgress=card.querySelector('.cardProgress');if(cardProgress){cardProgress.parentNode.removeChild(cardProgress);}}}
 function onUserDataChanged(userData){var elems=document.querySelectorAll("*[data-itemid='"+userData.ItemId+"']");for(var i=0,length=elems.length;i<length;i++){var elem=elems[i];var mediaType=elem.getAttribute('data-mediatype');if(mediaType=='Video'){elem.setAttribute('data-positionticks',(userData.PlaybackPositionTicks||0));if(elem.classList.contains('card')){renderUserDataChanges(elem,userData);}}}}
 function onWebSocketMessage(e,data){var msg=data;if(msg.MessageType==="UserDataChanged"){if(msg.Data.UserId==Dashboard.getCurrentUserId()){for(var i=0,length=msg.Data.UserDataList.length;i<length;i++){onUserDataChanged(msg.Data.UserDataList[i]);}}}}
 function initializeApiClient(apiClient){Events.off(apiClient,"websocketmessage",onWebSocketMessage);Events.on(apiClient,"websocketmessage",onWebSocketMessage);}

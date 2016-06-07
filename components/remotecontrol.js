@@ -1,4 +1,4 @@
-﻿define(['browser','datetime','jQuery','libraryBrowser','paper-fab','paper-slider'],function(browser,datetime,$,libraryBrowser){function showSlideshowMenu(context){require(['scripts/slideshow'],function(){SlideShow.showMenu();});}
+﻿define(['browser','datetime','jQuery','libraryBrowser'],function(browser,datetime,$,libraryBrowser){function showSlideshowMenu(context){require(['scripts/slideshow'],function(){SlideShow.showMenu();});}
 function showAudioMenu(context,player,button,item,currentIndex){var streams=(item.MediaStreams||[]).filter(function(i){return i.Type=='Audio';});var menuItems=streams.map(function(s){var name=(s.Codec||'').toUpperCase();if(s.Profile){name+=' '+s.Profile;}
 if(s.Language){name+=' · '+s.Language;}
 if(s.Layout){name+=' · '+s.Layout;}
