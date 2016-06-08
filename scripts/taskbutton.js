@@ -1,5 +1,5 @@
 ﻿define(['appStorage','jQuery','emby-button'],function(appStorage,$){$.fn.taskButton=function(options){function pollTasks(button){ApiClient.getScheduledTasks({IsEnabled:true}).then(function(tasks){updateTasks(button,tasks);});}
-function updateTasks(button,tasks){var task=tasks.filter(function(t){return t.Key==options.taskKey;})[0];if(options.panel){if(task){$(options.panel).show();}else{$(options.panel).hide();}}
+function updateTasks(button,tasks){var task=tasks.filter(function(t){return t.Key==options.taskKey;})[0];if(options.panel){if(task){options.panel.classList.remove('hide');}else{options.panel.classList.add('hide');}}
 if(!task){return;}
 if(task.State=='Idle'){$(button).removeAttr('disabled');}else{$(button).attr('disabled','disabled');}
 $(button).attr('data-taskid',task.Id);var progress=(task.CurrentProgressPercentage||0).toFixed(1);if(options.progressElem){options.progressElem.value=progress;if(task.State=='Running'){options.progressElem.classList.remove('hide');}else{options.progressElem.classList.add('hide');}}
@@ -16,6 +16,6 @@ if(pollInterval){clearInterval(pollInterval);}
 pollInterval=setInterval(onPollIntervalFired,5000);}
 function stopInterval(){if(ApiClient.isWebSocketOpen()){ApiClient.sendWebSocketMessage("ScheduledTasksInfoStop");}
 if(pollInterval){clearInterval(pollInterval);}}
-if(options.panel){$(options.panel).hide();}
+if(options.panel){options.panel.classList.add('hide');}
 if(options.mode=='off'){this.off('click',onButtonClick);Events.off(ApiClient,'websocketmessage',onSocketMessage);Events.off(ApiClient,'websocketopen',onSocketOpen);stopInterval();}else if(this.length){this.on('click',onButtonClick);pollTasks(self);startInterval();Events.on(ApiClient,'websocketmessage',onSocketMessage);Events.on(ApiClient,'websocketopen',onSocketOpen);}
 return this;};});
