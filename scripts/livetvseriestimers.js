@@ -7,7 +7,8 @@ html+='</div>';html+='<div secondary>';if(timer.RecordAnyChannel){html+=Globaliz
 else if(timer.ChannelId){html+=timer.ChannelName;}
 html+='</div>';html+='</a>';html+='</paper-item-body>';html+='<button type="button" is="paper-icon-button-light" data-seriestimerid="'+timer.Id+'" title="'+Globalize.translate('ButtonCancelSeries')+'" class="btnCancelSeries"><iron-icon icon="cancel"></iron-icon></button>';html+='</paper-icon-item>';}
 if(timers.length){html+='</div>';}
-var elem=context.querySelector('#items');elem.innerHTML=html;elem.querySelector('.paperList').addEventListener('click',function(e){var btnCancelSeries=parentWithClass(e.target,'btnCancelSeries');if(btnCancelSeries){deleteSeriesTimer(context,btnCancelSeries.getAttribute('data-seriestimerid'));}});Dashboard.hideLoadingMsg();}
+var elem=context.querySelector('#items');elem.innerHTML=html;if(timers.length){elem.querySelector('.paperList').addEventListener('click',function(e){var btnCancelSeries=parentWithClass(e.target,'btnCancelSeries');if(btnCancelSeries){deleteSeriesTimer(context,btnCancelSeries.getAttribute('data-seriestimerid'));}});}
+Dashboard.hideLoadingMsg();}
 function parentWithClass(elem,className){while(!elem.classList||!elem.classList.contains(className)){elem=elem.parentNode;if(!elem){return null;}}
 return elem;}
 function reload(context){Dashboard.showLoadingMsg();ApiClient.getLiveTvSeriesTimers(query).then(function(result){require(['paper-fab','paper-item-body','paper-icon-item'],function(){renderTimers(context,result.Items);});});}
