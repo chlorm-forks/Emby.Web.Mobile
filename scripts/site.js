@@ -155,7 +155,8 @@ if(browserInfo.safari){postInitDependencies.push('cordova/ios/chromecast');postI
 if(AppInfo.enableNowPlayingBar){postInitDependencies.push('scripts/nowplayingbar');}
 if(AppInfo.isNativeApp&&browserInfo.safari){postInitDependencies.push('cordova/ios/tabbar');}
 postInitDependencies.push('components/remotecontrolautoplay');if(!browserInfo.mobile&&navigator.userAgent.toLowerCase().indexOf('windows')!=-1){postInitDependencies.push('robotoFont');}
-require(postInitDependencies);});}
+require(postInitDependencies);upgradeLayouts();});}
+function upgradeLayouts(){if(!AppInfo.enableAppLayouts&&browserInfo.mobile){Dashboard.getPluginSecurityInfo().then(function(info){if(info.IsMBSupporter){AppInfo.enableAppLayouts=true;}});}}
 initRequire();function onWebComponentsReady(){var initialDependencies=[];initialDependencies.push('browser');if(!window.Promise){initialDependencies.push('native-promise-only');}
 require(initialDependencies,function(browser){initRequireWithBrowser(browser);window.browserInfo=browser;setAppInfo();setDocumentClasses(browser);init();});}
 if('registerElement'in document&&'content'in document.createElement('template')){onWebComponentsReady();}else{document.addEventListener('WebComponentsReady',onWebComponentsReady);require(['webcomponentsjs']);}})();function pageClassOn(eventName,className,fn){document.addEventListener(eventName,function(e){var target=e.target;if(target.classList.contains(className)){fn.call(target,e);}});}
