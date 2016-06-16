@@ -16,7 +16,7 @@ var ticks=state.NowPlayingItem.RunTimeTicks;ticks/=100;ticks*=value;return datet
 function showRemoteControl(tabIndex){if(tabIndex){Dashboard.navigate('nowplaying.html?tab='+tabIndex);}else{Dashboard.navigate('nowplaying.html');}}
 var nowPlayingBarElement;function getNowPlayingBar(){return new Promise(function(resolve,reject){if(nowPlayingBarElement){resolve(nowPlayingBarElement);return;}
 require(['css!css/nowplayingbar.css','emby-slider'],function(){nowPlayingBarElement=document.querySelector('.nowPlayingBar');if(nowPlayingBarElement){resolve(nowPlayingBarElement);return;}
-document.body.insertAdjacentHTML('beforeend',getNowPlayingBarHtml());nowPlayingBarElement=document.querySelector('.nowPlayingBar');if((browserInfo.safari||!AppInfo.isNativeApp)&&browserInfo.mobile){nowPlayingBarElement.classList.add('noMediaProgress');}
+document.body.insertAdjacentHTML('beforeend',getNowPlayingBarHtml());nowPlayingBarElement=document.querySelector('.nowPlayingBar');if(browserInfo.safari&&browserInfo.mobile){nowPlayingBarElement.classList.add('noMediaProgress');}
 bindEvents(nowPlayingBarElement);resolve(nowPlayingBarElement);});});}
 function showButton(button){button.classList.remove('hide');}
 function hideButton(button){button.classList.add('hide');}

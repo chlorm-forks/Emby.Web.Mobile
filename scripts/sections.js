@@ -16,7 +16,7 @@ var cacheKey='lastappinfopresent5';var lastDatePresented=parseInt(appSettings.ge
 if((new Date().getTime()-lastDatePresented)<frequency){return Promise.resolve('');}
 return Dashboard.getPluginSecurityInfo().then(function(pluginSecurityInfo){appSettings.set(cacheKey,new Date().getTime());if(pluginSecurityInfo.IsMBSupporter){return'';}
 var infos=[getPremiereInfo];if(!browserInfo.safari||!AppInfo.isNativeApp){infos.push(getTheaterInfo);}
-if(!AppInfo.enableAppLayouts&&browserInfo.mobile){infos.push(getUpgradeMobileLayoutsInfo);}
+if(!AppInfo.enableAppLayouts){infos.push(getUpgradeMobileLayoutsInfo);}
 appSettings.set(cacheKey,new Date().getTime());return infos[getRandomInt(0,infos.length-1)]();});}
 function getCard(img,target,shape){shape=shape||'backdropCard';var html='<div class="card '+shape+'"><div class="cardBox"><div class="cardScalable"><div class="cardPadder"></div>';if(target){html+='<a class="cardContent" href="'+target+'" target="_blank">';}else{html+='<div class="cardContent">';}
 html+='<div class="cardImage lazy" data-src="'+img+'"></div>';if(target){html+='</a>';}else{html+='</div>';}
