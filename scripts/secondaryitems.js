@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser','jQuery'],function(libraryBrowser,$){return function(view,params){var data={};function addCurrentItemToQuery(query,item){if(item.Type=="Person"){query.PersonIds=item.Id;}
+﻿define(['libraryBrowser'],function(libraryBrowser){return function(view,params){var data={};function addCurrentItemToQuery(query,item){if(item.Type=="Person"){query.PersonIds=item.Id;}
 else if(item.Type=="Genre"){query.Genres=item.Name;}
 else if(item.Type=="MusicGenre"){query.Genres=item.Name;}
 else if(item.Type=="GameGenre"){query.Genres=item.Name;}
@@ -10,11 +10,17 @@ if(parentItem){addCurrentItemToQuery(pageData.query,parentItem);}
 libraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData.query;}
 function getSavedQueryKey(){return libraryBrowser.getSavedQueryKey();}
-function onListItemClick(e){var info=libraryBrowser.getListItemInfo(this);if(info.mediaType=='Photo'){var query=getQuery();require(['scripts/photos'],function(){Photos.startSlideshow(view,query,info.id);});return false;}}
+function parentWithClass(elem,className){while(!elem.classList||!elem.classList.contains(className)){elem=elem.parentNode;if(!elem){return null;}}
+return elem;}
+function onListItemClick(e){var mediaItem=parentWithClass(e.target,'mediaItem');if(mediaItem){var info=libraryBrowser.getListItemInfo(mediaItem);if(info.mediaType=='Photo'){var query=getQuery();require(['scripts/photos'],function(){Photos.startSlideshow(view,query,info.id);});return false;}}}
 function reloadItems(parentItem){Dashboard.showLoadingMsg();var query=getQuery(parentItem);ApiClient.getItems(Dashboard.getCurrentUserId(),query).then(function(result){window.scrollTo(0,0);var html='';var pagingHtml=libraryBrowser.getQueryPagingHtml({startIndex:query.StartIndex,limit:query.Limit,totalRecordCount:result.TotalRecordCount,showLimit:false});view.querySelector('.listTopPaging').innerHTML=pagingHtml;if(query.IncludeItemTypes=="Audio"){html='<div style="max-width:1000px;margin:auto;">'+libraryBrowser.getListViewHtml({items:result.Items,playFromHere:true,defaultAction:'playallfromhere',smallIcon:true})+'</div>';}else{var posterOptions={items:result.Items,shape:"auto",centerText:true,lazy:true};if(query.IncludeItemTypes=="MusicAlbum"){posterOptions.overlayText=false;posterOptions.showParentTitle=true;posterOptions.showTitle=true;posterOptions.overlayPlayButton=true;}
 else if(query.IncludeItemTypes=="MusicArtist"){posterOptions.overlayText=false;posterOptions.overlayPlayButton=true;}
 else if(query.IncludeItemTypes=="Episode"){posterOptions.overlayText=false;posterOptions.showParentTitle=true;posterOptions.showTitle=true;posterOptions.overlayPlayButton=true;}
 html=libraryBrowser.getPosterViewHtml(posterOptions);}
-var elem=view.querySelector('#items');elem.innerHTML=html+pagingHtml;ImageLoader.lazyChildren(elem);$('.btnNextPage',view).on('click',function(){query.StartIndex+=query.Limit;reloadItems(parentItem);});$('.btnPreviousPage',view).on('click',function(){query.StartIndex-=query.Limit;reloadItems(parentItem);});Dashboard.hideLoadingMsg();});}
-$(view).on('click','.mediaItem',onListItemClick);view.addEventListener('viewbeforeshow',function(e){if(params.parentId){ApiClient.getItem(Dashboard.getCurrentUserId(),params.parentId).then(function(parent){LibraryMenu.setTitle(parent.Name);reloadItems(parent);});}
+var elem=view.querySelector('#items');elem.innerHTML=html+pagingHtml;ImageLoader.lazyChildren(elem);var i,length;var elems;function onNextPageClick(){query.StartIndex+=query.Limit;reloadItems(view);}
+function onPreviousPageClick(){query.StartIndex-=query.Limit;reloadItems(view);}
+elems=view.querySelectorAll('.btnNextPage');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onNextPageClick);}
+elems=view.querySelectorAll('.btnPreviousPage');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onPreviousPageClick);}
+Dashboard.hideLoadingMsg();});}
+view.addEventListener('click',onListItemClick);view.addEventListener('viewbeforeshow',function(e){if(params.parentId){ApiClient.getItem(Dashboard.getCurrentUserId(),params.parentId).then(function(parent){LibraryMenu.setTitle(parent.Name);reloadItems(parent);});}
 else{reloadItems();}});};});

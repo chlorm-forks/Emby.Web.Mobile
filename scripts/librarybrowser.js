@@ -75,7 +75,7 @@ if(item.url){return item.url;}
 var id=item.Id||item.ItemId;if(item.CollectionType=='livetv'){return'livetv.html';}
 if(item.CollectionType=='channels'){return'channels.html';}
 if(context!='folders'){if(item.CollectionType=='movies'){return'movies.html?topParentId='+item.Id;}
-if(item.CollectionType=='boxsets'){return'collections.html?topParentId='+item.Id;}
+if(item.CollectionType=='boxsets'){return'itemlist.html?topParentId='+item.Id+'&parentId='+item.Id;}
 if(item.CollectionType=='tvshows'){return'tv.html?topParentId='+item.Id;}
 if(item.CollectionType=='music'){return'music.html?topParentId='+item.Id;}
 if(item.CollectionType=='games'){return id?"itemlist.html?parentId="+id:"#";}
