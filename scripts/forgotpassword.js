@@ -1,5 +1,5 @@
-﻿define(['jQuery'],function($){function processForgotPasswordResult(page,result){if(result.Action=='ContactAdmin'){Dashboard.alert({message:Globalize.translate('MessageContactAdminToResetPassword'),title:Globalize.translate('HeaderForgotPassword')});return;}
+﻿define([],function(){function processForgotPasswordResult(result){if(result.Action=='ContactAdmin'){Dashboard.alert({message:Globalize.translate('MessageContactAdminToResetPassword'),title:Globalize.translate('HeaderForgotPassword')});return;}
 if(result.Action=='InNetworkRequired'){Dashboard.alert({message:Globalize.translate('MessageForgotPasswordInNetworkRequired'),title:Globalize.translate('HeaderForgotPassword')});return;}
 if(result.Action=='PinCode'){var msg=Globalize.translate('MessageForgotPasswordFileCreated');msg+="<br/>";msg+="<br/>";msg+=result.PinFile;msg+="<br/>";Dashboard.alert({message:msg,title:Globalize.translate('HeaderForgotPassword')});return;}}
-function onSubmit(){var page=$(this).parents('.page');ApiClient.ajax({type:'POST',url:ApiClient.getUrl('Users/ForgotPassword'),dataType:'json',data:{EnteredUsername:$('#txtName',page).val()}}).then(function(result){processForgotPasswordResult(page,result);});return false;}
-$(document).on('pageinit','#forgotPasswordPage',function(){var page=this;$('.forgotPasswordForm',page).off('submit',onSubmit).on('submit',onSubmit);});});
+return function(view,params){function onSubmit(e){ApiClient.ajax({type:'POST',url:ApiClient.getUrl('Users/ForgotPassword'),dataType:'json',data:{EnteredUsername:view.querySelector('#txtName').value}}).then(processForgotPasswordResult);e.preventDefault();return false;}
+view.querySelector('form').addEventListener('submit',onSubmit);};});
