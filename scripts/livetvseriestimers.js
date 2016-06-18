@@ -5,7 +5,7 @@ else{var days=timer.Days||[];html+=days.join(', ');}
 if(timer.RecordAnyTime){html+=' - '+Globalize.translate('LabelAnytime');}else{html+=' - '+datetime.getDisplayTime(timer.StartDate);}
 html+='</div>';html+='<div secondary>';if(timer.RecordAnyChannel){html+=Globalize.translate('LabelAllChannels');}
 else if(timer.ChannelId){html+=timer.ChannelName;}
-html+='</div>';html+='</a>';html+='</paper-item-body>';html+='<button type="button" is="paper-icon-button-light" data-seriestimerid="'+timer.Id+'" title="'+Globalize.translate('ButtonCancelSeries')+'" class="btnCancelSeries"><iron-icon icon="cancel"></iron-icon></button>';html+='</paper-icon-item>';}
+html+='</div>';html+='</a>';html+='</paper-item-body>';html+='<button type="button" is="paper-icon-button-light" data-seriestimerid="'+timer.Id+'" title="'+Globalize.translate('ButtonCancelSeries')+'" class="btnCancelSeries autoSize"><i class="md-icon">cancel</i></button>';html+='</paper-icon-item>';}
 if(timers.length){html+='</div>';}
 var elem=context.querySelector('#items');elem.innerHTML=html;if(timers.length){elem.querySelector('.paperList').addEventListener('click',function(e){var btnCancelSeries=parentWithClass(e.target,'btnCancelSeries');if(btnCancelSeries){deleteSeriesTimer(context,btnCancelSeries.getAttribute('data-seriestimerid'));}});}
 Dashboard.hideLoadingMsg();}
