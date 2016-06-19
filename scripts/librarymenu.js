@@ -5,11 +5,11 @@ function onBackClick(){if(Dashboard.exitOnBack()){Dashboard.exit();}
 else{history.back();}}
 function updateUserInHeader(user){var header=document.querySelector('.viewMenuBar');if(!header){return;}
 var headerUserButton=header.querySelector('.headerUserButton');var hasImage;if(user&&user.name){if(user.imageUrl){var userButtonHeight=26;var url=user.imageUrl;if(user.supportsImageParams){url+="&height="+Math.round((userButtonHeight*Math.max(window.devicePixelRatio||1,2)));}
-if(headerUserButton){updateHeaderUserButton(headerUserButton,url,null);hasImage=true;}}}
-if(headerUserButton&&!hasImage){updateHeaderUserButton(headerUserButton,null,'person');}
+if(headerUserButton){updateHeaderUserButton(headerUserButton,url);hasImage=true;}}}
+if(headerUserButton&&!hasImage){updateHeaderUserButton(headerUserButton,null);}
 if(user){updateLocalUser(user.localUser);}
 requiresUserRefresh=false;}
-function updateHeaderUserButton(headerUserButton,src,icon){if(src){headerUserButton.classList.add('headerUserButtonRound');headerUserButton.classList.remove('autoSize');headerUserButton.innerHTML='<img src="'+src+'" />';}else if(icon){headerUserButton.classList.remove('headerUserButtonRound');headerUserButton.classList.add('autoSize');headerUserButton.innerHTML='<i class="md-icon>'+icon+'</i>';}else{headerUserButton.classList.add('autoSize');headerUserButton.classList.remove('headerUserButtonRound');}}
+function updateHeaderUserButton(headerUserButton,src){if(src){headerUserButton.classList.add('headerUserButtonRound');headerUserButton.classList.remove('autoSize');headerUserButton.innerHTML='<img src="'+src+'" />';}else{headerUserButton.classList.remove('headerUserButtonRound');headerUserButton.classList.add('autoSize');headerUserButton.innerHTML='<i class="md-icon">person</i>';}}
 function updateLocalUser(user){var header=document.querySelector('.viewMenuBar');var headerSearchButton=header.querySelector('.headerSearchButton');var btnCast=header.querySelector('.btnCast');var dashboardEntryHeaderButton=header.querySelector('.dashboardEntryHeaderButton');if(user){btnCast.classList.remove('hide');if(headerSearchButton){headerSearchButton.classList.remove('hide');}
 if(dashboardEntryHeaderButton){if(user.Policy.IsAdministrator){dashboardEntryHeaderButton.classList.remove('hide');}else{dashboardEntryHeaderButton.classList.add('hide');}}
 require(['voice/voice'],function(voice){if(voice.isSupported()){header.querySelector('.headerVoiceButton').classList.remove('hide');}else{header.querySelector('.headerVoiceButton').classList.add('hide');}});}else{btnCast.classList.add('hide');header.querySelector('.headerVoiceButton').classList.add('hide');if(headerSearchButton){headerSearchButton.classList.add('hide');}
