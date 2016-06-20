@@ -9,7 +9,7 @@ var recordingItems=elem.querySelector('.recordingItems');if(enableScrollX()){rec
 recordingItems.innerHTML=LibraryBrowser.getPosterViewHtml({items:recordings,shape:(enableScrollX()?'autooverflow':'auto'),showTitle:true,showParentTitle:true,coverImage:true,lazy:true,cardLayout:true});ImageLoader.lazyChildren(recordingItems);}
 function renderActiveRecordings(context){ApiClient.getLiveTvTimers({IsActive:true}).then(function(result){if(result.Items.length&&result.Items[0].Status!='InProgress'){result.Items=[];}
 renderTimers(context.querySelector('#activeRecordings'),result.Items,{indexByDate:false});});}
-function renderLatestRecordings(context){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:enableScrollX()?12:4,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio'}).then(function(result){renderRecordings(context.querySelector('#latestRecordings'),result.Items);});}
+function renderLatestRecordings(context){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:enableScrollX()?12:4,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio',EnableTotalRecordCount:false}).then(function(result){renderRecordings(context.querySelector('#latestRecordings'),result.Items);});}
 function renderTimers(context,timers,options){LiveTvHelpers.getTimersHtml(timers,options).then(function(html){var elem=context;if(html){elem.classList.remove('hide');}else{elem.classList.add('hide');}
 elem.querySelector('.recordingItems').innerHTML=html;ImageLoader.lazyChildren(elem);LibraryBrowser.createCardMenus(elem);});}
 function renderUpcomingRecordings(context){ApiClient.getLiveTvTimers({IsActive:false}).then(function(result){renderTimers(context.querySelector('#upcomingRecordings'),result.Items);});}
