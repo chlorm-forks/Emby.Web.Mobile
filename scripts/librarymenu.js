@@ -63,9 +63,10 @@ else if(i.CollectionType=="livetv"){icon='live_tv';color="#293AAE";}
 icon=i.icon||icon;var onclick=i.onclick?' function(){'+i.onclick+'}':'null';return'<a data-itemid="'+itemId+'" class="lnkMediaFolder sidebarLink" onclick="return LibraryMenu.onLinkClicked(event, this, '+onclick+');" href="'+getItemHref(i,i.CollectionType)+'"><i class="md-icon sidebarLinkIcon" style="color:'+color+'">'+icon+'</i><span class="sectionName">'+i.Name+'</span></a>';}).join('');libraryMenuOptions.innerHTML=html;var elem=libraryMenuOptions;var sidebarLinks=elem.querySelectorAll('.sidebarLink');for(var i=0,length=sidebarLinks.length;i<length;i++){sidebarLinks[i].removeEventListener('click',onSidebarLinkClick);sidebarLinks[i].addEventListener('click',onSidebarLinkClick);}});}
 function onManageServerClicked(){closeMainDrawer();Dashboard.navigate('dashboard.html');}
 function getTopParentId(){return getParameterByName('topParentId')||null;}
+function getNavigateDelay(){return browserInfo.mobile?320:200;;}
 window.LibraryMenu={getTopParentId:getTopParentId,onLinkClicked:function(event,link,action){if(event.which!=1){return true;}
-if((new Date().getTime()-lastOpenTime)>200){setTimeout(function(){closeMainDrawer();var delay=browserInfo.mobile?350:200;setTimeout(function(){if(action){action();}else{Dashboard.navigate(link.href);}},delay);},50);}
-event.stopPropagation();event.preventDefault();return false;},onLogoutClicked:function(){if((new Date().getTime()-lastOpenTime)>200){closeMainDrawer();var delay=browserInfo.mobile?350:200;setTimeout(function(){Dashboard.logout();},delay);}
+if((new Date().getTime()-lastOpenTime)>200){setTimeout(function(){closeMainDrawer();setTimeout(function(){if(action){action();}else{Dashboard.navigate(link.href);}},getNavigateDelay());},50);}
+event.stopPropagation();event.preventDefault();return false;},onLogoutClicked:function(){if((new Date().getTime()-lastOpenTime)>200){closeMainDrawer();setTimeout(function(){Dashboard.logout();},getNavigateDelay());}
 return false;},onHardwareMenuButtonClick:function(){toggleMainDrawer();},onSettingsClicked:function(event){if(event.which!=1){return true;}
 Dashboard.navigate('dashboard.html');return false;},setTabs:function(type,selectedIndex,builder){var viewMenuBarTabs;if(!type){if(LibraryMenu.tabType){document.body.classList.remove('withTallToolbar');viewMenuBarTabs=document.querySelector('.viewMenuBarTabs');viewMenuBarTabs.innerHTML='';viewMenuBarTabs.classList.add('hide');LibraryMenu.tabType=null;}
 return;}

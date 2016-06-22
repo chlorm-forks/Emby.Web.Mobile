@@ -1,4 +1,4 @@
-﻿define(['dialogHelper','css!css/metadataeditor.css','emby-button','paper-fab','paper-icon-button-light'],function(dialogHelper){var currentItem;var currentDeferred;var hasChanges=false;function getBaseRemoteOptions(){var options={};options.itemId=currentItem.Id;return options;}
+﻿define(['dialogHelper','css!css/metadataeditor.css','emby-button','paper-icon-button-light'],function(dialogHelper){var currentItem;var currentDeferred;var hasChanges=false;function getBaseRemoteOptions(){var options={};options.itemId=currentItem.Id;return options;}
 function reload(page,item){Dashboard.showLoadingMsg();if(item){reloadItem(page,item);}
 else{ApiClient.getItem(Dashboard.getCurrentUserId(),currentItem.Id).then(function(item){reloadItem(page,item);});}}
 function addListeners(elems,eventName,fn){for(var i=0,length=elems.length;i<length;i++){elems[i].addEventListener(eventName,fn);}}
