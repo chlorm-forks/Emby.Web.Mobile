@@ -1,4 +1,4 @@
-﻿define(['libraryBrowser','events','scrollStyles'],function(libraryBrowser,events){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
+﻿define(['libraryBrowser','events','scrollStyles','scripts/librarymenu'],function(libraryBrowser,events){var searchHintTimeout;function clearSearchHintTimeout(){if(searchHintTimeout){clearTimeout(searchHintTimeout);searchHintTimeout=null;}}
 function getAdditionalTextLines(hint){if(hint.Type=="Audio"){return[[hint.AlbumArtist,hint.Album].join(" - ")];}
 else if(hint.Type=="MusicAlbum"){return[hint.AlbumArtist];}
 else if(hint.Type=="MusicArtist"){return[Globalize.translate('LabelArtist')];}
@@ -28,4 +28,4 @@ function bindSearchEvents(){require(['searchmenu'],function(searchmenu){events.o
 function closeSearchResults(){onHeaderSearchChange('');hideSearchMenu();}
 function showSearchMenu(){require(['searchmenu'],function(searchmenu){window.SearchMenu.show();});}
 function hideSearchMenu(){require(['searchmenu'],function(searchmenu){window.SearchMenu.hide();});}
-document.addEventListener('viewbeforehide',closeSearchResults);document.addEventListener('headercreated',function(){bindSearchEvents();});events.on(MediaController,'beforeplaybackstart',closeSearchResults);});
+document.addEventListener('viewbeforehide',closeSearchResults);bindSearchEvents();events.on(MediaController,'beforeplaybackstart',closeSearchResults);});
