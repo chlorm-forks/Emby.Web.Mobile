@@ -40,7 +40,7 @@ else{page.querySelector('#childrenCollapsible').classList.add('hide');}
 if(item.Type=='Series'){renderNextUp(page,item,user);}else{page.querySelector('.nextUpSection').classList.add('hide');}
 if(item.MediaSources&&item.MediaSources.length){renderMediaSources(page,item);}
 var chapters=item.Chapters||[];if(!chapters.length||!AppInfo.enableDetailPageChapters){page.querySelector('#scenesCollapsible').classList.add('hide');}else{page.querySelector('#scenesCollapsible').classList.remove('hide');renderScenes(page,item,user,3);}
-if(!item.SpecialFeatureCount||item.SpecialFeatureCount==0||item.Type=="Series"){page.querySelector('#scenesCollapsible').classList.add('hide');}else{page.querySelector('#scenesCollapsible').classList.remove('hide');renderSpecials(page,item,user,6);}
+if(!item.SpecialFeatureCount||item.SpecialFeatureCount==0||item.Type=="Series"){page.querySelector('#specialsCollapsible').classList.add('hide');}else{page.querySelector('#specialsCollapsible').classList.remove('hide');renderSpecials(page,item,user,6);}
 if(!item.People||!item.People.length){page.querySelector('#castCollapsible').classList.add('hide');}else{page.querySelector('#castCollapsible').classList.remove('hide');renderCast(page,item,context,enableScrollX()?null:6);}
 if(item.PartCount&&item.PartCount>1){page.querySelector('#additionalPartsCollapsible').classList.remove('hide');renderAdditionalParts(page,item,user);}else{page.querySelector('#additionalPartsCollapsible').classList.add('hide');}
 page.querySelector('#themeSongsCollapsible').classList.add('hide');page.querySelector('#themeVideosCollapsible').classList.add('hide');if(item.Type=="MusicAlbum"){renderMusicVideos(page,item,user);}else{page.querySelector('#musicVideosCollapsible').classList.add('hide');}
@@ -130,7 +130,7 @@ var options={};if(limit){options.limit=limit;}
 ApiClient.getCriticReviews(item.Id,options).then(function(result){if(result.TotalRecordCount||item.CriticRatingSummary||item.AwardSummary){page.querySelector('#criticReviewsCollapsible').classList.remove('hide');renderCriticReviewsContent(page,result,limit);}else{page.querySelector('#criticReviewsCollapsible').classList.add('hide');}});}
 function renderCriticReviewsContent(page,result,limit){var html='';var reviews=result.Items;for(var i=0,length=reviews.length;i<length;i++){var review=reviews[i];html+='<div class="paperList criticReviewPaperList">';html+='<div class="listItem">';if(review.Score!=null){}
 else if(review.Likes!=null){if(review.Likes){html+='<div style="background-color:transparent;background-image:url(\'css/images/fresh.png\');background-repeat:no-repeat;background-position:center center;background-size: cover;width:40px;height:40px;"></div>';}else{html+='<div style="background-color:transparent;background-image:url(\'css/images/rotten.png\');background-repeat:no-repeat;background-position:center center;background-size: cover;width:40px;height:40px;"></div>';}}
-html+='<div class="listItemBody">';html+='<div style="white-space:normal;">'+review.Caption+'</div>';var vals=[];if(review.ReviewerName){vals.push(review.ReviewerName);}
+html+='<div class="listItemBody two-line">';html+='<div style="white-space:normal;">'+review.Caption+'</div>';var vals=[];if(review.ReviewerName){vals.push(review.ReviewerName);}
 if(review.Publisher){vals.push(review.Publisher);}
 html+='<div class="secondary">'+vals.join(', ')+'.';if(review.Date){try{var date=datetime.parseISO8601Date(review.Date,true).toLocaleDateString();html+='<span class="reviewDate">'+date+'</span>';}
 catch(error){}}
