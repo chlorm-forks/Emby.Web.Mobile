@@ -1,6 +1,6 @@
 ﻿define(['dialogHelper','loading','emby-input','emby-checkbox','paper-icon-button-light'],function(dialogHelper,loading){var currentItem;var currentItemType;var currentResolve;var currentReject;var hasChanges=false;var currentSearchResult;function searchForIdentificationResults(page){var lookupInfo={ProviderIds:{}};var i,length;var identifyField=page.querySelectorAll('.identifyField');for(i=0,length=identifyField.length;i<length;i++){var value=identifyField[i].value;if(value){if(identifyField[i].type=='number'){value=parseInt(value);}
 lookupInfo[identifyField[i].getAttribute('data-lookup')]=value;}}
-var hasId=false;var txtLookupId=page.querySelectorAll('.txtLookupId');for(i=0,length=identifyField.length;i<length;i++){var value=txtLookupId[i].value;if(value){hasId=true;}
+var hasId=false;var txtLookupId=page.querySelectorAll('.txtLookupId');for(i=0,length=txtLookupId.length;i<length;i++){var value=txtLookupId[i].value;if(value){hasId=true;}
 lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')]=value;}
 if(!hasId&&!lookupInfo.Name){require(['toast'],function(toast){toast(Globalize.translate('MessagePleaseEnterNameOrId'));});return;}
 if(currentItem&&currentItem.GameSystem){lookupInfo.GameSystem=currentItem.GameSystem;}

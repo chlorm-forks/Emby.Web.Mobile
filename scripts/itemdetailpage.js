@@ -84,10 +84,10 @@ function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts&&sc
 function getPortraitShape(){return enableScrollX()?'overflowPortrait':'detailPagePortrait';}
 function getSquareShape(){return enableScrollX()?'overflowSquare':'detailPageSquare';}
 function getThumbShape(){return enableScrollX()?'overflowBackdrop':'detailPage169';}
-function renderSimilarItems(page,item,context){var similarCollapsible=page.querySelector('#similarCollapsible');if(item.Type=="Movie"||item.Type=="Trailer"||item.Type=="Series"||item.Type=="Program"||item.Type=="Recording"||item.Type=="Game"||item.Type=="MusicAlbum"||item.Type=="MusicArtist"||item.Type=="ChannelVideoItem"){similarCollapsible.classList.remove('hide');}
+function renderSimilarItems(page,item,context){var similarCollapsible=page.querySelector('#similarCollapsible');if(!similarCollapsible){return;}
+if(item.Type=="Movie"||item.Type=="Trailer"||item.Type=="Series"||item.Type=="Program"||item.Type=="Recording"||item.Type=="Game"||item.Type=="MusicAlbum"||item.Type=="MusicArtist"||item.Type=="ChannelVideoItem"){similarCollapsible.classList.remove('hide');}
 else{similarCollapsible.classList.add('hide');return;}
-var shape=item.Type=="MusicAlbum"||item.Type=="MusicArtist"?getSquareShape():getPortraitShape();var screenWidth=window.innerWidth;var screenHeight=window.innerHeight;var options={userId:Dashboard.getCurrentUserId(),limit:screenWidth>800&&shape=="detailPagePortrait"?4:4,fields:"PrimaryImageAspectRatio,UserData,SyncInfo,CanDelete"};if(screenWidth>=800&&screenHeight>=1000){options.limit*=2;}
-if(enableScrollX()){options.limit=12;}
+var shape=item.Type=="MusicAlbum"||item.Type=="MusicArtist"?getSquareShape():getPortraitShape();var options={userId:Dashboard.getCurrentUserId(),limit:8,fields:"PrimaryImageAspectRatio,UserData,SyncInfo,CanDelete"};if(enableScrollX()){options.limit=12;}
 ApiClient.getSimilarItems(item.Id,options).then(function(result){var similarCollapsible=page.querySelector('#similarCollapsible');if(!result.Items.length){similarCollapsible.classList.add('hide');return;}
 similarCollapsible.classList.remove('hide');similarCollapsible.querySelector('.similiarHeader').innerHTML=Globalize.translate('HeaderIfYouLikeCheckTheseOut',item.Name);var html='';if(enableScrollX()){html+='<div class="hiddenScrollX itemsContainer">';}else{html+='<div class="itemsContainer">';}
 html+=LibraryBrowser.getPosterViewHtml({items:result.Items,shape:shape,showParentTitle:item.Type=="MusicAlbum",centerText:true,showTitle:item.Type=="MusicAlbum"||item.Type=="Game"||item.Type=="MusicArtist",borderless:item.Type=="Game",context:context,lazy:true,showDetailsMenu:true,coverImage:item.Type=="MusicAlbum"||item.Type=="MusicArtist",overlayPlayButton:true});html+='</div>';var similarContent=page.querySelector('#similarContent');similarContent.innerHTML=html;ImageLoader.lazyChildren(similarContent);LibraryBrowser.createCardMenus(similarContent);});}
@@ -224,7 +224,7 @@ function onSyncClick(){require(['syncDialog'],function(syncDialog){syncDialog.sh
 return function(view,params){function onPlayTrailerClick(){playTrailer(view);}
 function onRecordClick(){var id=params.id;Dashboard.showLoadingMsg();require(['recordingCreator'],function(recordingCreator){recordingCreator.show(id,currentItem.ServerId).then(function(){reload(view,params);});});}
 function onCancelRecordingClick(){deleteTimer(view,params,currentItem.TimerId);}
-function onMoreCommandsClick(){var button=this;Dashboard.getCurrentUser().then(function(user){LibraryBrowser.showMoreCommands(button,currentItem.Id,currentItem.Type,LibraryBrowser.getMoreCommands(currentItem,user));});}
+function onMoreCommandsClick(){var button=this;Dashboard.getCurrentUser().then(function(user){LibraryBrowser.showMoreCommands(button,currentItem.Id,currentItem.Type,LibraryBrowser.getMoreCommands(currentItem,user)).then(function(){reload(view,params);});});}
 var elems=view.querySelectorAll('.btnPlay');var i,length;for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onPlayClick);}
 elems=view.querySelectorAll('.btnPlayTrailer');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onPlayTrailerClick);}
 view.querySelector('.btnSplitVersions').addEventListener('click',function(){splitVersions(view,params);});elems=view.querySelectorAll('.btnSync');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onSyncClick);}
