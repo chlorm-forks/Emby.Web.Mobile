@@ -9,4 +9,4 @@ function saveUser(user,page){user.Name=$('#txtUserName',page).val();user.Policy.
 function onSubmit(){var page=$(this).parents('.page');Dashboard.showLoadingMsg();getUser().then(function(result){saveUser(result,page);});return false;}
 function getUser(){var userId=getParameterByName("userId");return ApiClient.getUser(userId);}
 function loadData(page){Dashboard.showLoadingMsg();getUser().then(function(user){loadUser(page,user);});}
-$(document).on('pageinit',"#editUserPage",function(){$('.editUserProfileForm').off('submit',onSubmit).on('submit',onSubmit);}).on('pagebeforeshow',"#editUserPage",function(){var page=this;loadData(page);});});
+$(document).on('pageinit',"#editUserPage",function(){$('.editUserProfileForm').off('submit',onSubmit).on('submit',onSubmit);this.querySelector('.sharingHelp').innerHTML=Globalize.translate('OptionAllowLinkSharingHelp',30);}).on('pagebeforeshow',"#editUserPage",function(){var page=this;loadData(page);});});
