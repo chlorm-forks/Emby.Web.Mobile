@@ -6,5 +6,7 @@ function getDeviceName(){var deviceName;if(browser.chrome){deviceName="Chrome";}
 if(browser.version){deviceName+=" "+browser.version;}
 if(browser.ipad){deviceName+=" Ipad";}else if(browser.iphone){deviceName+=" Iphone";}else if(browser.android){deviceName+=" Android";}
 return deviceName;}
-var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){alert('exit is not supported and should not be called');},supports:function(command){var features=['filedownload','externalpremium','sharing'];return features.indexOf(command.toLowerCase())!=-1;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
+function supportsVoiceInput(){return window.SpeechRecognition||window.webkitSpeechRecognition||window.mozSpeechRecognition||window.oSpeechRecognition||window.msSpeechRecognition;}
+var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){alert('exit is not supported and should not be called');},supports:function(command){var features=['filedownload','externalpremium','sharing'];features.push('externallinks');if(supportsVoiceInput()){features.push('voiceinput');}
+return features.indexOf(command.toLowerCase())!=-1;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
 return getDeviceId().then(function(deviceId){appInfo={deviceId:deviceId,deviceName:getDeviceName(),appName:'Emby Mobile',appVersion:version};return appInfo;});},capabilities:getCapabilities};});
