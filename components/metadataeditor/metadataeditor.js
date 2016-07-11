@@ -16,7 +16,7 @@ function parentWithClass(elem,className){while(!elem.classList||!elem.classList.
 return elem;}
 function editableListViewValues(list){return list.find('.textValue').map(function(){return $(this).text();}).get();}
 function addElementToEditableListview(source,sortCallback){require(['prompt'],function(prompt){prompt({label:'Value:'}).then(function(text){var list=$(source).parents('.editableListviewContainer').find('.paperList');var items=editableListViewValues(list);items.push(text);populateListView(list[0],items,sortCallback);});});}
-function removeElementFromListview(source){$(source).parents('paper-icon-item').remove();}
+function removeElementFromListview(source){$(source).parents('.listItem').remove();}
 function editPerson(context,person,index){require(['components/metadataeditor/personeditor'],function(personeditor){personeditor.show(person).then(function(updatedPerson){var isNew=index==-1;if(isNew){currentItem.People.push(updatedPerson);}
 populatePeople(context,currentItem.People);});});}
 function showRefreshMenu(context,button){require(['refreshDialog'],function(refreshDialog){new refreshDialog({itemIds:[currentItem.Id],serverId:ApiClient.serverInfo().Id}).show();});}
@@ -25,7 +25,7 @@ items.push({name:Globalize.translate('ButtonRefresh'),id:'refresh'});require(['a
 function onWebSocketMessageReceived(e,data){var msg=data;if(msg.MessageType==="LibraryChanged"){if(msg.Data.ItemsUpdated.indexOf(currentItem.Id)!=-1){console.log('Item updated - reloading metadata');reload(currentContext,currentItem.Id);}}}
 function bindItemChanged(context){Events.on(ApiClient,"websocketmessage",onWebSocketMessageReceived);}
 function unbindItemChanged(context){Events.off(ApiClient,"websocketmessage",onWebSocketMessageReceived);}
-function onEditorClick(e){var btnRemoveFromEditorList=parentWithClass(e.target,'btnRemoveFromEditorList');if(btnRemoveFromEditorList){removeElementFromListview(btnRemoveFromEditorList);}
+function onEditorClick(e){var btnRemoveFromEditorList=parentWithClass(e.target,'btnRemoveFromEditorList');if(btnRemoveFromEditorList){removeElementFromListview(btnRemoveFromEditorList);return;}
 var btnAddTextItem=parentWithClass(e.target,'btnAddTextItem');if(btnAddTextItem){addElementToEditableListview(btnAddTextItem);}}
 function init(context){$('.btnCancel',context).on('click',function(){closeDialog(false);});context.querySelector('.btnMore').addEventListener('click',function(e){Dashboard.getCurrentUser().then(function(user){showMoreMenu(context,e.target,user);});});context.querySelector('.btnHeaderSave').addEventListener('click',function(e){context.querySelector('.btnSave').click();});context.querySelector('#chkLockData').addEventListener('click',function(e){if(!e.target.checked){$('.providerSettingsContainer').show();}else{$('.providerSettingsContainer').hide();}});context.removeEventListener('click',onEditorClick);context.addEventListener('click',onEditorClick);$('form',context).off('submit',onSubmit).on('submit',onSubmit);$("#btnAddPerson",context).on('click',function(event,data){editPerson(context,{},-1);});if(isDialog()){bindItemChanged(context);}}
 function getItem(itemId){if(itemId){return ApiClient.getItem(Dashboard.getCurrentUserId(),itemId);}
