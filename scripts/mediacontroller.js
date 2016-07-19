@@ -1,4 +1,4 @@
-﻿define(['appStorage'],function(appStorage){var currentDisplayInfo;function mirrorItem(info){var item=info.item;MediaController.getCurrentPlayer().displayContent({ItemName:item.Name,ItemId:item.Id,ItemType:item.Type,Context:info.context});}
+﻿define(['appStorage'],function(appStorage){var currentDisplayInfo;var datetime;function mirrorItem(info){var item=info.item;MediaController.getCurrentPlayer().displayContent({ItemName:item.Name,ItemId:item.Id,ItemType:item.Type,Context:info.context});}
 function mirrorIfEnabled(info){info=info||currentDisplayInfo;if(info&&MediaController.enableDisplayMirroring()){var player=MediaController.getPlayerInfo();if(!player.isLocalPlayer&&player.supportedCommands.indexOf('DisplayContent')!=-1){mirrorItem(info);}}}
 function monitorPlayer(player){Events.on(player,'playbackstart',function(e,state){var info={QueueableMediaTypes:state.NowPlayingItem.MediaType,ItemId:state.NowPlayingItem.Id,NowPlayingItem:state.NowPlayingItem};info=Object.assign(info,state.PlayState);ApiClient.reportPlaybackStart(info);});Events.on(player,'playbackstop',function(e,state){var stopInfo={itemId:state.NowPlayingItem.Id,mediaSourceId:state.PlayState.MediaSourceId,positionTicks:state.PlayState.PositionTicks};if(state.PlayState.LiveStreamId){stopInfo.LiveStreamId=state.PlayState.LiveStreamId;}
 if(state.PlayState.PlaySessionId){stopInfo.PlaySessionId=state.PlayState.PlaySessionId;}
@@ -33,9 +33,13 @@ function stopAutoStopTimer(){var timeout=autoStopTimeout;if(timeout){clearTimeou
 self.toggleDisplayMirroring=function(){self.enableDisplayMirroring(!self.enableDisplayMirroring());};self.enableDisplayMirroring=function(enabled){if(enabled!=null){var val=enabled?'1':'0';appStorage.setItem('displaymirror--'+Dashboard.getCurrentUserId(),val);if(enabled){mirrorIfEnabled();}
 return;}
 return(appStorage.getItem('displaymirror--'+Dashboard.getCurrentUserId())||'')!='0';};self.play=function(options){doWithPlaybackValidation(currentPlayer,function(){if(typeof(options)==='string'){options={ids:[options]};}
-currentPlayer.play(options);});};self.shuffle=function(id){doWithPlaybackValidation(currentPlayer,function(){currentPlayer.shuffle(id);});};self.instantMix=function(id){doWithPlaybackValidation(currentPlayer,function(){currentPlayer.instantMix(id);});};self.queue=function(options){if(typeof(options)==='string'){options={ids:[options]};}
+currentPlayer.play(options);});};self.shuffle=function(id){if(id.Id){id=id.Id;}
+doWithPlaybackValidation(currentPlayer,function(){currentPlayer.shuffle(id);});};self.instantMix=function(id){if(id.Id){id=id.Id;}
+doWithPlaybackValidation(currentPlayer,function(){currentPlayer.instantMix(id);});};self.queue=function(options){if(typeof(options)==='string'){options={ids:[options]};}
 currentPlayer.queue(options);};self.queueNext=function(options){if(typeof(options)==='string'){options={ids:[options]};}
-currentPlayer.queueNext(options);};self.canPlay=function(item){return self.canPlayByAttributes(item.Type,item.MediaType,item.PlayAccess,item.LocationType);};self.canPlayByAttributes=function(itemType,mediaType,playAccess,locationType){if(playAccess!='Full'){return false;}
+currentPlayer.queueNext(options);};self.canPlay=function(item){if(item.Type=="Program"){if(new Date().getTime()>datetime.parseISO8601Date(item.EndDate).getTime()||new Date().getTime()<datetime.parseISO8601Date(item.StartDate).getTime()){return false;}
+return true;}
+return self.canPlayByAttributes(item.Type,item.MediaType,item.PlayAccess,item.LocationType);};self.canPlayByAttributes=function(itemType,mediaType,playAccess,locationType){if(playAccess!='Full'){return false;}
 if(locationType=="Virtual"){return false;}
 if(itemType=="Program"){return false;}
 if(itemType=="MusicGenre"||itemType=="Season"||itemType=="Series"||itemType=="BoxSet"||itemType=="MusicAlbum"||itemType=="MusicArtist"||itemType=="Playlist"){return true;}
@@ -76,6 +80,6 @@ else if(msg.Data.Command==='NextTrack'){localPlayer.nextTrack();}
 else if(msg.Data.Command==='PreviousTrack'){localPlayer.previousTrack();}}
 else if(msg.MessageType==="GeneralCommand"){var cmd=msg.Data;localPlayer=MediaController.getLocalPlayer();MediaController.sendCommand(cmd,localPlayer);}}
 function initializeApiClient(apiClient){Events.off(apiClient,"websocketmessage",onWebSocketMessageReceived);Events.on(apiClient,"websocketmessage",onWebSocketMessageReceived);}
-MediaController.init=function(){console.log('Beginning MediaController.init');if(window.ApiClient){initializeApiClient(window.ApiClient);}
+MediaController.init=function(){console.log('Beginning MediaController.init');require(['datetime'],function(datetimeInstance){datetime=datetimeInstance;});if(window.ApiClient){initializeApiClient(window.ApiClient);}
 Events.on(ConnectionManager,'apiclientcreated',function(e,apiClient){initializeApiClient(apiClient);});};function onCastButtonClicked(){showPlayerSelection(this);}
 document.addEventListener('headercreated',function(){var btnCast=document.querySelector('.viewMenuBar .btnCast');btnCast.removeEventListener('click',onCastButtonClicked);btnCast.addEventListener('click',onCastButtonClicked);});pageClassOn('pagebeforeshow',"page",function(){var page=this;currentDisplayInfo=null;});pageClassOn('displayingitem',"libraryPage",function(e){var info=e.detail;mirrorIfEnabled(info);});});

@@ -5,7 +5,7 @@ if(dateText!=currentGroupName){if(currentGroup.length){groups.push({name:current
 currentGroupName=dateText;currentGroup=[item];}else{currentGroup.push(item);}}
 if(currentGroup.length){groups.push({name:currentGroupName,items:currentGroup});}
 var html='';for(i=0,length=groups.length;i<length;i++){var group=groups[i];if(group.name){html+='<div class="homePageSection">';html+='<h1 class="listHeader">'+group.name+'</h1>';}
-if(enableScrollX()){html+='<div class="itemsContainer hiddenScrollX">';}else{html+='<div class="itemsContainer">';}
-html+=LibraryBrowser.getPosterViewHtml({items:group.items,shape:getSquareShape(),showTitle:true,showAirTime:true,showChannelName:true,lazy:true,cardLayout:true,showDetailsMenu:true,defaultAction:'edit'});html+='</div>';if(group.name){html+='</div>';}}
+if(enableScrollX()){html+='<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX">';}else{html+='<div is="emby-itemscontainer" class="itemsContainer">';}
+html+=LibraryBrowser.getPosterViewHtml({items:group.items,shape:getSquareShape(),showTitle:true,showAirTime:true,showChannelName:true,lazy:true,cardLayout:true,defaultAction:'edit'});html+='</div>';if(group.name){html+='</div>';}}
 return Promise.resolve(html);}
 window.LiveTvHelpers={getDaysOfWeek:function(){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];return days.map(function(d){return{name:d,value:d};});},getTimersHtml:getTimersHtml};});

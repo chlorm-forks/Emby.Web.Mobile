@@ -1,4 +1,4 @@
-﻿define([],function(){return function(view,params,tabContent){var self=this;var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{StartIndex:0,EnableFavoriteSorting:true,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['emby-itemscontainer'],function(){return function(view,params,tabContent){var self=this;var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{StartIndex:0,EnableFavoriteSorting:true,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(context){return getPageData(context).query;}
 function getSavedQueryKey(context){if(!context.savedQueryKey){context.savedQueryKey=LibraryBrowser.getSavedQueryKey('channels');}
