@@ -7,8 +7,8 @@ function reloadItems(page){Dashboard.showLoadingMsg();var query=getQuery(page);A
 else if(viewStyle=="ThumbCard"){html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"backdrop",preferThumb:true,context:'movies',lazy:true,cardLayout:true,showTitle:true,showItemCounts:true});}
 else if(viewStyle=="Banner"){html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"banner",preferBanner:true,context:'movies',lazy:true});}
 else if(viewStyle=="List"){html=listView.getListViewHtml({items:result.Items,context:'movies',sortBy:query.SortBy});}
-else if(viewStyle=="PosterCard"){html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"portrait",context:'movies',showTitle:true,showYear:true,lazy:true,cardLayout:true,showItemCounts:true});}
-else{html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"portrait",context:'movies',centerText:true,lazy:true,overlayPlayButton:true});}
+else if(viewStyle=="PosterCard"){html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"auto",context:'movies',showTitle:true,showYear:true,lazy:true,cardLayout:true,showItemCounts:true});}
+else{html=libraryBrowser.getPosterViewHtml({items:result.Items,shape:"auto",context:'movies',centerText:true,lazy:true,overlayPlayButton:true});}
 var i,length;var elems=tabContent.querySelectorAll('.paging');for(i=0,length=elems.length;i<length;i++){elems[i].innerHTML=pagingHtml;}
 function onNextPageClick(){query.StartIndex+=query.Limit;reloadItems(tabContent);}
 function onPreviousPageClick(){query.StartIndex-=query.Limit;reloadItems(tabContent);}

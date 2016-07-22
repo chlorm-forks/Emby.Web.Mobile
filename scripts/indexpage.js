@@ -5,8 +5,8 @@ var showLibraryTileNames=displayPreferences.CustomPrefs.enableLibraryTileNames!=
 else if(section=='latestmovies'){return Sections.loadLatestMovies(elem,user);}
 else if(section=='latestepisodes'){return Sections.loadLatestEpisodes(elem,user);}
 else if(section=='librarytiles'){return Sections.loadLibraryTiles(elem,user,'backdrop',index,false,showLibraryTileNames);}
-else if(section=='smalllibrarytiles'){return Sections.loadLibraryTiles(elem,user,'homePageSmallBackdrop',index,false,showLibraryTileNames);}
-else if(section=='smalllibrarytiles-automobile'){return Sections.loadLibraryTiles(elem,user,'homePageSmallBackdrop',index,true,showLibraryTileNames);}
+else if(section=='smalllibrarytiles'){return Sections.loadLibraryTiles(elem,user,'smallBackdrop',index,false,showLibraryTileNames);}
+else if(section=='smalllibrarytiles-automobile'){return Sections.loadLibraryTiles(elem,user,'smallBackdrop',index,true,showLibraryTileNames);}
 else if(section=='librarytiles-automobile'){return Sections.loadLibraryTiles(elem,user,'backdrop',index,true,showLibraryTileNames);}
 else if(section=='librarybuttons'){return Sections.loadlibraryButtons(elem,userId,index);}
 else if(section=='resume'){return Sections.loadResume(elem,userId);}

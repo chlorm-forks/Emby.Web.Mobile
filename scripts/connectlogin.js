@@ -1,12 +1,12 @@
-﻿define([],function(){function login(page,username,password){Dashboard.showModalLoadingMsg();ConnectionManager.loginToConnect(username,password).then(function(){Dashboard.hideModalLoadingMsg();Dashboard.navigate('selectserver.html');},function(){Dashboard.hideModalLoadingMsg();Dashboard.alert({message:Globalize.translate('MessageInvalidUser'),title:Globalize.translate('HeaderLoginFailure')});page.querySelector('#txtManualPassword').value='';});}
-function handleConnectionResult(page,result){Dashboard.hideModalLoadingMsg();switch(result.State){case MediaBrowser.ConnectionState.SignedIn:{var apiClient=result.ApiClient;Dashboard.onServerChanged(apiClient.getCurrentUserId(),apiClient.accessToken(),apiClient);Dashboard.navigate('home.html');}
+﻿define([],function(){function login(page,username,password){Dashboard.showLoadingMsg();ConnectionManager.loginToConnect(username,password).then(function(){Dashboard.hideLoadingMsg();Dashboard.navigate('selectserver.html');},function(){Dashboard.hideLoadingMsg();Dashboard.alert({message:Globalize.translate('MessageInvalidUser'),title:Globalize.translate('HeaderLoginFailure')});page.querySelector('#txtManualPassword').value='';});}
+function handleConnectionResult(page,result){Dashboard.hideLoadingMsg();switch(result.State){case MediaBrowser.ConnectionState.SignedIn:{var apiClient=result.ApiClient;Dashboard.onServerChanged(apiClient.getCurrentUserId(),apiClient.accessToken(),apiClient);Dashboard.navigate('home.html');}
 break;case MediaBrowser.ConnectionState.ServerSignIn:{Dashboard.navigate('login.html?serverid='+result.Servers[0].Id,false,'none');}
 break;case MediaBrowser.ConnectionState.ServerSelection:{Dashboard.navigate('selectserver.html',false,'none');}
 break;case MediaBrowser.ConnectionState.ConnectSignIn:{loadMode(page,'welcome');}
 break;case MediaBrowser.ConnectionState.ServerUpdateNeeded:{Dashboard.alert({message:Globalize.translate('ServerUpdateNeeded','<a href="https://emby.media">https://emby.media</a>')});}
 break;case MediaBrowser.ConnectionState.Unavailable:{Dashboard.alert({message:Globalize.translate("MessageUnableToConnectToServer"),title:Globalize.translate("HeaderConnectionFailure")});}
 break;default:break;}}
-function loadAppConnection(page){Dashboard.showModalLoadingMsg();ConnectionManager.connect().then(function(result){handleConnectionResult(page,result);});}
+function loadAppConnection(page){Dashboard.showLoadingMsg();ConnectionManager.connect().then(function(result){handleConnectionResult(page,result);});}
 function loadPage(page){var mode=getParameterByName('mode')||'auto';if(mode=='auto'){if(AppInfo.isNativeApp){loadAppConnection(page);return;}
 mode='connect';}
 loadMode(page,mode);}
@@ -21,7 +21,7 @@ function initSignup(page){if(!supportInAppSignup()){return;}
 if(!requireCaptcha()){return;}
 require(['https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit'],function(){});}
 function submitManualServer(page){var host=page.querySelector('#txtServerHost').value;var port=page.querySelector('#txtServerPort').value;if(port){host+=':'+port;}
-Dashboard.showModalLoadingMsg();ConnectionManager.connectToAddress(host).then(function(result){handleConnectionResult(page,result);},function(){handleConnectionResult(page,{State:MediaBrowser.ConnectionState.Unavailable});});}
+Dashboard.showLoadingMsg();ConnectionManager.connectToAddress(host).then(function(result){handleConnectionResult(page,result);},function(){handleConnectionResult(page,{State:MediaBrowser.ConnectionState.Unavailable});});}
 function submit(page){var user=page.querySelector('#txtManualName').value;var password=page.querySelector('#txtManualPassword').value;login(page,user,password);}
 return function(view,params){function onSubmit(e){submit(view);e.preventDefault();return false;}
 function onManualServerSubmit(e){submitManualServer(view);e.preventDefault();return false;}

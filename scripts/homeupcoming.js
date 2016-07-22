@@ -7,6 +7,6 @@ function renderUpcoming(elem,items){var groups=[];var currentGroupName='';var cu
 if(dateText!=currentGroupName){if(currentGroup.length){groups.push({name:currentGroupName,items:currentGroup});}
 currentGroupName=dateText;currentGroup=[item];}else{currentGroup.push(item);}}
 var html='';for(i=0,length=groups.length;i<length;i++){var group=groups[i];html+='<div class="homePageSection">';html+='<h1 class="listHeader">'+group.name+'</h1>';if(enableScrollX()){html+='<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX">';}else{html+='<div is="emby-itemscontainer" class="itemsContainer">';}
-html+=LibraryBrowser.getPosterViewHtml({items:group.items,showLocationTypeIndicator:false,shape:getThumbShape(),showTitle:true,preferThumb:true,lazy:true,showDetailsMenu:true,centerText:true,context:'home-upcoming',overlayMoreButton:true});html+='</div>';html+='</div>';}
+html+=LibraryBrowser.getPosterViewHtml({items:group.items,showLocationTypeIndicator:false,shape:getThumbShape(),showTitle:true,preferThumb:true,lazy:true,showDetailsMenu:true,centerText:true,context:'home-upcoming',overlayMoreButton:true,showParentTitle:true});html+='</div>';html+='</div>';}
 elem.innerHTML=html;ImageLoader.lazyChildren(elem);}
 return function(view,params,tabContent){var self=this;var upcomingPromise;self.preRender=function(){upcomingPromise=getUpcomingPromise();};self.renderTab=function(){Dashboard.showLoadingMsg();loadUpcoming(view,upcomingPromise);};};});
