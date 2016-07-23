@@ -92,7 +92,7 @@ var shape=item.Type=="MusicAlbum"||item.Type=="MusicArtist"?getSquareShape():get
 function renderSimilarItems(page,item,context){var similarCollapsible=page.querySelector('#similarCollapsible');if(!similarCollapsible){return;}
 if(item.Type=="Movie"||item.Type=="Trailer"||item.Type=="Series"||item.Type=="Program"||item.Type=="Recording"||item.Type=="Game"||item.Type=="MusicAlbum"||item.Type=="MusicArtist"||item.Type=="ChannelVideoItem"){similarCollapsible.classList.remove('hide');}
 else{similarCollapsible.classList.add('hide');return;}
-var shape=item.Type=="MusicAlbum"||item.Type=="MusicArtist"?getSquareShape():getPortraitShape();var options={userId:Dashboard.getCurrentUserId(),limit:8,fields:"PrimaryImageAspectRatio,UserData,SyncInfo,CanDelete"};if(item.Type=='MusicAlbum'&&item.AlbumArtists&&item.AlbumArtists.length){options.ExcludeArtistNames=item.AlbumArtists[0].Name;}
+var shape=item.Type=="MusicAlbum"||item.Type=="MusicArtist"?getSquareShape():getPortraitShape();var options={userId:Dashboard.getCurrentUserId(),limit:8,fields:"PrimaryImageAspectRatio,UserData,SyncInfo,CanDelete"};if(item.Type=='MusicAlbum'&&item.AlbumArtists&&item.AlbumArtists.length){options.ExcludeArtistIds=item.AlbumArtists[0].Id;}
 if(enableScrollX()){options.limit=12;}
 ApiClient.getSimilarItems(item.Id,options).then(function(result){if(!result.Items.length){similarCollapsible.classList.add('hide');return;}
 similarCollapsible.classList.remove('hide');similarCollapsible.querySelector('.similiarHeader').innerHTML=Globalize.translate('HeaderIfYouLikeCheckTheseOut',item.Name);var html='';if(enableScrollX()){html+='<div is="emby-itemscontainer" class="hiddenScrollX itemsContainer">';}else{html+='<div is="emby-itemscontainer" class="itemsContainer">';}
