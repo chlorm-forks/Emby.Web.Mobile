@@ -1,4 +1,4 @@
-﻿define(['dialogHelper','jQuery','paper-item','emby-input','emby-button','paper-item-body','paper-icon-button-light'],function(dialogHelper,$){var systemInfo;function getSystemInfo(){var deferred=jQuery.Deferred();if(systemInfo){deferred.resolveWith(null,[systemInfo]);}else{ApiClient.getPublicSystemInfo().then(function(info){systemInfo=info;deferred.resolveWith(null,[systemInfo]);});}
+﻿define(['dialogHelper','jQuery','paper-item','emby-input','emby-button','paper-item-body','paper-icon-button-light','css!./directorybrowser'],function(dialogHelper,$){var systemInfo;function getSystemInfo(){var deferred=jQuery.Deferred();if(systemInfo){deferred.resolveWith(null,[systemInfo]);}else{ApiClient.getPublicSystemInfo().then(function(info){systemInfo=info;deferred.resolveWith(null,[systemInfo]);});}
 return deferred.promise();}
 function onDialogClosed(){Dashboard.hideLoadingMsg();}
 function refreshDirectoryBrowser(page,path,fileOptions){if(path&&typeof(path)!=='string'){throw new Error('invalid path');}
