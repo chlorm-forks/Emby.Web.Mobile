@@ -39,7 +39,7 @@ renderChildren(page,item);}
 else{page.querySelector('#childrenCollapsible').classList.add('hide');}
 if(item.Type=='Series'){renderNextUp(page,item,user);}else{page.querySelector('.nextUpSection').classList.add('hide');}
 if(item.MediaSources&&item.MediaSources.length){renderMediaSources(page,item);}
-var chapters=item.Chapters||[];if(!chapters.length||!AppInfo.enableDetailPageChapters){page.querySelector('#scenesCollapsible').classList.add('hide');}else{page.querySelector('#scenesCollapsible').classList.remove('hide');renderScenes(page,item,user,3);}
+var chapters=item.Chapters||[];if(!chapters.length){page.querySelector('#scenesCollapsible').classList.add('hide');}else{page.querySelector('#scenesCollapsible').classList.remove('hide');renderScenes(page,item,user,3);}
 if(!item.SpecialFeatureCount||item.SpecialFeatureCount==0||item.Type=="Series"){page.querySelector('#specialsCollapsible').classList.add('hide');}else{page.querySelector('#specialsCollapsible').classList.remove('hide');renderSpecials(page,item,user,6);}
 if(!item.People||!item.People.length){page.querySelector('#castCollapsible').classList.add('hide');}else{page.querySelector('#castCollapsible').classList.remove('hide');renderCast(page,item,context,enableScrollX()?null:6);}
 if(item.PartCount&&item.PartCount>1){page.querySelector('#additionalPartsCollapsible').classList.remove('hide');renderAdditionalParts(page,item,user);}else{page.querySelector('#additionalPartsCollapsible').classList.add('hide');}

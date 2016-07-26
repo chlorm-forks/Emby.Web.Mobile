@@ -1,7 +1,7 @@
 ﻿define(['jQuery','libraryBrowser'],function($,libraryBrowser){var currentItem;function reload(page){var id=getParameterByName('id');Dashboard.showLoadingMsg();ApiClient.getJSON(ApiClient.getUrl('Social/Shares/Public/'+id+'/Item')).then(function(item){reloadFromItem(page,item);});}
 function reloadFromItem(page,item){currentItem=item;libraryBrowser.renderName(item,$('.itemName',page)[0],false);libraryBrowser.renderParentName(item,$('.parentName',page)[0]);libraryBrowser.renderDetailPageBackdrop(page,item);renderImage(page,item);setInitialCollapsibleState(page,item);ItemDetailPage.renderDetails(page,item,null,true);Dashboard.hideLoadingMsg();}
 function setInitialCollapsibleState(page,item){$('.collectionItems',page).empty();if(item.MediaSources&&item.MediaSources.length){ItemDetailPage.renderMediaSources(page,item);}
-var chapters=item.Chapters||[];if(!chapters.length||!AppInfo.enableDetailPageChapters){$('#scenesCollapsible',page).hide();}else{$('#scenesCollapsible',page).show();ItemDetailPage.renderScenes(page,item,null,3,true);}
+var chapters=item.Chapters||[];if(!chapters.length){$('#scenesCollapsible',page).hide();}else{$('#scenesCollapsible',page).show();ItemDetailPage.renderScenes(page,item,null,3,true);}
 if(!item.People||!item.People.length){$('#castCollapsible',page).hide();}else{$('#castCollapsible',page).show();ItemDetailPage.renderCast(page,item,null,6,true);}
 ItemDetailPage.renderCriticReviews(page,item,1);}
 function renderImage(page,item){libraryBrowser.renderDetailImage(page.querySelector('.detailImageContainer'),item,false);}
