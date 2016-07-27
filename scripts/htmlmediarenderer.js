@@ -74,7 +74,11 @@ self.setCurrentTrackElement=function(streamIndex){console.log('Setting new text 
 var expectedId='textTrack'+streamIndex;var trackIndex=streamIndex==-1||!track?-1:currentTrackList.indexOf(track);var modes=['disabled','showing','hidden'];var allTracks=mediaElement.textTracks;for(var i=0;i<allTracks.length;i++){var currentTrack=allTracks[i];console.log('currentTrack id: '+currentTrack.id);var mode;console.log('expectedId: '+expectedId+'--currentTrack.Id:'+currentTrack.id);if(browserInfo.msie||browserInfo.edge){if(trackIndex==i){mode=1;}else{mode=0;}}else{if(currentTrack.label.indexOf('manualTrack')!=-1){continue;}
 if(currentTrack.id==expectedId){mode=1;}else{mode=0;}}
 console.log('Setting track '+i+' mode to: '+mode);var useNumericMode=false;if(!isNaN(currentTrack.mode)){}
-if(useNumericMode){currentTrack.mode=mode;}else{currentTrack.mode=modes[mode];}}};self.updateTextStreamUrls=function(startPositionTicks){if(!self.supportsTextTracks()){return;}
+if(useNumericMode){currentTrack.mode=mode;}else{currentTrack.mode=modes[mode];}}};function replaceQueryString(url,param,value){var re=new RegExp("([?|&])"+param+"=.*?(&|$)","i");if(url.match(re))
+return url.replace(re,'$1'+param+"="+value+'$2');else if(value){if(url.indexOf('?')==-1){return url+'?'+param+"="+value;}
+return url+'&'+param+"="+value;}
+return url;}
+self.updateTextStreamUrls=function(startPositionTicks){if(!self.supportsTextTracks()){return;}
 var allTracks=mediaElement.textTracks;var i;for(i=0;i<allTracks.length;i++){var track=allTracks[i];try{while(track.cues.length){track.removeCue(track.cues[0]);}}catch(e){console.log('Error removing cue from textTrack');}}
 var trackElements=mediaElement.querySelectorAll('track');for(i=0;i<trackElements.length;i++){var trackElement=trackElements[i];trackElement.src=replaceQueryString(trackElement.src,'startPositionTicks',startPositionTicks);}};self.enableCustomVideoControls=function(){if(AppInfo.isNativeApp&&browserInfo.safari){if(navigator.userAgent.toLowerCase().indexOf('ipad')!=-1){return false;}
 return true;}

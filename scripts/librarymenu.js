@@ -83,6 +83,10 @@ else if(isReportsPage&&itemId=='reports'){lnkMediaFolder.classList.add('selected
 else if(isMySyncPage&&itemId=='mysync'){lnkMediaFolder.classList.add('selectedMediaFolder');}
 else if(id&&itemId==id){lnkMediaFolder.classList.add('selectedMediaFolder');}
 else{lnkMediaFolder.classList.remove('selectedMediaFolder');}}}
+function replaceQueryString(url,param,value){var re=new RegExp("([?|&])"+param+"=.*?(&|$)","i");if(url.match(re))
+return url.replace(re,'$1'+param+"="+value+'$2');else if(value){if(url.indexOf('?')==-1){return url+'?'+param+"="+value;}
+return url+'&'+param+"="+value;}
+return url;}
 function updateTabLinks(page){var elems=page.querySelectorAll('.scopedLibraryViewNav a');var id=page.classList.contains('liveTvPage')||page.classList.contains('channelsPage')||page.classList.contains('metadataEditorPage')||page.classList.contains('reportsPage')||page.classList.contains('mySyncPage')||page.classList.contains('allLibraryPage')?'':getTopParentId()||'';if(!id){return;}
 for(i=0,length=elems.length;i<length;i++){var lnk=elems[i];var src=lnk.href;if(src.indexOf('#')!=-1){continue;}
 src=replaceQueryString(src,'topParentId',id);lnk.href=src;}}
