@@ -18,7 +18,7 @@ var state=self.getPlayerStateInternal(mediaRenderer,self.currentItem,self.curren
 else if(firstItem.Type=="MusicArtist"){promise=self.getItemsForPlayback({ArtistIds:firstItem.Id,Filters:"IsNotFolder",Recursive:true,SortBy:"SortName",MediaTypes:"Audio"});}
 else if(firstItem.Type=="MusicGenre"){promise=self.getItemsForPlayback({Genres:firstItem.Name,Filters:"IsNotFolder",Recursive:true,SortBy:"SortName",MediaTypes:"Audio"});}
 else if(firstItem.IsFolder){promise=self.getItemsForPlayback({ParentId:firstItem.Id,Filters:"IsNotFolder",Recursive:true,SortBy:"SortName",MediaTypes:"Audio,Video"});}
-else if(smart&&firstItem.Type=="Episode"&&items.length==1){promise=ApiClient.getCurrentUser().then(function(user){if(!user.Configuration.EnableNextEpisodeAutoPlay){return null;}
+else if(smart&&firstItem.Type=="Episode"&&items.length==1){promise=ApiClient.getCurrentUser().then(function(user){if(!user.Configuration.EnableNextEpisodeAutoPlay||!firstItem.SeriesId){return null;}
 return ApiClient.getEpisodes(firstItem.SeriesId,{IsVirtualUnaired:false,IsMissing:false,UserId:ApiClient.getCurrentUserId(),Fields:getItemFields}).then(function(episodesResult){var foundItem=false;episodesResult.Items=episodesResult.Items.filter(function(e){if(foundItem){return true;}
 if(e.Id==firstItem.Id){foundItem=true;return true;}
 return false;});episodesResult.TotalRecordCount=episodesResult.Items.length;return episodesResult;});});}
