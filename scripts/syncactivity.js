@@ -15,9 +15,10 @@ html+='<div class="cardText" style="text-align:right; float:right;padding:0;">';
 html+="</div>";html+="</div>";html+="</div>";return html;}
 var lastDataLoad=0;function loadData(page,jobs){if((new Date().getTime()-lastDataLoad)<60000){refreshData(page,jobs);return;}
 lastDataLoad=new Date().getTime();var html='';var lastTargetName='';var cardBoxCssClass='cardBox visualCardBox';var syncJobPage='syncjob.html';var showTargetName=true;if($(page).hasClass('mySyncPage')){syncJobPage='mysyncjob.html';showTargetName=!hasLocalSync();}
-for(var i=0,length=jobs.length;i<length;i++){var job=jobs[i];if(showTargetName){var targetName=job.TargetName||'Unknown';if(targetName!=lastTargetName){if(lastTargetName){html+='<br/>';html+='<br/>';html+='<br/>';}
-lastTargetName=targetName;html+='<div class="detailSectionHeader">';html+='<div>'+targetName+'</div>';html+='</div>';}}
+var hasOpenSection=false;for(var i=0,length=jobs.length;i<length;i++){var job=jobs[i];if(showTargetName){var targetName=job.TargetName||'Unknown';if(targetName!=lastTargetName){if(lastTargetName){html+='</div>';html+='<br/>';html+='<br/>';html+='<br/>';hasOpenSection=false;}
+lastTargetName=targetName;html+='<div class="detailSectionHeader">';html+='<div>'+targetName+'</div>';html+='</div>';html+='<div class="itemsContainer vertical-wrap">';hasOpenSection=true;}}
 html+=getSyncJobHtml(page,job,cardBoxCssClass,syncJobPage);}
+if(hasOpenSection){html+='</div>';}
 var elem=$('.syncActivity',page).html(html).lazyChildren();$('.btnJobMenu',elem).on('click',function(){showJobMenu(page,this);});if(!jobs.length){elem.html('<div style="padding:1em .25em;">'+Globalize.translate('MessageNoSyncJobsFound')+'</div>');}}
 $.fn.lazyChildren=function(){for(var i=0,length=this.length;i<length;i++){ImageLoader.lazyChildren(this[i]);}
 return this;};function refreshData(page,jobs){for(var i=0,length=jobs.length;i<length;i++){var job=jobs[i];refreshJob(page,job);}}

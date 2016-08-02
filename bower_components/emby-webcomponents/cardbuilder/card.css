@@ -83,6 +83,13 @@ button.card {
     will-change: transform;
 }
 
+@media all and (min-width: 600px) {
+
+    .layout-desktop .card .cardBox, .layout-mobile .card .cardBox {
+        margin: 3px;
+    }
+}
+
 button.cardContent {
     display: block;
 }
