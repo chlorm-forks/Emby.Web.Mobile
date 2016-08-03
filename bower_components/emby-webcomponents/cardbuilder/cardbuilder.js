@@ -426,6 +426,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
         function getCardImageUrl(item, apiClient, options) {
 
+            var imageItem = item.ProgramInfo || item;
+            item = imageItem;
+
             var width = options.width;
             var height = null;
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio([item]);
@@ -1067,6 +1070,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var indicatorsHtml = '';
 
+            indicatorsHtml += indicators.getSyncIndicator(item);
             indicatorsHtml += indicators.getTimerIndicator(item);
 
             if (options.showGroupCount) {
