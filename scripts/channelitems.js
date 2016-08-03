@@ -1,4 +1,4 @@
-﻿define(['jQuery','cardBuilder','emby-itemscontainer'],function($,cardBuilder){var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"",SortOrder:"Ascending",Fields:"PrimaryImageAspectRatio,SyncInfo",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['jQuery','cardBuilder','emby-itemscontainer'],function($,cardBuilder){var data={};function getPageData(context){var key=getSavedQueryKey(context);var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"",SortOrder:"Ascending",Fields:"PrimaryImageAspectRatio",StartIndex:0,Limit:LibraryBrowser.getDefaultPageSize()}};LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(context){return getPageData(context).query;}
 function getSavedQueryKey(context){if(!context.savedQueryKey){context.savedQueryKey=LibraryBrowser.getSavedQueryKey('channelitems');}

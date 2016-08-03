@@ -1,4 +1,4 @@
-﻿define(['jQuery','listView'],function($,listView){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio,SyncInfo",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:200},view:LibraryBrowser.getSavedView(key)||'List'};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
+﻿define(['jQuery','listView'],function($,listView){var data={};function getPageData(){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{Fields:"PrimaryImageAspectRatio",EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:200},view:LibraryBrowser.getSavedView(key)||'List'};pageData.query.ParentId=LibraryMenu.getTopParentId();LibraryBrowser.loadSavedQueryValues(key,pageData.query);}
 return pageData;}
 function getQuery(){return getPageData().query;}
 function getSavedQueryKey(){return LibraryBrowser.getSavedQueryKey();}

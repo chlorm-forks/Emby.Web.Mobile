@@ -18,7 +18,7 @@ else if(item.Type=="MusicGenre"){query.Genres=item.Name;}
 else if(item.Type=="GameGenre"){query.Genres=item.Name;}
 else if(item.Type=="Studio"){query.StudioIds=item.Id;}
 else if(item.Type=="MusicArtist"){query.ArtistIds=item.Id;}}
-function getQuery(options,item){var query={SortBy:"SortName",SortOrder:"Ascending",IncludeItemTypes:"",Recursive:true,Fields:"AudioInfo,SeriesInfo,ParentId,PrimaryImageAspectRatio,SyncInfo",Limit:LibraryBrowser.getDefaultPageSize(),StartIndex:0,CollapseBoxSetItems:false};query=Object.assign(query,options||{});if(query.IncludeItemTypes=="Audio"){query.SortBy="AlbumArtist,Album,SortName";}
+function getQuery(options,item){var query={SortBy:"SortName",SortOrder:"Ascending",IncludeItemTypes:"",Recursive:true,Fields:"AudioInfo,SeriesInfo,ParentId,PrimaryImageAspectRatio,BasicSyncInfo",Limit:LibraryBrowser.getDefaultPageSize(),StartIndex:0,CollapseBoxSetItems:false};query=Object.assign(query,options||{});if(query.IncludeItemTypes=="Audio"){query.SortBy="AlbumArtist,Album,SortName";}
 addCurrentItemToQuery(query,item);return query;}
 function getItemsFunction(options,item){var query=getQuery(options,item);return function(index,limit,fields){query.StartIndex=index;query.Limit=limit;if(fields){query.Fields+=","+fields;}
 return ApiClient.getItems(Dashboard.getCurrentUserId(),query);};}

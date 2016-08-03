@@ -4,7 +4,7 @@ else if(item.Type=="MusicGenre"){query.Genres=item.Name;}
 else if(item.Type=="GameGenre"){query.Genres=item.Name;}
 else if(item.Type=="Studio"){query.StudioIds=item.Id;}
 else if(item.Type=="MusicArtist"){query.ArtistIds=item.Id;}else{query.ParentId=item.Id;}}
-function getQuery(parentItem){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"SortName",SortOrder:"Ascending",Recursive:params.recursive!=='false',Fields:"PrimaryImageAspectRatio,SortName,SyncInfo",ImageTypeLimit:1,EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:libraryBrowser.getDefaultPageSize()}};var type=params.type;if(type){pageData.query.IncludeItemTypes=type;if(type=='Audio'){pageData.query.SortBy='Album,SortName';}}
+function getQuery(parentItem){var key=getSavedQueryKey();var pageData=data[key];if(!pageData){pageData=data[key]={query:{SortBy:"SortName",SortOrder:"Ascending",Recursive:params.recursive!=='false',Fields:"PrimaryImageAspectRatio,SortName,BasicSyncInfo",ImageTypeLimit:1,EnableImageTypes:"Primary,Backdrop,Banner,Thumb",StartIndex:0,Limit:libraryBrowser.getDefaultPageSize()}};var type=params.type;if(type){pageData.query.IncludeItemTypes=type;if(type=='Audio'){pageData.query.SortBy='Album,SortName';}}
 var filters=params.filters;if(type){pageData.query.Filters=filters;}
 if(parentItem){addCurrentItemToQuery(pageData.query,parentItem);}
 libraryBrowser.loadSavedQueryValues(key,pageData.query);}

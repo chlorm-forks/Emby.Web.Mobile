@@ -10,7 +10,7 @@
     max-height: none;
 }
 
-.actionSheet.centered .actionSheetContent {
+.actionSheetContent-centered {
     text-align: center;
     align-items: center;
 }
@@ -26,7 +26,7 @@
     text-align: center;
 }
 
-button.actionSheetMenuItem {
+.actionSheetMenuItem {
     padding: 0 1.6em;
     margin: 0;
     text-transform: none;
@@ -67,14 +67,8 @@ button.actionSheetMenuItem {
     width: auto;
 }
 
-h1.actionSheetTitle {
+.actionSheetTitle {
     margin: .5em 0 1em !important;
-    padding: 0 1em;
-    flex-grow: 0;
-}
-
-h2.actionSheetTitle {
-    margin: .25em 0 .55em !important;
     padding: 0 1em;
     flex-grow: 0;
 }
@@ -84,6 +78,6 @@ h2.actionSheetTitle {
     flex-grow: 0;
 }
 
-.actionSheet.extraSpacing {
+.actionsheet-extraSpacing {
     font-size: 108%;
 }
