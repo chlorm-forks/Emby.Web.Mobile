@@ -12,7 +12,7 @@ else if(hint.Type=="BoxSet"){return[Globalize.translate('LabelCollection')];}
 else if(hint.ChannelName){return[hint.ChannelName];}
 return[hint.Type];}
 function renderSearchResultsInOverlay(hints){hints=hints.map(function(i){i.Id=i.ItemId;i.ImageTags={};i.UserData={};if(i.PrimaryImageTag){i.ImageTags.Primary=i.PrimaryImageTag;}
-return i;});var html=cardBuilder.getCardsHtml({items:hints,shape:"auto",lazy:true,overlayText:false,showTitle:true,centerImage:true,centerText:true,textLines:getAdditionalTextLines,overlayPlayButton:true,serverId:ApiClient.serverInfo().Id});if(!hints.length){html='<p style="text-align:center;margin-top:2em;">'+Globalize.translate('NoResultsFound')+'</p>';}
+return i;});var html=cardBuilder.getCardsHtml({items:hints,shape:"auto",lazy:true,overlayText:false,showTitle:true,centerImage:true,centerText:true,textLines:getAdditionalTextLines,overlayMoreButton:true,serverId:ApiClient.serverInfo().Id});if(!hints.length){html='<p style="text-align:center;margin-top:2em;">'+Globalize.translate('NoResultsFound')+'</p>';}
 var itemsContainer=searchResults;itemsContainer.innerHTML=html;searchResults.classList.remove('hide');textSuggestions.classList.add('hide');ImageLoader.lazyChildren(itemsContainer);}
 function requestSearchHintsForOverlay(searchTerm){var currentTimeout=searchHintTimeout;Dashboard.showLoadingMsg();ApiClient.getSearchHints({userId:Dashboard.getCurrentUserId(),searchTerm:(searchTerm||'').trim(),limit:30}).then(function(result){if(currentTimeout==searchHintTimeout){renderSearchResultsInOverlay(result.SearchHints);}
 Dashboard.hideLoadingMsg();},function(){Dashboard.hideLoadingMsg();});}
