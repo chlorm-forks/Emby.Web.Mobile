@@ -20,7 +20,7 @@ else if(item.PrimaryImageTag){url=ApiClient.getScaledImageUrl(item.PrimaryImageI
 else if(item.BackdropImageTag){url=ApiClient.getScaledImageUrl(item.BackdropItemId,{type:"Backdrop",maxHeight:300,tag:item.BackdropImageTag,index:0});}else if(item.ThumbImageTag){url=ApiClient.getScaledImageUrl(item.ThumbImageItemId,{type:"Thumb",maxHeight:300,tag:item.ThumbImageTag});}
 if(url==currentImgUrl){return;}
 if(item&&item.BackdropImageTag){backdropUrl=ApiClient.getScaledImageUrl(item.BackdropItemId,{type:"Backdrop",maxHeight:300,tag:item.BackdropImageTag,index:0});}
-setImageUrl(context,url);if(item){if(!browser.mobile){require(['backdrop'],function(backdrop){backdrop.setBackdrop(backdropUrl);});}
+setImageUrl(context,url);if(item){if(!browser.slow){require(['backdrop'],function(backdrop){backdrop.setBackdrop(backdropUrl);});}
 ApiClient.getItem(Dashboard.getCurrentUserId(),item.Id).then(function(fullItem){context.querySelector('.nowPlayingPageUserDataButtons').innerHTML=userdataButtons.getIconsHtml({item:fullItem,includePlayed:false,style:'fab-mini'});});}else{context.querySelector('.nowPlayingPageUserDataButtons').innerHTML='';}}
 function setImageUrl(context,url){currentImgUrl=url;if(url){ImageLoader.lazyImage(context.querySelector('.nowPlayingPageImage'),url);}else{context.querySelector('.nowPlayingPageImage').style.backgroundImage='';}}
 function buttonEnabled(btn,enabled){btn.disabled=!enabled;}
