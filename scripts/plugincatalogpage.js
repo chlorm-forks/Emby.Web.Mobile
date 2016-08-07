@@ -13,7 +13,8 @@ var aName=(a.name);var bName=(b.name);if(aName>bName){return 1;}
 if(bName>aName){return-1;}
 return 0;});html+='<div class="itemsContainer vertical-wrap">';var limit=screen.availWidth>=1920?15:12;for(i=0,length=Math.min(topPlugins.length,limit);i<length;i++){html+=getPluginHtml(topPlugins[i],options,installedPlugins);}
 html+='</div>';}
-var hasOpenTag=false;for(i=0,length=availablePlugins.length;i<length;i++){plugin=availablePlugins[i];var category=plugin.categoryDisplayName;if(category!=currentCategory){if(options.showCategory!==false){if(currentCategory){hasOpenTag=false;html+='</div>';html+='<br/>';html+='<br/>';html+='<br/>';}
+var hasOpenTag=false;if(options.showCategory===false){html+='<div class="itemsContainer vertical-wrap">';hasOpenTag=true;}
+for(i=0,length=availablePlugins.length;i<length;i++){plugin=availablePlugins[i];var category=plugin.categoryDisplayName;if(category!=currentCategory){if(options.showCategory!==false){if(currentCategory){hasOpenTag=false;html+='</div>';html+='<br/>';html+='<br/>';html+='<br/>';}
 html+='<div class="detailSectionHeader">'+category+'</div>';html+='<div class="itemsContainer vertical-wrap">';hasOpenTag=true;}
 currentCategory=category;}
 html+=getPluginHtml(plugin,options,installedPlugins);}
