@@ -3,21 +3,26 @@
     border: 0;
     outline: none !important;
     color: inherit;
-    width: 100%;
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
-
     margin: 0;
     display: block;
     align-items: center;
     text-align: left;
     padding: .25em 1.15em;
     line-height: 160%;
-    border-bottom: 1px solid #2a2a2a;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.listItem-border {
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.listItem-button {
+    width: 100%;
 }
 
 .listItem-nosidepadding {
@@ -29,7 +34,7 @@
     padding: .5em !important;
 }
 
-.listItemImage, .listItemIcon {
+.listItemImage, .listItemIcon, .listItemAside {
     flex-shrink: 0;
 }
 
@@ -129,11 +134,11 @@
     color: inherit !important;
 }
 
-.layout-tv .listItem {
+.listItem-focusscale {
     transition: transform .2s ease-out;
 }
 
-    .layout-tv .listItem:focus {
+    .listItem-focusscale:focus {
         transform: scale(1.025, 1.025);
     }
 
@@ -148,11 +153,7 @@
     background-color: transparent !important;
 }
 
-.paperList .listItem {
-    border-bottom: 0;
-}
-
-.layout-tv .listItemMediaInfo {
+.listItemMediaInfo-padded {
     margin: .5em 0;
 }
 
