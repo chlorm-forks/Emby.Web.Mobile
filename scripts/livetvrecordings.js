@@ -6,7 +6,7 @@ html+='</div>';context.querySelector('#recordingGroupItems').innerHTML=html;Dash
 function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function renderRecordings(elem,recordings){if(recordings.length){elem.classList.remove('hide');}else{elem.classList.add('hide');}
 var recordingItems=elem.querySelector('.recordingItems');if(enableScrollX()){recordingItems.classList.add('hiddenScrollX');recordingItems.classList.remove('vertical-wrap');}else{recordingItems.classList.remove('hiddenScrollX');recordingItems.classList.add('vertical-wrap');}
-recordingItems.innerHTML=cardBuilder.getCardsHtml({items:recordings,shape:(enableScrollX()?'autooverflow':'auto'),showTitle:true,showParentTitle:true,coverImage:true,lazy:true,cardLayout:true});ImageLoader.lazyChildren(recordingItems);}
+recordingItems.innerHTML=cardBuilder.getCardsHtml({items:recordings,shape:(enableScrollX()?'autooverflow':'auto'),showTitle:true,showParentTitle:true,coverImage:true,lazy:true,cardLayout:true,allowBottomPadding:!enableScrollX()});ImageLoader.lazyChildren(recordingItems);}
 function renderActiveRecordings(context){ApiClient.getLiveTvTimers({IsActive:true}).then(function(result){if(result.Items.length&&result.Items[0].Status!='InProgress'){result.Items=[];}
 renderTimers(context.querySelector('#activeRecordings'),result.Items,{indexByDate:false});});}
 function renderLatestRecordings(context){ApiClient.getLiveTvRecordings({userId:Dashboard.getCurrentUserId(),limit:enableScrollX()?12:4,IsInProgress:false,Fields:'CanDelete,PrimaryImageAspectRatio',EnableTotalRecordCount:false}).then(function(result){renderRecordings(context.querySelector('#latestRecordings'),result.Items);});}
