@@ -3,6 +3,6 @@ resolve();}
 xhr.send();});}
 function setContentType(parent,contentType){if(contentType=='music'||contentType=='tvshows'||contentType=='movies'||contentType=='homevideos'||contentType=='musicvideos'||contentType=='mixed'){parent.querySelector('.chkArhiveAsMediaContainer').classList.remove('hide');}else{parent.querySelector('.chkArhiveAsMediaContainer').classList.add('hide');}
 if(contentType=='music'||contentType=='tvshows'||contentType=='movies'||contentType=='homevideos'||contentType=='musicvideos'||contentType=='mixed'){parent.classList.remove('hide');}else{parent.classList.add('hide');}}
-function getLibraryOptions(parent){var options={EnableArchiveMediaFiles:parent.querySelector('.chkArhiveAsMedia').checked};options.EnableAudioArchiveFiles=options.EnableArchiveMediaFiles;return options;}
+function getLibraryOptions(parent){var options={EnableArchiveMediaFiles:parent.querySelector('.chkArhiveAsMedia').checked};return options;}
 function setLibraryOptions(parent,options){parent.querySelector('.chkArhiveAsMedia').checked=options.EnableArchiveMediaFiles;;}
 return{embed:embed,setContentType:setContentType,getLibraryOptions:getLibraryOptions,setLibraryOptions:setLibraryOptions};});
