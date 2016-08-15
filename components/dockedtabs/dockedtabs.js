@@ -32,8 +32,6 @@
 
     </div>\
 
-';elem.innerHTML=html;document.body.appendChild(elem);return elem;}
-function initHeadRoom(instance,elem){require(["headroom"],function(){var headroom=new Headroom(elem,{tolerance:{down:20,up:0},classes:{pinned:'dockedtabs--pinned',unpinned:'dockedtabs--unpinned',top:'dockedtabs--top',notTop:'dockedtabs--not-top',initial:'dockedtabs-headroom'}});headroom.init();instance.headroom=headroom;});}
-function dockedTabs(options){var self=this;self.element=render(options);initHeadRoom(self,self.element);}
-dockedTabs.prototype.destroy=function(){var self=this;if(self.headroom){self.headroom.destroy();}
-self.Element=null;};return dockedTabs;});
+';elem.innerHTML=html;options.appFooter.add(elem);return elem;}
+function dockedTabs(options){var self=this;self.element=render(options);}
+dockedTabs.prototype.destroy=function(){var self=this;self.Element=null;};return dockedTabs;});

@@ -1,4 +1,4 @@
-﻿define(['layoutManager','cardBuilder','datetime','mediaInfo','backdrop','listView','itemContextMenu','itemHelper','userdataButtons','dom','indicators','apphost','scrollStyles','emby-itemscontainer'],function(layoutManager,cardBuilder,datetime,mediaInfo,backdrop,listView,itemContextMenu,itemHelper,userdataButtons,dom,indicators,appHost){var currentItem;function getPromise(params){var id=params.id;if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
+﻿define(['layoutManager','cardBuilder','datetime','mediaInfo','backdrop','listView','itemContextMenu','itemHelper','userdataButtons','dom','indicators','apphost','scrollStyles','emby-itemscontainer','emby-checkbox'],function(layoutManager,cardBuilder,datetime,mediaInfo,backdrop,listView,itemContextMenu,itemHelper,userdataButtons,dom,indicators,appHost){var currentItem;function getPromise(params){var id=params.id;if(id){return ApiClient.getItem(Dashboard.getCurrentUserId(),id);}
 var name=params.genre;if(name){return ApiClient.getGenre(name,Dashboard.getCurrentUserId());}
 name=params.musicgenre;if(name){return ApiClient.getMusicGenre(name,Dashboard.getCurrentUserId());}
 name=params.gamegenre;if(name){return ApiClient.getGameGenre(name,Dashboard.getCurrentUserId());}
@@ -8,15 +8,15 @@ function reload(page,params){Dashboard.showLoadingMsg();getPromise(params).then(
 function hideAll(page,className,show){var i,length;var elems=page.querySelectorAll('.'+className);for(i=0,length=elems.length;i<length;i++){if(show){elems[i].classList.remove('hide');}else{elems[i].classList.add('hide');}}}
 function getContextMenuOptions(item,button){var options={item:item,open:false,play:false,queue:false,playAllFromHere:false,queueAllFromHere:false,positionTo:button};if(appHost.supports('sync')){options.syncLocal=false;}else{options.sync=false;}
 return options;}
-function updateSyncStatus(page,item){var i,length;var elems=page.querySelectorAll('.btnSyncLocal');for(i=0,length=elems.length;i<length;i++){if(item.SyncPercent==100){elems[i].querySelector('i').innerHTML='offline_pin';elems[i].classList.add('btnSyncComplete');}else{elems[i].querySelector('i').innerHTML='file_download';elems[i].classList.remove('btnSyncComplete');}}}
+function updateSyncStatus(page,item){var i,length;var elems=page.querySelectorAll('.chkOffline');for(i=0,length=elems.length;i<length;i++){elems[i].checked=item.SyncPercent==100;}}
 function reloadFromItem(page,params,item){currentItem=item;var context=params.context;LibraryMenu.setBackButtonVisible(true);LibraryMenu.setMenuButtonVisible(false);LibraryBrowser.renderName(item,page.querySelector('.itemName'),false,context);LibraryBrowser.renderParentName(item,page.querySelector('.parentName'),context);LibraryMenu.setTitle(item.SeriesName||item.Name);Dashboard.getCurrentUser().then(function(user){window.scrollTo(0,0);renderImage(page,item,user);setInitialCollapsibleState(page,item,context,user);renderDetails(page,item,context);var hasBackdrop=false;if(item.Type=='MusicArtist'||item.Type=="MusicAlbum"||item.Type=="Playlist"||item.Type=="BoxSet"||item.MediaType=="Audio"||!layoutManager.mobile){var itemBackdropElement=page.querySelector('#itemBackdrop');itemBackdropElement.classList.add('noBackdrop');itemBackdropElement.style.backgroundImage='none';backdrop.setBackdrops([item]);}
 else{hasBackdrop=LibraryBrowser.renderDetailPageBackdrop(page,item);backdrop.clear();}
 var transparentHeader=hasBackdrop&&page.classList.contains('noSecondaryNavPage');LibraryMenu.setTransparentMenu(transparentHeader);var canPlay=false;if(item.Type=='Program'){var now=new Date();if(now>=datetime.parseISO8601Date(item.StartDate,true)&&now<datetime.parseISO8601Date(item.EndDate,true)){hideAll(page,'btnPlay',true);canPlay=true;}else{hideAll(page,'btnPlay');}}
 else if(MediaController.canPlay(item)){hideAll(page,'btnPlay',true);canPlay=true;}
 else{hideAll(page,'btnPlay');}
 if(item.LocalTrailerCount&&item.PlayAccess=='Full'){hideAll(page,'btnPlayTrailer',true);}else{hideAll(page,'btnPlayTrailer');}
-if(itemHelper.canSync(user,item)){if(appHost.supports('sync')){hideAll(page,'btnSyncLocal',true);hideAll(page,'btnSync');}else{hideAll(page,'btnSyncLocal');hideAll(page,'btnSync',true);}
-updateSyncStatus(page,item);}else{hideAll(page,'btnSync');hideAll(page,'btnSyncLocal');}
+if(itemHelper.canSync(user,item)){if(appHost.supports('sync')){hideAll(page,'syncLocalContainer',true);hideAll(page,'btnSync');}else{hideAll(page,'syncLocalContainer');hideAll(page,'btnSync',true);}
+updateSyncStatus(page,item);}else{hideAll(page,'btnSync');hideAll(page,'syncLocalContainer');}
 if(item.Type=='Program'&&item.TimerId){hideAll(page,'btnCancelRecording',true);}else{hideAll(page,'btnCancelRecording');}
 if(item.Type=='Program'&&(!item.TimerId&&!item.SeriesTimerId)){if(canPlay){hideAll(page,'btnRecord',true);hideAll(page,'btnFloatingRecord');}else{hideAll(page,'btnRecord');hideAll(page,'btnFloatingRecord',true);}}else{hideAll(page,'btnRecord');hideAll(page,'btnFloatingRecord');}
 var btnPlayExternalTrailer=page.querySelectorAll('.btnPlayExternalTrailer');for(var i=0,length=btnPlayExternalTrailer.length;i<length;i++){if(!item.LocalTrailerCount&&item.RemoteTrailers.length&&item.PlayAccess=='Full'){btnPlayExternalTrailer[i].classList.remove('hide');btnPlayExternalTrailer[i].href=item.RemoteTrailers[0].Url;}else{btnPlayExternalTrailer[i].classList.add('hide');btnPlayExternalTrailer[i].href='#';}}
@@ -225,6 +225,7 @@ function deleteTimer(page,params,id){require(['confirm'],function(confirm){confi
 function itemDetailPage(){var self=this;self.play=play;self.setInitialCollapsibleState=setInitialCollapsibleState;self.renderDetails=renderDetails;self.renderCriticReviews=renderCriticReviews;self.renderCast=renderCast;self.renderScenes=renderScenes;self.renderMediaSources=renderMediaSources;}
 window.ItemDetailPage=new itemDetailPage();function onPlayClick(){playCurrentItem(this);}
 function onSyncClick(){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem]});});}
+function onSyncLocalClick(){if(this.checked){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem]});});}else{}}
 return function(view,params){function onPlayTrailerClick(){playTrailer(view);}
 function onRecordClick(){var id=params.id;Dashboard.showLoadingMsg();require(['recordingCreator'],function(recordingCreator){recordingCreator.show(id,currentItem.ServerId).then(function(){reload(view,params);});});}
 function onCancelRecordingClick(){deleteTimer(view,params,currentItem.TimerId);}
@@ -232,7 +233,7 @@ function onMoreCommandsClick(){var button=this;itemContextMenu.show(getContextMe
 var elems=view.querySelectorAll('.btnPlay');var i,length;for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onPlayClick);}
 elems=view.querySelectorAll('.btnPlayTrailer');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onPlayTrailerClick);}
 view.querySelector('.btnSplitVersions').addEventListener('click',function(){splitVersions(view,params);});elems=view.querySelectorAll('.btnSync');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onSyncClick);}
-elems=view.querySelectorAll('.btnSyncLocal');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onSyncClick);}
+elems=view.querySelectorAll('.chkOffline');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('change',onSyncLocalClick);}
 elems=view.querySelectorAll('.btnRecord,.btnFloatingRecord');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onRecordClick);}
 elems=view.querySelectorAll('.btnCancelRecording');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onCancelRecordingClick);}
 elems=view.querySelectorAll('.btnMoreCommands');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onMoreCommandsClick);}
