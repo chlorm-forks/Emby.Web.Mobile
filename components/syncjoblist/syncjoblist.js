@@ -16,7 +16,7 @@ html+=getSyncJobHtml(listInstance,job);}
 if(hasOpenSection){html+='</div>';}
 var elem=listInstance.options.element;elem.innerHTML=html;imageLoader.lazyChildren(elem);}
 function fetchData(listInstance){listInstance.lastDataLoad=0;loading.show();var options={};var apiClient=getApiClient(listInstance);if(listInstance.options.userId){options.UserId=listInstance.options.userId;}
-if(listInstance.options.isLocalSync){options.TargetId=apiClient.deviceId();}
+if(listInstance.options.isLocalSync){options.TargetId=apiClient.deviceId();}else{options.ExcludeTargetIds=apiClient.deviceId();}
 return apiClient.getJSON(ApiClient.getUrl('Sync/Jobs',options)).then(function(response){renderList(listInstance,response.Items);loading.hide();});}
 function startListening(listInstance){var startParams="0,1500";var apiClient=getApiClient(listInstance);if(listInstance.options.userId){startParams+=","+listInstance.options.userId;}
 if(listInstance.options.isLocalSync){startParams+=","+apiClient.deviceId();}
@@ -27,5 +27,5 @@ function showJobMenu(listInstance,elem){var item=dom.parentWithClass(elem,'listI
 require(['actionsheet'],function(actionsheet){actionsheet.show({items:menuItems,positionTo:elem,callback:function(id){switch(id){case'delete':cancelJob(listInstance,jobId);break;case'cancel':cancelJob(listInstance,jobId);break;default:break;}}});});}
 function onElementClick(e){var listInstance=this;var btnJobMenu=dom.parentWithClass(e.target,'btnJobMenu');if(btnJobMenu){showJobMenu(this,btnJobMenu);return;}
 var listItem=dom.parentWithClass(e.target,'listItem');if(listItem){var jobId=listItem.getAttribute('data-id');events.trigger(listInstance,'jobedit',[jobId,listInstance.options.serverId]);}}
-function syncJobList(options){this.options=options;var onSyncJobsUpdatedHandler=onSyncJobsUpdated.bind(this);this.onSyncJobsUpdatedHandler=null;events.on(serverNotifications,'SyncJobs',onSyncJobsUpdatedHandler);var onClickHandler=onElementClick.bind(this);options.element.addEventListener('click',onClickHandler);this.onClickHandler=onClickHandler;fetchData(this);startListening(this);}
-syncJobList.prototype.destroy=function(){stopListening(this);this.options=null;var onSyncJobsUpdatedHandler=this.onSyncJobsUpdatedHandler;this.onSyncJobsUpdatedHandler=null;events.off(serverNotifications,'SyncJobs',onSyncJobsUpdatedHandler);var onClickHandler=this.onClickHandler;this.onClickHandler=null;options.element.removeEventListener('click',onClickHandler);};return syncJobList;});
+function syncJobList(options){this.options=options;var onSyncJobsUpdatedHandler=onSyncJobsUpdated.bind(this);this.onSyncJobsUpdatedHandler=onSyncJobsUpdatedHandler;events.on(serverNotifications,'SyncJobs',onSyncJobsUpdatedHandler);var onClickHandler=onElementClick.bind(this);options.element.addEventListener('click',onClickHandler);this.onClickHandler=onClickHandler;fetchData(this);startListening(this);}
+syncJobList.prototype.destroy=function(){stopListening(this);var onSyncJobsUpdatedHandler=this.onSyncJobsUpdatedHandler;this.onSyncJobsUpdatedHandler=null;events.off(serverNotifications,'SyncJobs',onSyncJobsUpdatedHandler);var onClickHandler=this.onClickHandler;this.onClickHandler=null;this.options.element.removeEventListener('click',onClickHandler);this.options=null;};return syncJobList;});
