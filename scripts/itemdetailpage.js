@@ -117,7 +117,7 @@ function renderTags(page,item){var itemTags=page.querySelector('.itemTags');if(i
 itemTags.innerHTML=html;itemTags.classList.remove('hide');}else{itemTags.classList.add('hide');}}
 function getEpisodesFunction(seriesId,query){query=Object.assign({},query);return function(index,limit,fields){query.StartIndex=index;query.Limit=limit;query.Fields=fields;return ApiClient.getEpisodes(seriesId,query);};}
 function getAlbumSongsFunction(query){query=Object.assign({},query);return function(index,limit,fields){query.StartIndex=index;query.Limit=limit;query.Fields=fields;return ApiClient.getItems(Dashboard.getCurrentUserId(),query);};}
-var _childrenItemsFunction=null;function renderChildren(page,item){_childrenItemsFunction=null;var fields="ItemCounts,AudioInfo,PrimaryImageAspectRatio,SyncInfo,CanDelete";var query={ParentId:item.Id,Fields:fields};if(item.Type!=="BoxSet"){query.SortBy="SortName";}
+var _childrenItemsFunction=null;function renderChildren(page,item){_childrenItemsFunction=null;var fields="ItemCounts,AudioInfo,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete";var query={ParentId:item.Id,Fields:fields};if(item.Type!=="BoxSet"){query.SortBy="SortName";}
 var userId=Dashboard.getCurrentUserId();var promise;if(item.Type=="Series"){promise=ApiClient.getSeasons(item.Id,{userId:userId,Fields:fields});}
 else if(item.Type=="Season"){promise=ApiClient.getEpisodes(item.SeriesId,{seasonId:item.Id,userId:userId,Fields:fields});_childrenItemsFunction=getEpisodesFunction(item.SeriesId,{seasonId:item.Id,userId:userId,Fields:fields});}
 else if(item.Type=="MusicAlbum"){_childrenItemsFunction=getAlbumSongsFunction(query);}
