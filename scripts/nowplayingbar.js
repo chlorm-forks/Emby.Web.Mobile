@@ -32,7 +32,7 @@ for(i=0,length=unpauseButtons.length;i<length;i++){showButton(unpauseButtons[i])
 for(i=0,length=unpauseButtons.length;i<length;i++){hideButton(unpauseButtons[i]);}}
 updatePlayerVolumeState(state,playerInfo);var nowPlayingItem=state.NowPlayingItem||{};if(positionSlider){if(!positionSlider.dragging){if(nowPlayingItem.RunTimeTicks){var pct=playState.PositionTicks/nowPlayingItem.RunTimeTicks;pct*=100;positionSlider.value=pct;}else{positionSlider.value=0;}
 positionSlider.disabled=!playState.CanSeek;}}
-var timeText=datetime.getDisplayRunningTime(playState.PositionTicks);if(nowPlayingItem.RunTimeTicks){timeText+=" / "+datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);}
+var timeText=playState.PositionTicks==null?'--:--':datetime.getDisplayRunningTime(playState.PositionTicks);if(nowPlayingItem.RunTimeTicks){timeText+=" / "+datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);}
 currentTimeElement.innerHTML=timeText;updateNowPlayingInfo(state);}
 function updatePlayerVolumeState(state,playerInfo){playerInfo=playerInfo||MediaController.getPlayerInfo();var playState=state.PlayState||{};var supportedCommands=playerInfo.supportedCommands;var showMuteButton=true;var showUnmuteButton=true;var showVolumeSlider=true;if(supportedCommands.indexOf('Mute')==-1){showMuteButton=false;}
 if(supportedCommands.indexOf('Unmute')==-1){showUnmuteButton=false;}

@@ -1,6 +1,6 @@
 ﻿define(['appStorage','browser'],function(appStorage,browser){function getDeviceProfile(){return null;}
 function getCapabilities(){var caps={PlayableMediaTypes:['Audio','Video'],SupportsPersistentIdentifier:false,DeviceProfile:getDeviceProfile()};return caps;}
-function generateDeviceId(){return new Promise(function(resolve,reject){require(['fingerprintjs2'],function(Fingerprint2){new Fingerprint2().get(function(result,components){console.log('Generated device id: '+result);resolve(result);});});});}
+function generateDeviceId(){return new Promise(function(resolve,reject){require(["cryptojs-sha1"],function(){var keys=[];keys.push(navigator.userAgent);keys.push(new Date().getTime());resolve(CryptoJS.SHA1(keys.join('|')).toString());});});}
 function getDeviceId(){var key='_deviceId2';var deviceId=appStorage.getItem(key);if(deviceId){return Promise.resolve(deviceId);}else{return generateDeviceId().then(function(deviceId){appStorage.setItem(key,deviceId);return deviceId;});}}
 function getDeviceName(){var deviceName;if(browser.chrome){deviceName="Chrome";}else if(browser.edge){deviceName="Edge";}else if(browser.firefox){deviceName="Firefox";}else if(browser.msie){deviceName="Internet Explorer";}else{deviceName="Web Browser";}
 if(browser.version){deviceName+=" "+browser.version;}
