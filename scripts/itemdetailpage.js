@@ -224,9 +224,9 @@ showPlayMenu(currentItem,button);}
 function deleteTimer(page,params,id){require(['confirm'],function(confirm){confirm(Globalize.translate('MessageConfirmRecordingCancellation'),Globalize.translate('HeaderConfirmRecordingCancellation')).then(function(){Dashboard.showLoadingMsg();ApiClient.cancelLiveTvTimer(id).then(function(){require(['toast'],function(toast){toast(Globalize.translate('MessageRecordingCancelled'));});reload(page,params);});});});}
 function itemDetailPage(){var self=this;self.play=play;self.setInitialCollapsibleState=setInitialCollapsibleState;self.renderDetails=renderDetails;self.renderCriticReviews=renderCriticReviews;self.renderCast=renderCast;self.renderScenes=renderScenes;self.renderMediaSources=renderMediaSources;}
 window.ItemDetailPage=new itemDetailPage();function onPlayClick(){playCurrentItem(this);}
-function onSyncClick(){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem]});});}
+function onSyncClick(){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem],serverId:ApiClient.serverId()});});}
 return function(view,params){function resetSyncStatus(){updateSyncStatus(view,currentItem);}
-function onSyncLocalClick(){if(this.checked){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem],isLocalSync:true}).then(function(){reload(view,params);},resetSyncStatus);});}else{require(['confirm'],function(confirm){confirm(Globalize.translate('ConfirmRemoveDownload')).then(function(){ApiClient.cancelSyncItems([currentItem.Id]);},resetSyncStatus);});}}
+function onSyncLocalClick(){if(this.checked){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem],isLocalSync:true,serverId:ApiClient.serverId()}).then(function(){reload(view,params);},resetSyncStatus);});}else{require(['confirm'],function(confirm){confirm(Globalize.translate('ConfirmRemoveDownload')).then(function(){ApiClient.cancelSyncItems([currentItem.Id]);},resetSyncStatus);});}}
 function onPlayTrailerClick(){playTrailer(view);}
 function onRecordClick(){var id=params.id;Dashboard.showLoadingMsg();require(['recordingCreator'],function(recordingCreator){recordingCreator.show(id,currentItem.ServerId).then(function(){reload(view,params);});});}
 function onCancelRecordingClick(){deleteTimer(view,params,currentItem.TimerId);}
