@@ -226,7 +226,7 @@ function itemDetailPage(){var self=this;self.play=play;self.setInitialCollapsibl
 window.ItemDetailPage=new itemDetailPage();function onPlayClick(){playCurrentItem(this);}
 function onSyncClick(){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem]});});}
 return function(view,params){function resetSyncStatus(){updateSyncStatus(view,currentItem);}
-function onSyncLocalClick(){if(this.checked){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem]}).then(function(){reload(view,params);},resetSyncStatus);});}else{require(['confirm'],function(confirm){confirm(Globalize.translate('ConfirmRemoveDownload')).then(function(){ApiClient.cancelSyncItems([currentItem.Id]);},resetSyncStatus);});}}
+function onSyncLocalClick(){if(this.checked){require(['syncDialog'],function(syncDialog){syncDialog.showMenu({items:[currentItem],isLocalSync:true}).then(function(){reload(view,params);},resetSyncStatus);});}else{require(['confirm'],function(confirm){confirm(Globalize.translate('ConfirmRemoveDownload')).then(function(){ApiClient.cancelSyncItems([currentItem.Id]);},resetSyncStatus);});}}
 function onPlayTrailerClick(){playTrailer(view);}
 function onRecordClick(){var id=params.id;Dashboard.showLoadingMsg();require(['recordingCreator'],function(recordingCreator){recordingCreator.show(id,currentItem.ServerId).then(function(){reload(view,params);});});}
 function onCancelRecordingClick(){deleteTimer(view,params,currentItem.TimerId);}
