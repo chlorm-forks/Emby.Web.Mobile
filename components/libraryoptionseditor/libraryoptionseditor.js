@@ -2,8 +2,7 @@
 resolve();}
 xhr.send();});}
 function setContentType(parent,contentType){if(contentType=='music'||contentType=='tvshows'||contentType=='movies'||contentType=='homevideos'||contentType=='musicvideos'||contentType=='mixed'){parent.querySelector('.chkArhiveAsMediaContainer').classList.remove('hide');}else{parent.querySelector('.chkArhiveAsMediaContainer').classList.add('hide');}
-if(contentType=='homevideos'){parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');}else{parent.querySelector('.chkEnablePhotosContainer').classList.add('hide');}
-if(contentType=='music'||contentType=='tvshows'||contentType=='movies'||contentType=='homevideos'||contentType=='musicvideos'||contentType=='mixed'){parent.classList.remove('hide');}else{parent.classList.add('hide');}}
-function getLibraryOptions(parent){var options={EnableArchiveMediaFiles:parent.querySelector('.chkArhiveAsMedia').checked,EnablePhotos:parent.querySelector('.chkEnablePhotos').checked};return options;}
-function setLibraryOptions(parent,options){parent.querySelector('.chkArhiveAsMedia').checked=options.EnableArchiveMediaFiles;parent.querySelector('.chkEnablePhotos').checked=options.EnablePhotos;}
+if(contentType=='homevideos'){parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');}else{parent.querySelector('.chkEnablePhotosContainer').classList.add('hide');}}
+function getLibraryOptions(parent){var options={EnableArchiveMediaFiles:parent.querySelector('.chkArhiveAsMedia').checked,EnablePhotos:parent.querySelector('.chkEnablePhotos').checked,EnableRealtimeMonitor:parent.querySelector('.chkEnableRealtimeMonitor').checked};return options;}
+function setLibraryOptions(parent,options){parent.querySelector('.chkArhiveAsMedia').checked=options.EnableArchiveMediaFiles;parent.querySelector('.chkEnablePhotos').checked=options.EnablePhotos;parent.querySelector('.chkEnableRealtimeMonitor').checked=options.EnableRealtimeMonitor;}
 return{embed:embed,setContentType:setContentType,getLibraryOptions:getLibraryOptions,setLibraryOptions:setLibraryOptions};});
