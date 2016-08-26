@@ -14,5 +14,6 @@ window.close();},supports:function(command){var features=['filedownload','sharin
 if(!browser.operaTv){features.push('externallinks');}
 if(supportsVoiceInput()){features.push('voiceinput');}
 var userAgent=navigator.userAgent.toLowerCase();if(!browser.mobile||userAgent.indexOf('msapphost')!=-1){features.push('htmlaudioautoplay');features.push('htmlvideoautoplay');}
+if(window.SyncRegistered){}
 return features.indexOf(command.toLowerCase())!=-1;},unlockedFeatures:function(){var features=[];features.push('playback');return features;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
 return getDeviceId().then(function(deviceId){appInfo={deviceId:deviceId,deviceName:getDeviceName(),appName:'Emby Mobile',appVersion:version};return appInfo;});},capabilities:getCapabilities,moreIcon:browser.safari||browser.edge?'dots-horiz':'dots-vert'};});

@@ -31,7 +31,8 @@ function onAutoStopTimeout(){stopAutoStopTimer();MediaController.stop();}
 function stopAutoStopTimer(){var timeout=autoStopTimeout;if(timeout){clearTimeout(timeout);autoStopTimeout=null;}}
 self.toggleDisplayMirroring=function(){self.enableDisplayMirroring(!self.enableDisplayMirroring());};self.enableDisplayMirroring=function(enabled){if(enabled!=null){var val=enabled?'1':'0';appStorage.setItem('displaymirror--'+Dashboard.getCurrentUserId(),val);if(enabled){mirrorIfEnabled();}
 return;}
-return(appStorage.getItem('displaymirror--'+Dashboard.getCurrentUserId())||'')!='0';};self.play=function(options){doWithPlaybackValidation(currentPlayer,function(){if(typeof(options)==='string'){options={ids:[options]};}
+return(appStorage.getItem('displaymirror--'+Dashboard.getCurrentUserId())||'')!='0';};self.play=function(options){if(options.enableRemotePlayers===false){if(!currentPlayer.isLocalPlayer){return;}}
+doWithPlaybackValidation(currentPlayer,function(){if(typeof(options)==='string'){options={ids:[options]};}
 currentPlayer.play(options);});};self.shuffle=function(id){if(id.Id){id=id.Id;}
 doWithPlaybackValidation(currentPlayer,function(){currentPlayer.shuffle(id);});};self.instantMix=function(id){if(id.Id){id=id.Id;}
 doWithPlaybackValidation(currentPlayer,function(){currentPlayer.instantMix(id);});};self.queue=function(options){if(typeof(options)==='string'){options={ids:[options]};}
