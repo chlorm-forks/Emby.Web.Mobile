@@ -3,7 +3,7 @@ return pageData;}
 function getQuery(context){return getPageData(context).query;}
 function getSavedQueryKey(context){if(!context.savedQueryKey){context.savedQueryKey=LibraryBrowser.getSavedQueryKey('channels');}
 return context.savedQueryKey;}
-function getChannelsHtml(channels){return cardBuilder.getCardsHtml({items:channels,shape:"square",showTitle:true,lazy:true,cardLayout:true,showDetailsMenu:true});}
+function getChannelsHtml(channels){return cardBuilder.getCardsHtml({items:channels,shape:"square",showTitle:true,lazy:true,cardLayout:true,showDetailsMenu:true,showCurrentProgram:true});}
 function renderChannels(context,result){var query=getQuery(context);context.querySelector('.paging').innerHTML=LibraryBrowser.getQueryPagingHtml({startIndex:query.StartIndex,limit:query.Limit,totalRecordCount:result.TotalRecordCount,showLimit:false,updatePageSizeSetting:false,filterButton:false});var html=getChannelsHtml(result.Items);var elem=context.querySelector('#items');elem.innerHTML=html;ImageLoader.lazyChildren(elem);var i,length;var elems;function onNextPageClick(){query.StartIndex+=query.Limit;reloadItems(context);}
 function onPreviousPageClick(){query.StartIndex-=query.Limit;reloadItems(context);}
 elems=context.querySelectorAll('.btnNextPage');for(i=0,length=elems.length;i<length;i++){elems[i].addEventListener('click',onNextPageClick);}
