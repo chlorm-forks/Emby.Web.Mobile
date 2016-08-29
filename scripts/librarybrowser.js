@@ -25,7 +25,7 @@ if(item.CollectionType=='music'){return'music.html?topParentId='+item.Id;}
 if(item.CollectionType=='games'){return id?"itemlist.html?parentId="+id:"#";}
 if(item.CollectionType=='playlists'){return'playlists.html?topParentId='+item.Id;}
 if(item.CollectionType=='photos'){return'photos.html?topParentId='+item.Id;}}
-else if(item.IsFolder){return id?"itemlist.html?parentId="+id:"#";}
+else if(item.IsFolder){if(item.Type!="BoxSet"&&item.Type!="Series"){return id?"itemlist.html?parentId="+id:"#";}}
 if(item.Type=='CollectionFolder'){return'itemlist.html?topParentId='+item.Id+'&parentId='+item.Id;}
 if(item.Type=="PhotoAlbum"){return"itemlist.html?context=photos&parentId="+id;}
 if(item.Type=="Playlist"){return"itemdetails.html?id="+id;}
