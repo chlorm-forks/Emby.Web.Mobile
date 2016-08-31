@@ -18,7 +18,7 @@ var ticks=state.NowPlayingItem.RunTimeTicks;ticks/=100;ticks*=value;return datet
 function showRemoteControl(tabIndex){if(tabIndex){Dashboard.navigate('nowplaying.html?tab='+tabIndex);}else{Dashboard.navigate('nowplaying.html');}}
 var nowPlayingBarElement;function getNowPlayingBar(){if(nowPlayingBarElement){return Promise.resolve(nowPlayingBarElement);}
 return new Promise(function(resolve,reject){require(['appfooter-shared','itemShortcuts','css!css/nowplayingbar.css','emby-slider'],function(appfooter,itemShortcuts){var parentContainer=appfooter.element;nowPlayingBarElement=parentContainer.querySelector('.nowPlayingBar');if(nowPlayingBarElement){resolve(nowPlayingBarElement);return;}
-parentContainer.insertAdjacentHTML('beforeend',getNowPlayingBarHtml());nowPlayingBarElement=parentContainer.querySelector('.nowPlayingBar');if(browser.safari&&browser.slow){nowPlayingBarElement.classList.add('noMediaProgress');}
+parentContainer.insertAdjacentHTML('afterbegin',getNowPlayingBarHtml());nowPlayingBarElement=parentContainer.querySelector('.nowPlayingBar');if(browser.safari&&browser.slow){nowPlayingBarElement.classList.add('noMediaProgress');}
 itemShortcuts.on(nowPlayingBarElement);bindEvents(nowPlayingBarElement);resolve(nowPlayingBarElement);});});}
 function showButton(button){button.classList.remove('hide');}
 function hideButton(button){button.classList.add('hide');}

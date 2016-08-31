@@ -86,7 +86,8 @@ function onPlaying(){var videoControls=document.querySelector('#videoPlayer .vid
 function onVolumeChange(){updateVolumeButtons(this.volume());}
 function onPause(){var videoControls=document.querySelector('#videoPlayer .videoControls');var videoElement=document.querySelector('#videoPlayer #videoElement');videoControls.querySelector('#video-playButton').classList.remove('hide');videoControls.querySelector('#video-pauseButton').classList.add('hide');var buttonToAnimate=videoElement.querySelector('#pause');buttonToAnimate.classList.remove('hide');buttonToAnimate.classList.add('fadeOut');setTimeout(function(){buttonToAnimate.classList.add('hide');buttonToAnimate.classList.remove('fadeOut');},300);}
 function onTimeUpdate(){if(!positionSlider.dragging){self.setCurrentTime(self.getCurrentTicks(this),positionSlider,currentTimeElement);}}
-function onError(){var errorMsg=Globalize.translate('MessageErrorPlayingVideo');var item=self.currentItem;if(item&&item.Type=="TvChannel"){errorMsg+='<p>';errorMsg+=Globalize.translate('MessageEnsureOpenTuner');errorMsg+='</p>';}
+function onError(){var errorMsg=Globalize.translate('MessageErrorPlayingVideo');var item=self.currentItem;var mediaSource=self.currentMediaSource;if(item&&item.Type=="TvChannel"){errorMsg+='<br/>';errorMsg+='<br/>';errorMsg+=Globalize.translate('MessageEnsureOpenTuner');}
+else if(mediaSource&&mediaSource.VideoType!="VideoFile"){errorMsg+='<br/>';errorMsg+='<br/>';errorMsg+=Globalize.translate('MessageFolderRipPlaybackExperimental');}
 Dashboard.alert({title:Globalize.translate('HeaderVideoError'),message:errorMsg});var mediaRenderer=self.currentMediaRenderer;if(mediaRenderer){self.onPlaybackStopped.call(mediaRenderer);}
 self.nextTrack();}
 function onClick(){if(!browserInfo.mobile){if(this.paused()){self.unpause();}else{self.pause();}}}
