@@ -8,12 +8,14 @@ if(browser.ipad){deviceName+=" Ipad";}else if(browser.iphone){deviceName+=" Ipho
 return deviceName;}
 function supportsVoiceInput(){if(browser.tv){return false;}
 return window.SpeechRecognition||window.webkitSpeechRecognition||window.mozSpeechRecognition||window.oSpeechRecognition||window.msSpeechRecognition;}
-var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){if(browser.tizen){try{tizen.application.getCurrentApplication().exit();}catch(err){console.log('error closing application: '+err);}
-return;}
-window.close();},supports:function(command){var features=['filedownload','sharing','externalpremium'];if(browser.operaTv||browser.tizen||browser.web0s){features.push('exit');}else{features.push('exitmenu');}
+function supportsFullscreen(){if(browser.tv){return false;};var element=document.documentElement;return element.requestFullscreen||element.mozRequestFullScreen||element.webkitRequestFullscreen||element.msRequestFullscreen;}
+var supportedFeatures=function(){var features=['filedownload','sharing','externalpremium'];if(browser.operaTv||browser.tizen||browser.web0s){features.push('exit');}else{features.push('exitmenu');}
 if(!browser.operaTv){features.push('externallinks');}
 if(supportsVoiceInput()){features.push('voiceinput');}
 var userAgent=navigator.userAgent.toLowerCase();if(!browser.mobile||userAgent.indexOf('msapphost')!=-1){features.push('htmlaudioautoplay');features.push('htmlvideoautoplay');}
 if(window.SyncRegistered){}
-return features.indexOf(command.toLowerCase())!=-1;},unlockedFeatures:function(){var features=[];features.push('playback');return features;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
+if(supportsFullscreen()){features.push('fullscreen');}
+return features;}();var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){if(browser.tizen){try{tizen.application.getCurrentApplication().exit();}catch(err){console.log('error closing application: '+err);}
+return;}
+window.close();},supports:function(command){return supportedFeatures.indexOf(command.toLowerCase())!=-1;},unlockedFeatures:function(){var features=[];features.push('playback');return features;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
 return getDeviceId().then(function(deviceId){appInfo={deviceId:deviceId,deviceName:getDeviceName(),appName:'Emby Mobile',appVersion:version};return appInfo;});},capabilities:getCapabilities,moreIcon:browser.safari||browser.edge?'dots-horiz':'dots-vert'};});

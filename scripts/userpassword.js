@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){function loadUser(page,user){Dashboard.setPageTitle(user.Name);if(user.ConnectLinkType=='Guest'){$('.connectMessage',page).show();}
+﻿define(['jQuery'],function($){function loadUser(page,user){LibraryMenu.setTitle(user.Name);if(user.ConnectLinkType=='Guest'){$('.connectMessage',page).show();}
 else{$('.connectMessage',page).hide();}
 Dashboard.hideLoadingMsg();}
 function loadData(page){Dashboard.showLoadingMsg();var userId=getParameterByName("userId");ApiClient.getUser(userId).then(function(user){loadUser(page,user);});}

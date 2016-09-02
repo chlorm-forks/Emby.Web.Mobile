@@ -1,6 +1,4 @@
-﻿define(['libraryBrowser','cardBuilder','appSettings','components/groupedcards','dom','scrollStyles','emby-button','paper-icon-button-light','emby-itemscontainer'],function(libraryBrowser,cardBuilder,appSettings,groupedcards,dom){function getUserViews(userId){return ApiClient.getUserViews({},userId).then(function(result){var items=result.Items;var list=[];for(var i=0,length=items.length;i<length;i++){var view=items[i];if(AppInfo.isNativeApp&&browserInfo.safari&&view.CollectionType=='livetv'){continue;}
-list.push(view);}
-return list;});}
+﻿define(['libraryBrowser','cardBuilder','appSettings','components/groupedcards','dom','scrollStyles','emby-button','paper-icon-button-light','emby-itemscontainer'],function(libraryBrowser,cardBuilder,appSettings,groupedcards,dom){function getUserViews(userId){return ApiClient.getUserViews({},userId).then(function(result){return result.Items;});}
 function enableScrollX(){return browserInfo.mobile&&AppInfo.enableAppLayouts;}
 function getThumbShape(){return enableScrollX()?'overflowBackdrop':'backdrop';}
 function getPortraitShape(){return enableScrollX()?'overflowPortrait':'portrait';}
