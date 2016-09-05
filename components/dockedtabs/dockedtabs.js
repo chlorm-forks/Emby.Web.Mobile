@@ -35,7 +35,7 @@ function render(options){var elem=document.createElement('div');elem.classList.a
 
             </button>\
 
-';if(appHost.supports('sync')){html+='<button is="emby-button" class="dockedtabs-tab-button emby-tab-button" data-index="4">\
+';if(appHost.supports('sync')){html+='<button is="emby-button" class="dockedtabs-tab-button docked-tab-syncdownloads emby-tab-button hide" data-index="4">\
 
                 <div class="dockedtabs-tab-button-foreground emby-button-foreground"><i class="dockedtabs-tab-button-icon md-icon">file_download</i><div>'+globalize.translate('Downloads')+'</div></div>\
 
@@ -59,6 +59,7 @@ html+='<button is="emby-button" class="dockedtabs-tab-button emby-tab-button doc
 ';elem.innerHTML=html;var buttons=elem.querySelectorAll('.emby-tab-button');for(var i=0,length=buttons.length;i<length;i++){var button=buttons[i];button.addEventListener('click',onTabClick);}
 addNoFlexClass(buttons);options.appFooter.add(elem);return elem;}
 function onUserViewResponse(user,views,element){if(views.filter(function(v){return v.CollectionType=='livetv';}).length){element.querySelector('.docked-tab-livetv').classList.remove('hide');}else{element.querySelector('.docked-tab-livetv').classList.add('hide');}
+var downloadsTab=element.querySelector('.docked-tab-syncdownloads');if(downloadsTab){if(user.Policy.EnableSync){downloadsTab.classList.remove('hide');}else{downloadsTab.classList.add('hide');}}
 if(user.Policy.IsAdministrator){element.querySelector('.docked-tab-manageserver').classList.remove('hide');}else{element.querySelector('.docked-tab-manageserver').classList.add('hide');}}
 function showUserTabs(user,element){currentUser=user;var apiClient=ConnectionManager.getApiClient(user.ServerId);apiClient.getUserViews({},user.Id).then(function(result){currentUserViews=result.Items;onUserViewResponse(user,result.Items,element);},function(){currentUserViews=[];onUserViewResponse(user,[],element);});}
 function showCurrentUserTabs(element){if(!Dashboard.getCurrentUserId()){return;}
