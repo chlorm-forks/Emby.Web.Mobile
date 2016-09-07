@@ -94,7 +94,7 @@ setDrawerClass(page);updateViewMenuBar(page);if(!e.detail.isRestored){window.scr
 updateTitle(page);updateBackButton(page);if(page.classList.contains('libraryPage')){document.body.classList.add('libraryDocument');document.body.classList.remove('dashboardDocument');document.body.classList.remove('hideMainDrawer');}
 else if(isDashboardPage){document.body.classList.remove('libraryDocument');document.body.classList.add('dashboardDocument');document.body.classList.remove('hideMainDrawer');}else{document.body.classList.remove('libraryDocument');document.body.classList.remove('dashboardDocument');document.body.classList.add('hideMainDrawer');}
 updateLibraryNavLinks(page);});function updateTitle(page){var title=page.getAttribute('data-title');if(title){LibraryMenu.setTitle(title);}}
-function updateBackButton(page){var backButton=document.querySelector('.headerBackButton');if(backButton){if(Emby.Page.canGoBack()){backButton.classList.remove('hide');}else{backButton.classList.add('hide');}}}
+function updateBackButton(page){var backButton=document.querySelector('.headerBackButton');if(backButton){if(page.getAttribute('data-backbutton')=='true'&&Emby.Page.canGoBack()){backButton.classList.remove('hide');}else{backButton.classList.add('hide');}}}
 function initHeadRoom(elem){require(["headroom-window"],function(headroom){headroom.add(elem);});}
 function initializeApiClient(apiClient){Events.off(apiClient,'websocketmessage',onWebSocketMessage);Events.on(apiClient,'websocketmessage',onWebSocketMessage);}
 if(window.ApiClient){initializeApiClient(window.ApiClient);}

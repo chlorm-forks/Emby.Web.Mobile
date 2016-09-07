@@ -12,7 +12,7 @@ function supportsFullscreen(){if(browser.tv){return false;};var element=document
 var supportedFeatures=function(){var features=['filedownload','sharing','externalpremium'];if(browser.operaTv||browser.tizen||browser.web0s){features.push('exit');}else{features.push('exitmenu');}
 if(!browser.operaTv){features.push('externallinks');}
 if(supportsVoiceInput()){features.push('voiceinput');}
-var userAgent=navigator.userAgent.toLowerCase();if(!browser.mobile||userAgent.indexOf('msapphost')!=-1){features.push('htmlaudioautoplay');features.push('htmlvideoautoplay');}
+if(!browser.mobile||browser.edgeUwp){features.push('htmlaudioautoplay');features.push('htmlvideoautoplay');}
 if(window.SyncRegistered){}
 if(supportsFullscreen()){features.push('fullscreen');}
 return features;}();var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){if(browser.tizen){try{tizen.application.getCurrentApplication().exit();}catch(err){console.log('error closing application: '+err);}
