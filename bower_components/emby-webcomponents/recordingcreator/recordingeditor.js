@@ -75,11 +75,6 @@
         });
 
         context.querySelector('form').addEventListener('submit', onSubmit);
-
-        context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
-
-            context.querySelector('.btnSubmit').click();
-        });
     }
 
     function reload(context, id) {
@@ -126,7 +121,6 @@
                 html += globalize.translateDocument(template, 'sharedcomponents');
 
                 dlg.innerHTML = html;
-                document.body.appendChild(dlg);
 
                 currentDialog = dlg;
 

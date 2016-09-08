@@ -155,6 +155,10 @@
             }
         }
 
+        if (layoutManager.tv) {
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+        }
+
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
         var center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
 
@@ -215,7 +219,7 @@
 
         if (options.showCancel) {
             html += '<div class="buttons">';
-            html += '<button is="emby-button" type="button" class="btnCancel">' + globalize.translate('sharedcomponents#ButtonCancel') + '</button>';
+            html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('sharedcomponents#ButtonCancel') + '</button>';
             html += '</div>';
         }
         html += '</div>';
@@ -226,13 +230,12 @@
             centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
         }
 
-        if (options.showCancel) {
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        var btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
+        if (btnCloseActionSheet) {
+            dlg.querySelector('.btnCloseActionSheet').addEventListener('click', function () {
                 dialogHelper.close(dlg);
             });
         }
-
-        document.body.appendChild(dlg);
 
         // Seeing an issue in some non-chrome browsers where this is requiring a double click
         //var eventName = browser.firefox ? 'mousedown' : 'click';
@@ -257,6 +260,7 @@
                     selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                     if (options.resolveOnClick) {
+
                         resolve(selectedId);
                         isResolved = true;
                     }
@@ -292,7 +296,7 @@
 
             dialogHelper.open(dlg);
 
-            var pos = options.positionTo ? getPosition(options, dlg) : null;
+            var pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
 
             if (pos) {
                 dlg.style.position = 'fixed';
