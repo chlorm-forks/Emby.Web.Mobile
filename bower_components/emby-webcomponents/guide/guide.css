@@ -58,22 +58,6 @@
     color: #fff;
 }
 
-.newTvProgram {
-    background: #64A239;
-}
-
-.liveTvProgram {
-    background: #EC407A;
-}
-
-.premiereTvProgram {
-    background: #EF6C00;
-}
-
-.repeatTvProgram {
-    background: #009688;
-}
-
 .programAccent {
     position: absolute;
     bottom: 0;
@@ -281,7 +265,7 @@
 .channelHeaderCell {
     border-bottom: .65vh solid #121212 !important;
     background-size: auto 70%;
-    background-position: 90% center;
+    background-position: 92% center;
     background-repeat: no-repeat;
 }
 

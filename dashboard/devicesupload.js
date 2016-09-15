@@ -1,4 +1,4 @@
-﻿define(['jQuery'],function($){function load(page,config){$('#txtUploadPath',page).val(config.CameraUploadPath||'');$('#chkSubfolder',page).checked(config.EnableCameraUploadSubfolders);}
+﻿define(['jQuery','fnchecked'],function($){function load(page,config){$('#txtUploadPath',page).val(config.CameraUploadPath||'');$('#chkSubfolder',page).checked(config.EnableCameraUploadSubfolders);}
 function loadData(page){Dashboard.showLoadingMsg();ApiClient.getNamedConfiguration("devices").then(function(config){load(page,config);Dashboard.hideLoadingMsg();});}
 function save(page){ApiClient.getNamedConfiguration("devices").then(function(config){config.CameraUploadPath=$('#txtUploadPath',page).val();config.EnableCameraUploadSubfolders=$('#chkSubfolder',page).checked();ApiClient.updateNamedConfiguration("devices",config).then(Dashboard.processServerConfigurationUpdateResult);});}
 function onSubmit(){var form=this;var page=$(form).parents('.page');save(page);return false;}
