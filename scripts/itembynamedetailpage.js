@@ -1,5 +1,5 @@
 ﻿define(['listView','cardBuilder','emby-itemscontainer'],function(listView,cardBuilder){function renderItems(page,item){var sections=[];if(item.ArtistCount){sections.push({name:Globalize.translate('TabArtists'),type:'MusicArtist'});}
-if(item.ProgramCount){sections.push({name:Globalize.translate('HeaderUpcomingOnTV'),type:'Program'});}
+if(item.ProgramCount&&item.Type=='Person'){sections.push({name:Globalize.translate('HeaderUpcomingOnTV'),type:'Program'});}
 if(item.MovieCount){sections.push({name:Globalize.translate('TabMovies'),type:'Movie'});}
 if(item.SeriesCount){sections.push({name:Globalize.translate('TabSeries'),type:'Series'});}
 if(item.EpisodeCount){sections.push({name:Globalize.translate('TabEpisodes'),type:'Episode'});}
