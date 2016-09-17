@@ -3,5 +3,5 @@ function renderPrograms(page,result){var html='';var currentItems=[];var current
 currentStartDate=itemStartDate;currentItems=[];}
 currentItems.push(item);}
 page.querySelector('#childrenContent').innerHTML=html;}
-function loadPrograms(page,channelId){ApiClient.getLiveTvPrograms({ChannelIds:channelId,UserId:Dashboard.getCurrentUserId(),HasAired:false,SortBy:"StartDate",Limit:200}).then(function(result){renderPrograms(page,result);Dashboard.hideLoadingMsg();});}
+function loadPrograms(page,channelId){ApiClient.getLiveTvPrograms({ChannelIds:channelId,UserId:Dashboard.getCurrentUserId(),HasAired:false,SortBy:"StartDate",EnableTotalRecordCount:false,EnableImages:false,ImageTypeLimit:0}).then(function(result){renderPrograms(page,result);Dashboard.hideLoadingMsg();});}
 window.LiveTvChannelPage={renderPrograms:loadPrograms};});
