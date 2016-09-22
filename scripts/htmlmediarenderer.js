@@ -16,8 +16,13 @@ if(requiresSettingStartTimeOnStart){var startPositionInSeekParam=currentPlayOpti
 function createAudioElement(){var elem=document.querySelector('.mediaPlayerAudio');if(!elem){var html='';var requiresControls=!MediaPlayer.canAutoPlayAudio();if(requiresControls){html+='<div class="mediaPlayerAudioContainer" style="position: fixed;top: 40%;text-align: center;left: 0;right: 0;z-index:999999;"><div class="mediaPlayerAudioContainerInner">';;}else{html+='<div class="mediaPlayerAudioContainer hide" style="padding: 1em;background: #222;"><div class="mediaPlayerAudioContainerInner">';;}
 html+='<audio class="mediaPlayerAudio" controls>';html+='</audio></div></div>';document.body.insertAdjacentHTML('beforeend',html);elem=document.querySelector('.mediaPlayerAudio');}
 elem.addEventListener('playing',onOneAudioPlaying);elem.addEventListener('timeupdate',onTimeUpdate);elem.addEventListener('ended',onEnded);elem.addEventListener('volumechange',onVolumeChange);elem.addEventListener('error',onError);elem.addEventListener('pause',onPause);elem.addEventListener('play',onPlay);elem.addEventListener('playing',onPlaying);return elem;}
-function enableHlsPlayer(src){if(src){if(src.indexOf('.m3u8')==-1){return false;}}
-return MediaPlayer.canPlayHls()&&!MediaPlayer.canPlayNativeHls();}
+function enableHlsPlayer(src,item,mediaSource){if(src){if(src.indexOf('.m3u8')==-1){return false;}}
+if(MediaPlayer.canPlayHls()){if(window.MediaSource==null){return false;}
+if(MediaPlayer.canPlayNativeHls()){if(mediaSource.RunTimeTicks){return false;}}
+if(browser.edge){return false;}
+if(browser.safari){return false;}
+return true;}
+return false;}
 function getCrossOriginValue(mediaSource){return'anonymous';}
 function createVideoElement(){var html='';var requiresNativeControls=!self.enableCustomVideoControls();var poster=!browser.safari&&options.poster?(' poster="'+options.poster+'"'):'';if(requiresNativeControls&&AppInfo.isNativeApp&&browser.android){html+='<video class="itemVideo" id="itemVideo" preload="metadata" autoplay="autoplay"'+poster+' webkit-playsinline>';}
 else if(requiresNativeControls){html+='<video class="itemVideo" id="itemVideo" preload="metadata" autoplay="autoplay"'+poster+' controls="controls" webkit-playsinline>';}
@@ -25,7 +30,7 @@ else{html+='<video class="itemVideo" id="itemVideo" preload="metadata" autoplay=
 html+='</video>';var elem=document.querySelector('#videoPlayer #videoElement');elem.insertAdjacentHTML('afterbegin',html);var itemVideo=elem.querySelector('.itemVideo');itemVideo.addEventListener('loadedmetadata',onLoadedMetadata);itemVideo.addEventListener('timeupdate',onTimeUpdate);itemVideo.addEventListener('ended',onEnded);itemVideo.addEventListener('volumechange',onVolumeChange);itemVideo.addEventListener('play',onPlay);itemVideo.addEventListener('pause',onPause);itemVideo.addEventListener('playing',onPlaying);itemVideo.addEventListener('click',onClick);itemVideo.addEventListener('dblclick',onDblClick);itemVideo.addEventListener('error',onError);return itemVideo;}
 var _currentTime;self.currentTime=function(val){if(mediaElement){if(val!=null){mediaElement.currentTime=val/1000;return;}
 if(_currentTime){return _currentTime*1000;}
-return(mediaElement.currentTime||0)*1000;}};self.duration=function(val){if(mediaElement){return mediaElement.duration;}
+return(mediaElement.currentTime||0)*1000;}};self.duration=function(val){if(mediaElement){var duration=mediaElement.duration;if(duration&&!isNaN(duration)&&duration!=Number.POSITIVE_INFINITY&&duration!=Number.NEGATIVE_INFINITY){return duration*1000;}}
 return null;};self.stop=function(){destroyCustomTrack(mediaElement);if(mediaElement){mediaElement.pause();if(hlsPlayer){_currentTime=mediaElement.currentTime;try{hlsPlayer.destroy();}
 catch(err){console.log(err);}
 hlsPlayer=null;}}};self.pause=function(){if(mediaElement){mediaElement.pause();}};self.unpause=function(){if(mediaElement){mediaElement.play();}};self.volume=function(val){if(mediaElement){if(val!=null){mediaElement.volume=val;return;}
@@ -37,7 +42,7 @@ requiresSettingStartTimeOnStart=false;var startTime=streamInfo.startPositionInSe
 else{elem.removeEventListener('playing',onOneVideoPlaying);elem.addEventListener('playing',onOneVideoPlaying);if(hlsPlayer){hlsPlayer.destroy();hlsPlayer=null;}
 if(startTime){requiresSettingStartTimeOnStart=true;}
 tracks=tracks||[];currentTrackList=tracks;var currentTrackIndex=-1;for(var i=0,length=tracks.length;i<length;i++){if(tracks[i].isDefault){currentTrackIndex=tracks[i].index;break;}}
-subtitleTrackIndexToSetOnPlaying=currentTrackIndex;if(enableHlsPlayer(val)){setTracks(elem,tracks);var hls=new Hls();hls.loadSource(val);hls.attachMedia(elem);hls.on(Hls.Events.MANIFEST_PARSED,function(){elem.play();});hlsPlayer=hls;}else{elem.src=val;elem.autoplay=true;setTracks(elem,tracks);elem.addEventListener("loadedmetadata",onLoadedMetadata);playNow=true;}
+subtitleTrackIndexToSetOnPlaying=currentTrackIndex;if(enableHlsPlayer(val,item,mediaSource)){setTracks(elem,tracks);requireHlsPlayer(function(){var hls=new Hls();hls.loadSource(val);hls.attachMedia(elem);hls.on(Hls.Events.MANIFEST_PARSED,function(){elem.play();});hlsPlayer=hls;});}else{elem.src=val;elem.autoplay=true;setTracks(elem,tracks);elem.addEventListener("loadedmetadata",onLoadedMetadata);playNow=true;}
 currentSrc=val;self.setCurrentTrackElement(currentTrackIndex);}
 currentSrc=val;if(playNow){elem.play();}};function setTracks(elem,tracks){var html=tracks.map(function(t){var defaultAttribute=t.isDefault?' default':'';var label=t.language||'und';return'<track id="textTrack'+t.index+'" label="'+label+'" kind="subtitles" src="'+t.url+'" srclang="'+t.language+'"'+defaultAttribute+'></track>';}).join('');elem.innerHTML=html;}
 self.currentSrc=function(){if(mediaElement){return currentSrc;}};self.paused=function(){if(mediaElement){return mediaElement.paused;}
@@ -82,7 +87,7 @@ var trackElements=mediaElement.querySelectorAll('track');for(i=0;i<trackElements
 return true;}
 return self.canAutoPlayVideo();};self.canAutoPlayVideo=function(){if(AppInfo.isNativeApp){return true;}
 if(browser.mobile){return false;}
-return true;};self.init=function(){return new Promise(function(resolve,reject){if(options.type=='video'&&enableHlsPlayer()){requireHlsPlayer(resolve);}else{resolve();}});};if(options.type=='audio'){mediaElement=createAudioElement();}
+return true;};self.init=function(){return Promise.resolve();};if(options.type=='audio'){mediaElement=createAudioElement();}
 else{mediaElement=createVideoElement();}}
 if(!window.AudioRenderer){window.AudioRenderer=function(options){options=options||{};options.type='audio';return new htmlMediaRenderer(options);};}
 if(!window.VideoRenderer){window.VideoRenderer=function(options){options=options||{};options.type='video';return new htmlMediaRenderer(options);};}});
