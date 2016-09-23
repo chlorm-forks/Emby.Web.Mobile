@@ -15,7 +15,7 @@ if(supportsVoiceInput()){features.push('voiceinput');}
 if(!browser.mobile||browser.edgeUwp){features.push('htmlaudioautoplay');features.push('htmlvideoautoplay');}
 if(window.SyncRegistered){}
 if(supportsFullscreen()){features.push('fullscreen');}
-return features;}();var appInfo;var version=window.dashboardVersion||'3.0';return{getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){if(browser.tizen){try{tizen.application.getCurrentApplication().exit();}catch(err){console.log('error closing application: '+err);}
+return features;}();var appInfo;var version=window.dashboardVersion||'3.0';return{dvrFeatureCode:Dashboard.isConnectMode()?'dvr':'dvrl',getWindowState:function(){return document.windowState||'Normal';},setWindowState:function(state){alert('setWindowState is not supported and should not be called');},exit:function(){if(browser.tizen){try{tizen.application.getCurrentApplication().exit();}catch(err){console.log('error closing application: '+err);}
 return;}
 window.close();},supports:function(command){return supportedFeatures.indexOf(command.toLowerCase())!=-1;},unlockedFeatures:function(){var features=[];features.push('playback');return features;},appInfo:function(){if(appInfo){return Promise.resolve(appInfo);}
 return getDeviceId().then(function(deviceId){appInfo={deviceId:deviceId,deviceName:getDeviceName(),appName:'Emby Mobile',appVersion:version};return appInfo;});},capabilities:getCapabilities,moreIcon:browser.safari||browser.edge?'dots-horiz':'dots-vert'};});
