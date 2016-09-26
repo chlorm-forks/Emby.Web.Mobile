@@ -76,8 +76,8 @@ function isValidIpAddress(address){var links=LinkParser.parse(address);return li
 function isLocalIpAddress(address){address=address.toLowerCase();if(address.indexOf('127.0.0.1')!=-1){return true;}
 if(address.indexOf('localhost')!=-1){return true;}
 return false;}
-function getServerAddress(apiClient){var serverAddress=apiClient.serverAddress();if(isValidIpAddress(serverAddress)&&!isLocalIpAddress(serverAddress)){return new Promise(function(resolve,reject){resolve(serverAddress);});}
-var cachedValue=getCachedValue(serverAddress);if(cachedValue){return new Promise(function(resolve,reject){resolve(cachedValue);});}
+function getServerAddress(apiClient){var serverAddress=apiClient.serverAddress();if(isValidIpAddress(serverAddress)&&!isLocalIpAddress(serverAddress)){return Promise.resolve(serverAddress);}
+var cachedValue=getCachedValue(serverAddress);if(cachedValue){return Promise.resolve(cachedValue);}
 return apiClient.getJSON(apiClient.getUrl('System/Endpoint')).then(function(endpoint){if(endpoint.IsInNetwork){return apiClient.getPublicSystemInfo().then(function(info){addToCache(serverAddress,info.LocalAddress);return info.LocalAddress;});}else{addToCache(serverAddress,serverAddress);return serverAddress;}});}
 function clearCache(){cache={};}
 function addToCache(key,value){cache[key]={value:value,time:new Date().getTime()};}

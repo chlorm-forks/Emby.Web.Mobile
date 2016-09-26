@@ -7,7 +7,7 @@ return p.type=="UserInstalled";});availablePlugins=allPlugins.sort(function(a,b)
 if(bName>aName){return-1;}
 aName=(a.name);bName=(b.name);if(aName>bName){return 1;}
 if(bName>aName){return-1;}
-return 0;});var html='';var i,length,plugin;var currentCategory;if(!options.categories){currentCategory=Globalize.translate('HeaderTopPlugins');html+='<div class="detailSectionHeader">'+currentCategory+'</div>';var topPlugins=allPlugins.slice(0).sort(function(a,b){if(a.installs>b.installs){return-1;}
+return 0;});var html='';var i,length,plugin;var currentCategory;if(!options.categories){currentCategory=Globalize.translate('HeaderTopPlugins');html+='<div class="detailSectionHeader"><h1>'+currentCategory+'</h1></div>';var topPlugins=allPlugins.slice(0).sort(function(a,b){if(a.installs>b.installs){return-1;}
 if(b.installs>a.installs){return 1;}
 var aName=(a.name);var bName=(b.name);if(aName>bName){return 1;}
 if(bName>aName){return-1;}
@@ -15,7 +15,7 @@ return 0;});html+='<div class="itemsContainer vertical-wrap">';var limit=screen.
 html+='</div>';html+='<br/>';html+='<br/>';}
 var hasOpenTag=false;currentCategory=null;if(options.showCategory===false){html+='<div class="itemsContainer vertical-wrap">';hasOpenTag=true;}
 for(i=0,length=availablePlugins.length;i<length;i++){plugin=availablePlugins[i];var category=plugin.categoryDisplayName;if(category!=currentCategory){if(options.showCategory!==false){if(currentCategory){hasOpenTag=false;html+='</div>';html+='<br/>';html+='<br/>';}
-html+='<div class="detailSectionHeader">'+category+'</div>';html+='<div class="itemsContainer vertical-wrap">';hasOpenTag=true;}
+html+='<div class="detailSectionHeader"><h1>'+category+'</h1></div>';html+='<div class="itemsContainer vertical-wrap">';hasOpenTag=true;}
 currentCategory=category;}
 html+=getPluginHtml(plugin,options,installedPlugins);}
 if(hasOpenTag){html+='</div>';}

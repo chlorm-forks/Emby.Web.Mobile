@@ -18,7 +18,7 @@
 
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkSkipEpisodesInLibrary"/>
+                    <input type="checkbox" is="emby-checkbox" class="chkSkipEpisodesInLibrary" />
                     <span>${SkipEpisodesAlreadyInMyLibrary}</span>
                 </label>
                 <div class="fieldDescription checkboxFieldDescription">${SkipEpisodesAlreadyInMyLibraryHelp}</div>
@@ -38,9 +38,15 @@
                 </select>
             </div>
 
-            <div class="selectContainer">
-                <select is="emby-select" class="selectKeepUpTo" label="${LabelKeepUpTo}">
+            <div class="selectContainer hide">
+                <select is="emby-select" class="selectKeepUntil" label="${LabelKeep}">
+                    <option value="UntilDeleted">${UntilIDelete}</option>
+                    <option value="UntilSpaceNeeded">${UntilSpaceNeeded}</option>
                 </select>
+            </div>
+
+            <div class="selectContainer">
+                <select is="emby-select" class="selectKeepUpTo" label="${LabelKeepUpTo}"></select>
             </div>
 
             <div class="inputContainer">
@@ -48,7 +54,7 @@
                     <div style="flex-grow: 1;">
                         <input is="emby-input" type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStartWhenPossible}" />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.4em;">
                         ${MinutesBefore}
                     </div>
                 </div>
@@ -58,7 +64,7 @@
                     <div style="flex-grow: 1;">
                         <input is="emby-input" type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelStopWhenPossible}" />
                     </div>
-                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.3em;">
+                    <div class="fieldDescription" style="margin-left:.5em;font-size:90%;margin-top:1.4em;">
                         ${MinutesAfter}
                     </div>
                 </div>

@@ -51,6 +51,7 @@
         context.querySelector('.selectShowType').value = item.RecordNewOnly ? 'new' : 'all';
         context.querySelector('.chkSkipEpisodesInLibrary').checked = item.SkipEpisodesInLibrary;
         context.querySelector('.selectKeepUpTo').value = item.KeepUpTo || 0;
+        context.querySelector('.selectKeepUntil').value = item.KeepUntil;
 
         if (item.ChannelName || item.ChannelNumber) {
             context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('sharedcomponents#ChannelNameOnly', item.ChannelName || item.ChannelNumber);
@@ -86,6 +87,7 @@
             item.RecordNewOnly = form.querySelector('.selectShowType').value == 'new';
             item.SkipEpisodesInLibrary = form.querySelector('.chkSkipEpisodesInLibrary').checked;
             item.KeepUpTo = form.querySelector('.selectKeepUpTo').value;
+            item.KeepUntil = form.querySelector('.selectKeepUntil').value;
 
             apiClient.updateLiveTvSeriesTimer(item);
         });
