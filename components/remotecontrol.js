@@ -21,7 +21,7 @@ else if(item.BackdropImageTag){url=ApiClient.getScaledImageUrl(item.BackdropItem
 if(url==currentImgUrl){return;}
 if(item&&item.BackdropImageTag){backdropUrl=ApiClient.getScaledImageUrl(item.BackdropItemId,{type:"Backdrop",maxHeight:300,tag:item.BackdropImageTag,index:0});}
 setImageUrl(context,url);if(item){if(!browser.slow){require(['backdrop'],function(backdrop){backdrop.setBackdrop(backdropUrl);});}
-ApiClient.getItem(Dashboard.getCurrentUserId(),item.Id).then(function(fullItem){context.querySelector('.nowPlayingPageUserDataButtons').innerHTML=userdataButtons.getIconsHtml({item:fullItem,includePlayed:false,style:'fab-mini'});});}else{context.querySelector('.nowPlayingPageUserDataButtons').innerHTML='';}}
+ApiClient.getItem(Dashboard.getCurrentUserId(),item.Id).then(function(fullItem){userdataButtons.fill({item:fullItem,includePlayed:false,style:'fab-mini',element:context.querySelector('.nowPlayingPageUserDataButtons')});});}else{userdataButtons.destroy({element:context.querySelector('.nowPlayingPageUserDataButtons')});}}
 function setImageUrl(context,url){currentImgUrl=url;if(url){ImageLoader.lazyImage(context.querySelector('.nowPlayingPageImage'),url);}else{context.querySelector('.nowPlayingPageImage').style.backgroundImage='';}}
 function buttonEnabled(btn,enabled){btn.disabled=!enabled;}
 function updateSupportedCommands(context,commands){var all=context.querySelectorAll('.btnCommand');for(var i=0,length=all.length;i<length;i++){buttonEnabled(all[i],commands.indexOf(all[i].getAttribute('data-command'))!=-1);}}

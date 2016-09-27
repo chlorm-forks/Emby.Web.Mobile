@@ -19,7 +19,7 @@ elem.addEventListener('playing',onOneAudioPlaying);elem.addEventListener('timeup
 function enableHlsPlayer(src,item,mediaSource){if(src){if(src.indexOf('.m3u8')==-1){return false;}}
 if(MediaPlayer.canPlayHls()){if(window.MediaSource==null){return false;}
 if(MediaPlayer.canPlayNativeHls()){if(mediaSource.RunTimeTicks){return false;}}
-if(browser.edge){return false;}
+if(browser.edge&&browser.mobile){return false;}
 if(browser.safari){return false;}
 return true;}
 return false;}
