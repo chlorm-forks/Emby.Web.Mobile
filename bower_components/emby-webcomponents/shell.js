@@ -1,14 +1,1 @@
-define([], function () {
-
-    return {
-        openUrl: function (url) {
-            window.open(url, '_blank');
-        },
-        canExec: false,
-        exec: function (options) {
-            // options.path
-            // options.arguments
-            return Promise.reject();
-        }
-    };
-});
+define([],function(){return{openUrl:function(url){window.open(url,"_blank")},canExec:!1,exec:function(options){return Promise.reject()}}});

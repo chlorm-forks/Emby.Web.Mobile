@@ -1,4 +1,1 @@
-define(['userSettingsBuilder'], function (userSettingsBuilder) {
-
-    return new userSettingsBuilder();
-});
+define(["userSettingsBuilder"],function(userSettingsBuilder){return new userSettingsBuilder});

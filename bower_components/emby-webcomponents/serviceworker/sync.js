@@ -1,4 +1,1 @@
-self.addEventListener('sync', function (event) {
-    if (event.tag == 'emby-sync') {
-    }
-});
+self.addEventListener("sync",function(event){"emby-sync"==event.tag});

@@ -1,12 +1,1 @@
-﻿define([], function () {
-
-    function send(info) {
-
-        return Promise.resolve();
-    }
-
-    return {
-        send: send
-    };
-
-});
+define([],function(){function send(info){return Promise.resolve()}return{send:send}});

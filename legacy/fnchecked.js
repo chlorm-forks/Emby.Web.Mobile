@@ -1,1 +1,1 @@
-﻿define(['jQuery'],function($){$.fn.checked=function(value){if(value===true||value===false){return $(this).each(function(){this.checked=value;});}else{return this.length&&this[0].checked;}};$.fn.checkboxradio=function(){return this;};});
+define(["jQuery"],function($){$.fn.checked=function(value){return value===!0||value===!1?$(this).each(function(){this.checked=value}):this.length&&this[0].checked},$.fn.checkboxradio=function(){return this}});
