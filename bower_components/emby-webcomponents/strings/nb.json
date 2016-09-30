@@ -1,4 +1,8 @@
 {
+    "SortChannelsBy": "Sort channels by:",
+    "ChannelNumber": "Channel number",
+    "RecentlyWatched": "Recently watched",
+    "PlaceFavoriteChannelsAtBeginning": "Place favorite channels at the beginning",
     "ValueSpecialEpisodeName": "Spesial - {0}",
     "Share": "Del",
     "Add": "Legg til",
@@ -307,5 +311,11 @@
     "DefaultErrorMessage": "Det skjedde en feil under behandling av foresp\u00f8rselen. Vennligst pr\u00f8v igjen senere.",
     "LabelKeep:": "Keep:",
     "UntilIDelete": "Until I delete",
-    "UntilSpaceNeeded": "Until space needed"
+    "UntilSpaceNeeded": "Until space needed",
+    "Categories": "Categories",
+    "Sports": "Sports",
+    "News": "News",
+    "Movies": "Movies",
+    "Kids": "Kids",
+    "EnableColorCodedBackgrounds": "Enable color coded backgrounds"
 }

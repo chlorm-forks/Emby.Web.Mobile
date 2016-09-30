@@ -1,4 +1,8 @@
 {
+    "SortChannelsBy": "Sort channels by:",
+    "ChannelNumber": "Channel number",
+    "RecentlyWatched": "Recently watched",
+    "PlaceFavoriteChannelsAtBeginning": "Place favorite channels at the beginning",
     "ValueSpecialEpisodeName": "Speciaal - {0}",
     "Share": "Delen",
     "Add": "Toevoegen",
@@ -307,5 +311,11 @@
     "DefaultErrorMessage": "Er is een fout opgetreden. Probeer later opnieuw.",
     "LabelKeep:": "Keep:",
     "UntilIDelete": "Until I delete",
-    "UntilSpaceNeeded": "Until space needed"
+    "UntilSpaceNeeded": "Until space needed",
+    "Categories": "Categories",
+    "Sports": "Sports",
+    "News": "News",
+    "Movies": "Movies",
+    "Kids": "Kids",
+    "EnableColorCodedBackgrounds": "Enable color coded backgrounds"
 }
