@@ -1,1 +1,1 @@
-define([],function(){return{findServers:function(timeoutMs){return Promise.resolve([])}}});
+define([],function(){"use strict";return{findServers:function(timeoutMs){return Promise.resolve([])}}});
