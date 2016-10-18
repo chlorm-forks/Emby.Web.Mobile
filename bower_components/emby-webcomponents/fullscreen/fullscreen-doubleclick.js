@@ -1,1 +1,1 @@
-define(["dom","fullscreenManager"],function(dom,fullscreenManager){dom.addEventListener(window,"dblclick",function(){fullscreenManager.isFullScreen()?fullscreenManager.exitFullscreen():fullscreenManager.requestFullscreen()},{passive:!0})});
+define(["dom","fullscreenManager"],function(dom,fullscreenManager){"use strict";dom.addEventListener(window,"dblclick",function(){fullscreenManager.isFullScreen()?fullscreenManager.exitFullscreen():fullscreenManager.requestFullscreen()},{passive:!0})});
