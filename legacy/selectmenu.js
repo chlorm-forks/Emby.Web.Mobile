@@ -1,1 +1,1 @@
-define(["jQuery"],function($){$.fn.selectmenu=function(){return this}});
+define(["jQuery"],function($){"use strict";$.fn.selectmenu=function(){return this}});
