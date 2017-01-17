@@ -1,1 +1,0 @@
-define(["appSettings","events"],function(appSettings,events){"use strict"});
