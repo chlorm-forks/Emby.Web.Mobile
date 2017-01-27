@@ -64,7 +64,41 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: ['**'],
+                    src: [
+                        '**',
+
+                        // exclude by extension
+                        '!bower_components/**/*.log',
+                        '!bower_components/**/*.txt',
+                        '!bower_components/**/*.map',
+                        '!bower_components/**/*.md',
+                        '!bower_components/**/*.gz',
+                        '!bower_components/**/*.bat',
+                        '!bower_components/**/*.sh',
+
+                        // exclude by name
+                        '!bower_components/**/gitignore',
+                        '!bower_components/**/npmignore',
+                        '!bower_components/**/jshintrc',
+                        '!bower_components/**/gruntfile',
+                        '!bower_components/**/Gruntfile.js',
+                        '!bower_components/**/bowerrc',
+                        '!bower_components/**/jscsrc',
+                        '!bower_components/**/hero.svg',
+                        '!bower_components/**/travis.yml',
+                        '!bower_components/**/build.js',
+                        '!bower_components/**/bower.json',
+                        '!bower_components/**/component.json',
+                        '!bower_components/**/package.json',
+                        '!bower_components/**/composer.json',
+                        '!bower_components/**/editorconfig',
+                        '!bower_components/**/gitattributes',
+
+                        '!bower_components/hlsjs/src/**/*',
+                        '!bower_components/query-string/test/**/*',
+                        '!bower_components/jquery/src/**/*',
+                        '!bower_components/jstree/src/**/*'
+                    ],
                     dest: 'dist/'
                 }]
             }
@@ -77,7 +111,7 @@ module.exports = function (grunt) {
             main: {
                 files: [{
                     expand: true,
-                    cwd: 'src/',
+                    cwd: 'dist/',
                     src: ['**/*.css', '!**/*min.css'],
                     dest: 'dist/'
                 }]
@@ -91,7 +125,7 @@ module.exports = function (grunt) {
             main: {
                 files: [{
                     expand: true,
-                    cwd: 'src/',
+                    cwd: 'dist/',
                     src: ['**/*.js', '!**/*min.js'],
                     dest: 'dist/'
                 }]
