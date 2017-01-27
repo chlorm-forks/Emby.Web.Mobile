@@ -1,1 +1,0 @@
-CryptoJS.pad.ZeroPadding={pad:function(data,blockSize){var blockSizeBytes=4*blockSize;data.clamp(),data.sigBytes+=blockSizeBytes-(data.sigBytes%blockSizeBytes||blockSizeBytes)},unpad:function(data){for(var dataWords=data.words,i=data.sigBytes-1;!(dataWords[i>>>2]>>>24-i%4*8&255);)i--;data.sigBytes=i+1}};

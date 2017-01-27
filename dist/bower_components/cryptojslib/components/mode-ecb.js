@@ -1,1 +1,0 @@
-CryptoJS.mode.ECB=function(){var ECB=CryptoJS.lib.BlockCipherMode.extend();return ECB.Encryptor=ECB.extend({processBlock:function(words,offset){this._cipher.encryptBlock(words,offset)}}),ECB.Decryptor=ECB.extend({processBlock:function(words,offset){this._cipher.decryptBlock(words,offset)}}),ECB}();

@@ -97,7 +97,13 @@ module.exports = function (grunt) {
                         '!bower_components/hlsjs/src/**/*',
                         '!bower_components/query-string/test/**/*',
                         '!bower_components/jquery/src/**/*',
-                        '!bower_components/jstree/src/**/*'
+                        '!bower_components/jstree/src/**/*',
+
+
+                        '!bower_components/cryptojslib/components/**/*',
+                        'bower_components/cryptojslib/components/**/core-min.js',
+                        'bower_components/cryptojslib/components/**/md5-min.js',
+                        'bower_components/cryptojslib/components/**/sha1-min.js'
                     ],
                     dest: 'dist/'
                 }]
