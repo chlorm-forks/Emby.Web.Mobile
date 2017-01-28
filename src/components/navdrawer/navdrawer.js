@@ -94,10 +94,11 @@
         }
 
         function initEdgeSwipe(Hammer) {
+
             if (options.disableEdgeSwipe) {
                 return;
             }
-            return;
+
             require(['hammer-main'], initEdgeSwipeInternal);
         }
 

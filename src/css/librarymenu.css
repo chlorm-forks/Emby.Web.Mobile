@@ -287,7 +287,7 @@ body:not(.dashboardDocument) .headerAppsButton {
 
 @media all and (min-width: 640px) {
 
-    .mainDrawerPanel .viewMenuBarTabs {
+   .viewMenuBarTabs {
         width: auto;
         padding-left: 272px;
     }

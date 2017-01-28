@@ -263,10 +263,6 @@ span.itemCommunityRating:not(:empty) + .userDataIcons {
     height: 170px !important;
 }
 
-.withBackdrop + .mainDrawerPanel .noBackdrop {
-    background-color: transparent;
-}
-
 .itemBackdropContent {
     position: absolute;
     bottom: 0;

@@ -116,23 +116,23 @@ progress {
     background: #fff !important;
 }
 
-.adminDrawer .sidebarLink {
-    color: #333 !important;
-}
+    .adminDrawer .sidebarLink {
+        color: #333 !important;
+    }
 
-.adminDrawer .sidebarHeader {
-    color: #666 !important;
-    font-weight: 500 !important;
-}
+    .adminDrawer .sidebarHeader {
+        color: #666 !important;
+        font-weight: 500 !important;
+    }
 
-.adminDrawer .sidebarLink:hover {
-    color: #00897B !important;
-}
+    .adminDrawer .sidebarLink:hover {
+        color: #00897B !important;
+    }
 
-.adminDrawer .sidebarLink.selectedSidebarLink {
-    background: #52B54B !important;
-    color: #fff !important;
-}
+    .adminDrawer .sidebarLink.selectedSidebarLink {
+        background: #52B54B !important;
+        color: #fff !important;
+    }
 
 .adminDrawerLogo {
     padding: 1.5em 1em 1.2em;
@@ -214,18 +214,14 @@ div[data-role="controlgroup"] a.ui-btn-active {
     padding-top: 70px;
 }
 
-.withTabs .content-primary {
-    padding-top: 115px;
-}
-
-.mainDrawerPanel:not([narrow]) .content-primary {
+.content-primary {
     padding-top: 90px;
     padding-bottom: 3em;
 }
 
 @media all and (min-width: 800px) {
 
-    .mainDrawerPanel:not([narrow]) .content-primary {
+    .content-primary {
         padding-right: 1.5em;
         padding-left: 1.5em;
     }
@@ -233,16 +229,16 @@ div[data-role="controlgroup"] a.ui-btn-active {
 
 @media all and (min-width: 1200px) {
 
-    .mainDrawerPanel:not([narrow]) .content-primary {
+    .content-primary {
         padding-left: 2em;
     }
 }
 
-.mainDrawerPanel:not([narrow]) .withTabs .content-primary {
+.withTabs .content-primary {
     padding-top: 125px !important;
 }
 
-.mainDrawerPanel:not([narrow]) .content-primary ul:first-child {
+.content-primary ul:first-child {
     margin-top: 0;
 }
 

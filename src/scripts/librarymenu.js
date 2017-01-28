@@ -346,6 +346,10 @@
         if (lnkManageServer) {
             lnkManageServer.addEventListener('click', onManageServerClicked);
         }
+
+        if (layoutManager.desktop) {
+            navDrawerScrollContainer.classList.add('darkScroller');
+        }
     }
 
     function refreshDashboardInfoInDrawer(page, user) {

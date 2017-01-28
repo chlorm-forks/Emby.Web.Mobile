@@ -96,6 +96,7 @@ module.exports = function (grunt) {
 
                         '!bower_components/hlsjs/src/**/*',
                         '!bower_components/query-string/test/**/*',
+                        '!bower_components/jquery/external/**/*',
                         '!bower_components/jquery/src/**/*',
                         '!bower_components/jstree/src/**/*',
 
@@ -167,10 +168,6 @@ module.exports = function (grunt) {
             main: {
                 handleFetch: true,
                 rootDir: 'dist'
-            },
-            dev: {
-                handleFetch: true,
-                rootDir: 'dist'
             }
         }
     });
@@ -231,14 +228,24 @@ module.exports = function (grunt) {
         });
     });
 
-    var gruntTasks = [];
-    //gruntTasks.push('jshint');
-    gruntTasks.push('copy');
-    gruntTasks.push('autoprefixer');
-    gruntTasks.push('uglify');
-    gruntTasks.push('cssmin');
-    gruntTasks.push('swPrecache');
-    //gruntTasks.push('charset');
+    function registerTask(name, exclusions) {
 
-    grunt.registerTask('default', gruntTasks);
+        var gruntTasks = [];
+        //gruntTasks.push('jshint');
+        gruntTasks.push('copy');
+        gruntTasks.push('autoprefixer');
+        gruntTasks.push('uglify');
+        gruntTasks.push('cssmin');
+        gruntTasks.push('swPrecache');
+        gruntTasks.push('charset');
+
+        gruntTasks = gruntTasks.filter(function (t) {
+            return exclusions.indexOf(t) === -1;
+        });
+
+        grunt.registerTask(name, gruntTasks);
+    }
+
+    registerTask('default', ['charset']);
+    registerTask('server', ['swPrecache', 'charset']);
 };
