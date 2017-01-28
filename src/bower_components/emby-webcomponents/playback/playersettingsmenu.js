@@ -8,7 +8,12 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
 
-        var options = qualityoptions.getVideoQualityOptions(playbackManager.getMaxStreamingBitrate(player), videoWidth);
+        var options = qualityoptions.getVideoQualityOptions({
+            currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
+            isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
+            videoWidth: videoWidth,
+            enableAuto: true
+        });
 
         //if (isStatic) {
         //    options[0].name = "Direct";
@@ -18,7 +23,8 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
             var opt = {
                 name: o.name,
-                id: o.bitrate
+                id: o.bitrate,
+                secondaryText: o.secondaryText
             };
 
             if (o.selected) {
@@ -41,7 +47,13 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         }).then(function (id) {
             var bitrate = parseInt(id);
             if (bitrate !== selectedId) {
-                playbackManager.setMaxStreamingBitrate(bitrate, player);
+
+                playbackManager.setMaxStreamingBitrate({
+                    
+                    enableAutomaticBitrateDetection: bitrate ? false : true,
+                    maxBitrate: bitrate
+
+                }, player);
             }
         });
     }

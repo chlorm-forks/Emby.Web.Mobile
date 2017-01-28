@@ -118,7 +118,7 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         
         return new Promise(function (resolve, reject) {
 
-            require(['browserdeviceprofile', 'qualityoptions', 'appSettings'], function (profileBuilder, qualityoptions, appSettings) {
+            require(['browserdeviceprofile', 'appSettings'], function (profileBuilder, appSettings) {
 
                 var profile = profileBuilder();
 

@@ -45,13 +45,17 @@
 
                 require(['qualityoptions'], function (qualityoptions) {
 
-                    var bitrateOptions = qualityoptions.getVideoQualityOptions(appSettings.maxStreamingBitrate()).map(function (i) {
+                    var bitrateOptions = qualityoptions.getVideoQualityOptions({
 
-                        return '<option value="' + i.bitrate + '">' + i.name + '</option>';
+                        currentMaxBitrate: appSettings.maxStreamingBitrate(),
+                        isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(),
+                        enableAuto: true
 
+                    }).map(function (i) {
+
+                        // render empty string instead of 0 for the auto option
+                        return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
                     }).join('');
-
-                    bitrateOptions = '<option value="">' + Globalize.translate('OptionAutomatic') + '</option>' + bitrateOptions;
 
                     page.querySelector('#selectMaxBitrate').innerHTML = bitrateOptions;
                     page.querySelector('#selectMaxChromecastBitrate').innerHTML = bitrateOptions;
