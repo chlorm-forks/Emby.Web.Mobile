@@ -59,6 +59,7 @@ module.exports = function (grunt) {
                 '!src/environments/windows-uwp/mediacontrol.js'
             ]
         },
+		clean: ['dist/'],
         copy: {
             main: {
                 files: [{
@@ -172,6 +173,7 @@ module.exports = function (grunt) {
         }
     });
 
+	grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -232,6 +234,7 @@ module.exports = function (grunt) {
 
         var gruntTasks = [];
         //gruntTasks.push('jshint');
+        gruntTasks.push('clean');
         gruntTasks.push('copy');
         gruntTasks.push('autoprefixer');
         gruntTasks.push('uglify');
