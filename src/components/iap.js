@@ -1,4 +1,4 @@
-﻿define(['apphost', 'globalize', 'shell'], function (appHost, globalize, shell) {
+﻿define(['globalize', 'shell'], function (globalize, shell) {
     'use strict';
 
     function getProductInfo(feature) {
@@ -33,8 +33,7 @@
 
     function isUnlockedByDefault(feature, options) {
 
-        var autoUnlockedFeatures = appHost.unlockedFeatures ? appHost.unlockedFeatures() : [];
-        if (autoUnlockedFeatures.indexOf(feature) != -1) {
+        if (feature === 'playback' || feature === 'livetv') {
 
             return Promise.resolve();
         }

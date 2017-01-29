@@ -94,6 +94,8 @@
 
             if (!options.isAutomaticBitrateEnabled) {
                 currentQualityOption.selected = true;
+            } else {
+                autoQualityOption.autoText = currentQualityOption.name;
             }
         }
 

@@ -115,7 +115,7 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
     }
 
     function getSyncProfile() {
-        
+
         return new Promise(function (resolve, reject) {
 
             require(['browserdeviceprofile', 'appSettings'], function (profileBuilder, appSettings) {
@@ -127,6 +127,29 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
                 resolve(profile);
             });
         });
+    }
+
+    var htmlMediaAutoplayAppStorageKey = 'supportshtmlmediaautoplay1';
+    function supportsHtmlMediaAutoplay() {
+
+        if (browser.edgeUwp || browser.tv || browser.ps4 || browser.xboxOne) {
+            return true;
+        }
+
+        if (browser.mobile) {
+            return false;
+        }
+
+        var savedResult = appStorage.getItem(htmlMediaAutoplayAppStorageKey);
+        if (savedResult === 'true') {
+            return true;
+        }
+        if (savedResult === 'false') {
+            return false;
+        }
+
+        // unknown at this time
+        return null;
     }
 
     var supportedFeatures = function () {
@@ -151,7 +174,7 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
             features.push('voiceinput');
         }
 
-        if (!browser.mobile || browser.edgeUwp) {
+        if (supportsHtmlMediaAutoplay()) {
             features.push('htmlaudioautoplay');
             features.push('htmlvideoautoplay');
         }
@@ -183,6 +206,19 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         return features;
     }();
 
+    if (supportedFeatures.indexOf('htmlvideoautoplay') === -1 && supportsHtmlMediaAutoplay !== false) {
+        require(['autoPlayDetect'], function (autoPlayDetect) {
+            autoPlayDetect.supportsHtmlMediaAutoplay().then(function () {
+                appStorage.setItem(htmlMediaAutoplayAppStorageKey, 'true');
+                supportedFeatures.push('htmlvideoautoplay');
+                supportedFeatures.push('htmlaudioautoplay');
+            }, function () {
+                alert(0);
+                appStorage.setItem(htmlMediaAutoplayAppStorageKey, 'false');
+            });
+        });
+    }
+
     var appInfo;
     var version = window.dashboardVersion || '3.0';
 
@@ -209,15 +245,6 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         supports: function (command) {
 
             return supportedFeatures.indexOf(command.toLowerCase()) != -1;
-        },
-        unlockedFeatures: function () {
-
-            var features = [];
-
-            features.push('playback');
-            features.push('livetv');
-
-            return features;
         },
         appInfo: function () {
 
