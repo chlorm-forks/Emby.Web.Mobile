@@ -42,19 +42,6 @@ button.emby-button.raised.more {
     vertical-align: middle;
 }
 
-.clearButton {
-    background: transparent;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    outline: none;
-    color: inherit;
-    width: 100%;
-    vertical-align: middle;
-    font-family: inherit;
-    font-weight: inherit;
-}
-
 .clearLink {
     text-decoration: none;
     font-weight: inherit !important;

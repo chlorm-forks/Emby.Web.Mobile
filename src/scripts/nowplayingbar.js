@@ -619,13 +619,19 @@
         }
     }
 
-    function onPlaybackStopped(e, stopInfo) {
+    function onPlaybackStopped(e, state) {
 
         console.log('nowplaying event: ' + e.type);
         var player = this;
 
-        if (stopInfo.nextMediaType !== 'Audio') {
-            hideNowPlayingBar();
+        if (player.isLocalPlayer) {
+            if (state.NextMediaType !== 'Audio') {
+                hideNowPlayingBar();
+            }
+        } else {
+            if (!state.NextMediaType) {
+                hideNowPlayingBar();
+            }
         }
     }
 

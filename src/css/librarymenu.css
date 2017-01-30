@@ -276,7 +276,7 @@ body:not(.dashboardDocument) .headerAppsButton {
     padding-bottom: 10vh;
 }
 
-.dashboardDocument .mainDrawerPanelContent {
+.dashboardDocument .skinBody {
     transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     position: absolute;
     top: 0;
@@ -323,7 +323,7 @@ body:not(.dashboardDocument) .headerAppsButton {
         display: none !important;
     }
 
-    .dashboardDocument .mainDrawerPanelContent {
+    .dashboardDocument .skinBody {
         position: absolute;
         top: 0;
         right: 0;

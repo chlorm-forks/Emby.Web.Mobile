@@ -884,7 +884,7 @@ var AppInfo = {};
 
     function createMainContentHammer(Hammer) {
 
-        var hammer = new Hammer(document.querySelector('.mainDrawerPanelContent'), null);
+        var hammer = new Hammer(document.querySelector('.skinBody'), null);
         return hammer;
     }
 

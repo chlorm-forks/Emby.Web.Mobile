@@ -1190,7 +1190,7 @@
 
         _childrenItemsFunction = null;
 
-        var fields = "ItemCounts,AudioInfo,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete";
+        var fields = "ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete";
 
         var query = {
             ParentId: item.Id,

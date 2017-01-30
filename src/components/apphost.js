@@ -129,7 +129,7 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         });
     }
 
-    var htmlMediaAutoplayAppStorageKey = 'supportshtmlmediaautoplay1';
+    var htmlMediaAutoplayAppStorageKey = 'supportshtmlmediaautoplay0';
     function supportsHtmlMediaAutoplay() {
 
         if (browser.edgeUwp || browser.tv || browser.ps4 || browser.xboxOne) {
@@ -206,14 +206,13 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         return features;
     }();
 
-    if (supportedFeatures.indexOf('htmlvideoautoplay') === -1 && supportsHtmlMediaAutoplay !== false) {
+    if (supportedFeatures.indexOf('htmlvideoautoplay') === -1 && supportsHtmlMediaAutoplay() !== false) {
         require(['autoPlayDetect'], function (autoPlayDetect) {
             autoPlayDetect.supportsHtmlMediaAutoplay().then(function () {
                 appStorage.setItem(htmlMediaAutoplayAppStorageKey, 'true');
                 supportedFeatures.push('htmlvideoautoplay');
                 supportedFeatures.push('htmlaudioautoplay');
             }, function () {
-                alert(0);
                 appStorage.setItem(htmlMediaAutoplayAppStorageKey, 'false');
             });
         });

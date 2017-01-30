@@ -558,12 +558,12 @@
             }
         }
 
-        function onPlaybackStopped(e, stopInfo) {
+        function onPlaybackStopped(e, state) {
 
             console.log('remotecontrol event: ' + e.type);
             var player = this;
 
-            if (!stopInfo.nextMediaType) {
+            if (!state.NextMediaType) {
                 updatePlayerState(dlg, {});
                 loadPlaylist(dlg);
             }

@@ -1,4 +1,4 @@
-﻿define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'layoutManager', 'scrollStyles', 'emby-slider'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager) {
+﻿define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'layoutManager', 'scrollStyles', 'emby-slider', 'paper-icon-button-light'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager) {
     'use strict';
 
     function seriesImageUrl(item, options) {
@@ -446,7 +446,7 @@
             playbackManager.togglePictureInPicture(currentPlayer);
         });
 
-        view.querySelector('.btnSettings').addEventListener('click', onSettingsButtonClick);
+        view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
 
         function onPlayerChange() {
 
@@ -513,7 +513,7 @@
 
             console.log('nowplaying event: ' + e.type);
 
-            if (state.nextMediaType !== 'Video') {
+            if (state.NextMediaType !== 'Video') {
 
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
 
@@ -639,9 +639,9 @@
             updateNowPlayingInfo(state);
 
             if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
-                view.querySelector('.btnSettings').classList.remove('hide');
+                view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
             } else {
-                view.querySelector('.btnSettings').classList.add('hide');
+                view.querySelector('.btnVideoOsdSettings').classList.add('hide');
             }
 
             if (supportedCommands.indexOf('ToggleFullscreen') === -1) {
