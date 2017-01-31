@@ -185,6 +185,47 @@
         renderSeriesTimerSchedule(page, item.Id);
     }
 
+    function reloadPlayButtons(page, item) {
+        
+        var canPlay = false;
+
+        if (item.Type == 'Program') {
+
+            var now = new Date();
+
+            if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
+                hideAll(page, 'btnPlay', true);
+                canPlay = true;
+            } else {
+                hideAll(page, 'btnPlay');
+            }
+            hideAll(page, 'btnResume');
+            hideAll(page, 'btnInstantMix');
+            hideAll(page, 'btnShuffle');
+        }
+        else if (playbackManager.canPlay(item)) {
+            hideAll(page, 'btnPlay', true);
+
+            var enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+            hideAll(page, 'btnInstantMix', enableInstantMix);
+
+            var enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+            hideAll(page, 'btnShuffle', enableShuffle);
+
+            canPlay = true;
+
+            hideAll(page, 'btnResume', item.UserData && item.UserData.PlaybackPositionTicks > 0);
+        }
+        else {
+            hideAll(page, 'btnPlay');
+            hideAll(page, 'btnResume');
+            hideAll(page, 'btnInstantMix');
+            hideAll(page, 'btnShuffle');
+        }
+
+        return canPlay;
+    }
+
     function reloadFromItem(page, params, item) {
 
         currentItem = item;
@@ -217,41 +258,7 @@
 
             libraryMenu.setTransparentMenu(true);
 
-            var canPlay = false;
-
-            if (item.Type == 'Program') {
-
-                var now = new Date();
-
-                if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
-                    hideAll(page, 'btnPlay', true);
-                    canPlay = true;
-                } else {
-                    hideAll(page, 'btnPlay');
-                }
-                hideAll(page, 'btnResume');
-                hideAll(page, 'btnInstantMix');
-                hideAll(page, 'btnShuffle');
-            }
-            else if (playbackManager.canPlay(item)) {
-                hideAll(page, 'btnPlay', true);
-
-                var enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
-                hideAll(page, 'btnInstantMix', enableInstantMix);
-
-                var enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
-                hideAll(page, 'btnShuffle', enableShuffle);
-
-                canPlay = true;
-
-                hideAll(page, 'btnResume', item.UserData && item.UserData.PlaybackPositionTicks > 0);
-            }
-            else {
-                hideAll(page, 'btnPlay');
-                hideAll(page, 'btnResume');
-                hideAll(page, 'btnInstantMix');
-                hideAll(page, 'btnShuffle');
-            }
+            var canPlay = reloadPlayButtons(page, item);
 
             var hasAnyButton = canPlay;
 
@@ -2427,6 +2434,8 @@
                     if (userData) {
 
                         currentItem.UserData = userData;
+
+                        reloadPlayButtons(view, currentItem);
 
                         Dashboard.getCurrentUser().then(function (user) {
 
