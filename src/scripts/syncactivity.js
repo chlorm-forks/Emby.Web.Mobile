@@ -6,10 +6,6 @@
         {
             href: 'syncactivity.html',
             name: Globalize.translate('TabSyncJobs')
-        },
-         {
-             href: 'devicesupload.html',
-             name: Globalize.translate('TabCameraUpload')
          },
         {
             href: 'appservices.html?context=sync',

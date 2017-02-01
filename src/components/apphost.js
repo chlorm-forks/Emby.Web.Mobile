@@ -155,10 +155,13 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
     var supportedFeatures = function () {
 
         var features = [
-            'filedownload',
             'sharing',
             'externalpremium'
         ];
+
+        if (!browser.edgeUwp && !browser.tv && !browser.xboxOne && !browser.ps4) {
+            features.push('filedownload');
+        }
 
         if (browser.operaTv || browser.tizen || browser.web0s) {
             features.push('exit');

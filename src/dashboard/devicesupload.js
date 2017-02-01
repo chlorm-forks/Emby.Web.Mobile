@@ -44,20 +44,12 @@
     function getTabs() {
         return [
         {
-            href: 'syncactivity.html',
-            name: Globalize.translate('TabSyncJobs')
+            href: 'devices.html',
+            name: Globalize.translate('TabDevices')
         },
          {
              href: 'devicesupload.html',
              name: Globalize.translate('TabCameraUpload')
-         },
-        {
-            href: 'appservices.html?context=sync',
-            name: Globalize.translate('TabServices')
-        },
-         {
-             href: 'syncsettings.html',
-             name: Globalize.translate('TabSettings')
          }];
     }
 
@@ -91,7 +83,7 @@
 
     }).on('pageshow', "#devicesUploadPage", function () {
 
-        LibraryMenu.setTabs('syncadmin', 1, getTabs);
+        LibraryMenu.setTabs('devices', 1, getTabs);
         var page = this;
 
         loadData(page);

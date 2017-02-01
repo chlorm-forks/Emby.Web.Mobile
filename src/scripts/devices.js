@@ -102,7 +102,21 @@
         });
     }
 
+    function getTabs() {
+        return [
+        {
+            href: 'devices.html',
+            name: Globalize.translate('TabDevices')
+        },
+         {
+             href: 'devicesupload.html',
+             name: Globalize.translate('TabCameraUpload')
+         }];
+    }
+
     $(document).on('pageshow', "#devicesPage", function () {
+
+        LibraryMenu.setTabs('devices', 0, getTabs);
 
         var page = this;
 

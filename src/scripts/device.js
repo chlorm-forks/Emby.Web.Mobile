@@ -59,6 +59,18 @@
         return false;
     }
 
+    function getTabs() {
+        return [
+        {
+            href: 'devices.html',
+            name: Globalize.translate('TabDevices')
+        },
+         {
+             href: 'devicesupload.html',
+             name: Globalize.translate('TabCameraUpload')
+         }];
+    }
+
     $(document).on('pageinit', "#devicePage", function () {
 
         var page = this;
@@ -87,6 +99,8 @@
         $('.deviceForm').off('submit', onSubmit).on('submit', onSubmit);
 
     }).on('pageshow', "#devicePage", function () {
+
+        LibraryMenu.setTabs('devices', 0, getTabs);
 
         var page = this;
 

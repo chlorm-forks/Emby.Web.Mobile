@@ -35,10 +35,6 @@
         {
             href: 'syncactivity.html',
             name: Globalize.translate('TabSyncJobs')
-        },
-         {
-             href: 'devicesupload.html',
-             name: Globalize.translate('TabCameraUpload')
          },
         {
             href: 'appservices.html?context=sync',
@@ -79,7 +75,7 @@
 
         Dashboard.showLoadingMsg();
 
-        LibraryMenu.setTabs('syncadmin', 3, getTabs);
+        LibraryMenu.setTabs('syncadmin', 2, getTabs);
         var page = this;
 
         ApiClient.getNamedConfiguration("sync").then(function (config) {

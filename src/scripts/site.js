@@ -437,7 +437,7 @@ var Dashboard = {
         }, {
             name: Globalize.translate('TabDevices'),
             href: "devices.html",
-            pageIds: ['devicesPage', 'devicePage'],
+            pageIds: ['devicesPage', 'devicePage', 'devicesUploadPage'],
             icon: 'tablet'
         }, {
             name: Globalize.translate('TabUsers'),
@@ -471,7 +471,7 @@ var Dashboard = {
             name: Globalize.translate('TabSync'),
             icon: 'sync',
             href: "syncactivity.html",
-            pageIds: ['syncActivityPage', 'syncJobPage', 'devicesUploadPage', 'syncSettingsPage'],
+            pageIds: ['syncActivityPage', 'syncJobPage', 'syncSettingsPage'],
             color: '#009688'
         }, {
             name: Globalize.translate('TabTranscoding'),
