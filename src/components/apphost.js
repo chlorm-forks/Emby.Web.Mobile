@@ -108,10 +108,20 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
 
         var element = document.documentElement;
 
-        return element.requestFullscreen ||
+        if (element.requestFullscreen ||
             element.mozRequestFullScreen ||
             element.webkitRequestFullscreen ||
-            element.msRequestFullscreen;
+            element.msRequestFullscreen) {
+
+            return true;
+        }
+
+        // safari
+        if (document.createElement('video').webkitEnterFullscreen) {
+            return true;
+        }
+
+        return false;
     }
 
     function getSyncProfile() {

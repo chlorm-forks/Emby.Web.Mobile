@@ -633,7 +633,7 @@
             page.querySelector('#childrenCollapsible').classList.remove('hide');
             renderItemsByName(page, item, user);
         }
-        else if (item.IsFolder || item.Type == 'Episode') {
+        else if (item.IsFolder || (item.Type == 'Episode' && item.SeasonId && item.SeriesId)) {
 
             if (item.Type == "BoxSet") {
                 page.querySelector('#childrenCollapsible').classList.add('hide');
