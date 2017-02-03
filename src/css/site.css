@@ -199,9 +199,9 @@ div[data-role='page'] {
     white-space: normal !important;
 }
 
-.fieldDescription + .fieldDescription {
-    margin-top: 5px;
-}
+    .fieldDescription + .fieldDescription {
+        margin-top: 5px;
+    }
 
 .background-theme-a .backgroundContainer {
     background-color: #f6f6f6;
@@ -325,14 +325,9 @@ div[data-role='page'] {
 }
 
 
-.ui-body-a .visualCardBox-cardScalable, .ui-body-a .visualCardBox-cardFooter {
-    background-color: #fff;
-}
-
 .ui-body-a .visualCardBox {
-    border: 0;
+    background-color: #fff;
     margin: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .ui-body-a .cardFooter .cardText + .cardText {

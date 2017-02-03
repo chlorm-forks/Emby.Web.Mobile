@@ -201,7 +201,10 @@ define(['appStorage', 'browser'], function (appStorage, browser) {
         }
 
         if (browser.chrome || (browser.edge && !browser.slow)) {
-            features.push('imageanalysis');
+            // This is not directly related to image analysis but it't a hint the device is probably too slow for it
+            if (!browser.noAnimation) {
+                features.push('imageanalysis');
+            }
         }
 
         if (Dashboard.isConnectMode()) {
